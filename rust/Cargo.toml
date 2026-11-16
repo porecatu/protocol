@@ -37,7 +37,7 @@ snow = { version = "=0.10.0", default-features = false, features = [
     "use-blake2",
     "use-getrandom",
 ], optional = true }
-blake2 = "=0.10.6"
+blake2 = "=0.11.0"
 subtle = "=2.6.1"
 data-encoding = "=2.11.1"
 zeroize = { version = "=1.9.1", optional = true }
