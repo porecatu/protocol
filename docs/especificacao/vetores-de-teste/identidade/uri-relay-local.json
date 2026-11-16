@@ -1,0 +1,39 @@
+{
+  "descricao": "ws:// é aceito para um endereço local (aqui [::1])",
+  "funcao": "pairing_uri_parse",
+  "entrada": "porecatu://pair?v=0&relay=ws%3A%2F%2F%5B%3A%3A1%5D%3A8080&host=awbfmb6x7xznqlxuypemflvjmgwzrvqo&key=__________________________________________8&token=AAECAwQFBgcICQoLDA0ODw&name=Desk",
+  "saida": {
+    "map": [
+      [
+        "v",
+        0
+      ],
+      [
+        "relay",
+        "ws://[::1]:8080"
+      ],
+      [
+        "host",
+        "awbfmb6x7xznqlxuypemflvjmgwzrvqo"
+      ],
+      [
+        "key",
+        {
+          "bstr": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      [
+        "token",
+        {
+          "bstr": "000102030405060708090a0b0c0d0e0f"
+        }
+      ],
+      [
+        "name",
+        "Desk"
+      ]
+    ]
+  },
+  "valido": true,
+  "erro": null
+}

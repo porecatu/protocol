@@ -1,0 +1,48 @@
+{
+  "descricao": "profiles: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    11,
+    {
+      "map": [
+        [
+          "default",
+          "auto:pwsh"
+        ],
+        [
+          "list",
+          [
+            {
+              "map": [
+                [
+                  "id",
+                  "auto:pwsh"
+                ],
+                [
+                  "kind",
+                  0
+                ],
+                [
+                  "name",
+                  "PowerShell"
+                ]
+              ]
+            }
+          ]
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ba26764656661756c74696175746f3a70777368646c69737481a3626964696175746f3a70777368646b696e6400646e616d656a506f7765725368656c6c",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[11, {\"default\": \"auto:pwsh\", \"list\": [{\"id\": \"auto:pwsh\", \"kind\": 0, \"name\": \"PowerShell\"}]}]"
+}

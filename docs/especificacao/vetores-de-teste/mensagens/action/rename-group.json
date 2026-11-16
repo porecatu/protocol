@@ -1,0 +1,42 @@
+{
+  "descricao": "action: rename-group (7)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            7,
+            {
+              "map": [
+                [
+                  "name",
+                  "Trabalho"
+                ],
+                [
+                  "group",
+                  6
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          11
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8207a2646e616d656854726162616c686f6567726f7570066269640b",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [7, {\"name\": \"Trabalho\", \"group\": 6}], \"id\": 11}]"
+}

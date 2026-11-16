@@ -1,0 +1,49 @@
+{
+  "descricao": "profiles: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    11,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "list",
+          [
+            {
+              "map": [
+                [
+                  "id",
+                  "auto:pwsh"
+                ],
+                [
+                  "kind",
+                  0
+                ],
+                [
+                  "name",
+                  "PowerShell"
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "default",
+          "auto:pwsh"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ba3627a7af5646c69737481a3626964696175746f3a70777368646b696e6400646e616d656a506f7765725368656c6c6764656661756c74696175746f3a70777368",
+  "reencode_hex": "820ba2646c69737481a3626964696175746f3a70777368646b696e6400646e616d656a506f7765725368656c6c6764656661756c74696175746f3a70777368",
+  "valido": true,
+  "erro": null,
+  "diag": "[11, {\"zz\": true, \"list\": [{\"id\": \"auto:pwsh\", \"kind\": 0, \"name\": \"PowerShell\"}], \"default\": \"auto:pwsh\"}]"
+}

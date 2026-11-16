@@ -1,0 +1,20 @@
+{
+  "descricao": "channel-data: canal 7 e um registro de três bytes",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    4,
+    7,
+    {
+      "bstr": "010203"
+    }
+  ],
+  "cbor_hex": "83040743010203",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[4, 7, h'010203']"
+}

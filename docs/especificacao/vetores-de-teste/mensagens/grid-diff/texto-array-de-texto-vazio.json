@@ -1,0 +1,97 @@
+{
+  "descricao": "grid-diff: span com text `[\"\"]`: o grafema não pode ser vazio",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    23,
+    {
+      "map": [
+        [
+          "alt",
+          false
+        ],
+        [
+          "seq",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "lines",
+          [
+            [
+              0,
+              [
+                false,
+                [
+                  [
+                    0,
+                    1,
+                    0,
+                    [
+                      ""
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "cursor",
+          {
+            "map": [
+              [
+                "col",
+                2
+              ],
+              [
+                "row",
+                0
+              ],
+              [
+                "shape",
+                0
+              ],
+              [
+                "visible",
+                true
+              ]
+            ]
+          }
+        ],
+        [
+          "styles",
+          [
+            [
+              null,
+              null,
+              0
+            ]
+          ]
+        ],
+        [
+          "dropped",
+          2
+        ],
+        [
+          "history",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8217a863616c74f463736571016470616e6507656c696e657381820082f48184000100816066637572736f72a463636f6c0263726f7700657368617065006776697369626c65f5667374796c65738183f6f6006764726f707065640267686973746f727900",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[23, {\"alt\": false, \"seq\": 1, \"pane\": 7, \"lines\": [[0, [false, [[0, 1, 0, [\"\"]]]]]], \"cursor\": {\"col\": 2, \"row\": 0, \"shape\": 0, \"visible\": true}, \"styles\": [[null, null, 0]], \"dropped\": 2, \"history\": 0}]"
+}

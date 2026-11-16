@@ -1,0 +1,38 @@
+{
+  "descricao": "action: close-pane (2)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            2,
+            {
+              "map": [
+                [
+                  "pane",
+                  3
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          3
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8202a16470616e650362696403",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [2, {\"pane\": 3}], \"id\": 3}]"
+}

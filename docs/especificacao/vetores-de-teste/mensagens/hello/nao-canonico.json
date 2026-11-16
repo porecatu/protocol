@@ -1,0 +1,38 @@
+{
+  "descricao": "hello: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    0,
+    {
+      "map": [
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          "app",
+          "porecatu-remote"
+        ],
+        [
+          "app_version",
+          "0.1.0"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8200a36776657273696f6e820001636170706f706f7265636174752d72656d6f74656b6170705f76657273696f6e65302e312e30",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[0, {\"version\": [0, 1], \"app\": \"porecatu-remote\", \"app_version\": \"0.1.0\"}]"
+}

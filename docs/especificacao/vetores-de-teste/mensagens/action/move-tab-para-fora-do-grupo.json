@@ -1,0 +1,42 @@
+{
+  "descricao": "action: move-tab-to-group (4) com group null: tira a aba do grupo",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            4,
+            {
+              "map": [
+                [
+                  "tab",
+                  2
+                ],
+                [
+                  "group",
+                  null
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          7
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8204a263746162026567726f7570f662696407",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [4, {\"tab\": 2, \"group\": null}], \"id\": 7}]"
+}

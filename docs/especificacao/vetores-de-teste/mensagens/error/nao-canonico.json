@@ -1,0 +1,31 @@
+{
+  "descricao": "error: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": [
+        [
+          "code",
+          0
+        ],
+        [
+          "zz",
+          true
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821846a264636f646500627a7af5",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[70, {\"code\": 0, \"zz\": true}]"
+}

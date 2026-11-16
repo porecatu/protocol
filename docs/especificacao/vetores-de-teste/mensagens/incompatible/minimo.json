@@ -1,0 +1,27 @@
+{
+  "descricao": "incompatible mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    2,
+    {
+      "map": [
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8202a16776657273696f6e820001",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[2, {\"version\": [0, 1]}]"
+}

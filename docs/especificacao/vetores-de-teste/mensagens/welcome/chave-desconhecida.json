@@ -1,0 +1,49 @@
+{
+  "descricao": "welcome: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    1,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          "host_name",
+          "desk"
+        ],
+        [
+          "host_instance",
+          {
+            "bstr": "abababababababababababababababab"
+          }
+        ],
+        [
+          "porecatu_version",
+          "0.9.11"
+        ],
+        [
+          "max_subscriptions",
+          4
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8201a6627a7af56776657273696f6e82000169686f73745f6e616d65646465736b6d686f73745f696e7374616e636550abababababababababababababababab70706f7265636174755f76657273696f6e66302e392e3131716d61785f737562736372697074696f6e7304",
+  "reencode_hex": "8201a56776657273696f6e82000169686f73745f6e616d65646465736b6d686f73745f696e7374616e636550abababababababababababababababab70706f7265636174755f76657273696f6e66302e392e3131716d61785f737562736372697074696f6e7304",
+  "valido": true,
+  "erro": null,
+  "diag": "[1, {\"zz\": true, \"version\": [0, 1], \"host_name\": \"desk\", \"host_instance\": h'abababababababababababababababab', \"porecatu_version\": \"0.9.11\", \"max_subscriptions\": 4}]"
+}

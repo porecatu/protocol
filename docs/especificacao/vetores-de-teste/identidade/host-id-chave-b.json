@@ -1,0 +1,10 @@
+{
+  "descricao": "host_id da chave de roteamento 32 bytes ff",
+  "funcao": "host_id",
+  "entrada": {
+    "bstr": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "saida": "mhj67icrscnsvbofgekm46omai6nhln7",
+  "valido": true,
+  "erro": null
+}

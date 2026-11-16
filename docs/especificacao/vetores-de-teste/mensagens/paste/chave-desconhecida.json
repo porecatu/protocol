@@ -1,0 +1,32 @@
+{
+  "descricao": "paste: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    32,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "text",
+          "x"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821820a3627a7af56470616e650764746578746178",
+  "reencode_hex": "821820a26470616e650764746578746178",
+  "valido": true,
+  "erro": null,
+  "diag": "[32, {\"zz\": true, \"pane\": 7, \"text\": \"x\"}]"
+}

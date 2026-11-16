@@ -1,0 +1,32 @@
+{
+  "descricao": "key: a tecla nomeada f12 (32), a última do enum",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    30,
+    {
+      "map": [
+        [
+          "key",
+          32
+        ],
+        [
+          "mods",
+          0
+        ],
+        [
+          "pane",
+          7
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ea3636b65791820646d6f6473006470616e6507",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[30, {\"key\": 32, \"mods\": 0, \"pane\": 7}]"
+}

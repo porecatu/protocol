@@ -1,0 +1,17 @@
+{
+  "descricao": "registered: o host_id derivado da chave de roteamento",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    2,
+    "awbfmb6x7xznqlxuypemflvjmgwzrvqo"
+  ],
+  "cbor_hex": "82027820617762666d62367837787a6e716c78757970656d666c766a6d67777a7276716f",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[2, \"awbfmb6x7xznqlxuypemflvjmgwzrvqo\"]"
+}

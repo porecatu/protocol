@@ -1,0 +1,27 @@
+{
+  "descricao": "workspace: sem a chave obrigatória \"windows\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    10,
+    {
+      "map": [
+        [
+          "rev",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820aa16372657601",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[10, {\"rev\": 1}]"
+}

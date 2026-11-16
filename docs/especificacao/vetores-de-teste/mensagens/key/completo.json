@@ -1,0 +1,32 @@
+{
+  "descricao": "key completo: tecla de um escalar Unicode fora do BMP com as quatro modificadoras",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    30,
+    {
+      "map": [
+        [
+          "key",
+          "😀"
+        ],
+        [
+          "mods",
+          15
+        ],
+        [
+          "pane",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ea3636b657964f09f9880646d6f64730f6470616e6501",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[30, {\"key\": \"😀\", \"mods\": 15, \"pane\": 1}]"
+}

@@ -1,0 +1,45 @@
+{
+  "descricao": "action: new-group (6) só com tabs e name",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            6,
+            {
+              "map": [
+                [
+                  "name",
+                  "work"
+                ],
+                [
+                  "tabs",
+                  [
+                    2,
+                    3
+                  ]
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          9
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8206a2646e616d6564776f726b647461627382020362696409",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [6, {\"name\": \"work\", \"tabs\": [2, 3]}], \"id\": 9}]"
+}

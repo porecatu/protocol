@@ -1,0 +1,28 @@
+{
+  "descricao": "pair-accepted: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    60,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "host_name",
+          "desk"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82183ca2627a7af569686f73745f6e616d65646465736b",
+  "reencode_hex": "82183ca169686f73745f6e616d65646465736b",
+  "valido": true,
+  "erro": null,
+  "diag": "[60, {\"zz\": true, \"host_name\": \"desk\"}]"
+}

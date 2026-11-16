@@ -1,0 +1,32 @@
+{
+  "descricao": "action-result completo: action-result com error e created, as duas chaves opcionais",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    41,
+    {
+      "map": [
+        [
+          "id",
+          9007199254740991
+        ],
+        [
+          "error",
+          5
+        ],
+        [
+          "created",
+          3
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821829a36269641b001fffffffffffff656572726f7205676372656174656403",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[41, {\"id\": 9007199254740991, \"error\": 5, \"created\": 3}]"
+}

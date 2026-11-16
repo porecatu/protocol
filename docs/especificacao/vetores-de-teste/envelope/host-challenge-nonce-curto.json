@@ -1,0 +1,22 @@
+{
+  "descricao": "challenge com nonce de 31 bytes em vez de 32",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    0,
+    {
+      "bstr": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e"
+    }
+  ],
+  "cbor_hex": "8200581f000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[0, h'000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e']"
+}

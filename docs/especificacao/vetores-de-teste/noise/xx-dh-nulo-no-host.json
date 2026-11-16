@@ -1,0 +1,44 @@
+{
+  "descricao": "XX cuja msg1 traz a efêmera nula (ponto de ordem baixa): o ee do host dá DH nulo e ele recusa",
+  "versao": [
+    0,
+    1
+  ],
+  "padrao": "XX",
+  "nome": "Noise_XX_25519_ChaChaPoly_BLAKE2s",
+  "host_id": "rxlgbt4qzkrrqzg4v3e6kjsprj7j6pmx",
+  "prologo_hex": "706f7265636174752d72656d6f74652f302072786c67627434717a6b7272717a6734763365366b6a7370726a376a36706d78",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+    },
+    "host_efemera": {
+      "bstr": "505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    "cliente_estatica": {
+      "bstr": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"
+    },
+    "cliente_efemera": {
+      "bstr": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+    }
+  },
+  "chave_do_host": {
+    "bstr": "9fd7ad6dcff4298dd3f96d5b1b2af910a0535b1488d7f8fabb349a982880b615"
+  },
+  "mensagens": [
+    {
+      "de": "cliente",
+      "payload": {
+        "bstr": ""
+      },
+      "hex": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "handshake_hash": null,
+  "quem_falha": "host",
+  "valido": false,
+  "erro": {
+    "camada": "handshake",
+    "codigo": "dh-zero"
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "descricao": "workspace: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    10,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "rev",
+          1
+        ],
+        [
+          "windows",
+          [
+            {
+              "map": [
+                [
+                  "id",
+                  1
+                ],
+                [
+                  "items",
+                  [
+                    {
+                      "map": [
+                        [
+                          "tab",
+                          2
+                        ],
+                        [
+                          "bell",
+                          false
+                        ],
+                        [
+                          "title",
+                          "a"
+                        ],
+                        [
+                          "custom",
+                          false
+                        ],
+                        [
+                          "layout",
+                          {
+                            "map": [
+                              [
+                                "cwd",
+                                null
+                              ],
+                              [
+                                "cols",
+                                80
+                              ],
+                              [
+                                "exit",
+                                null
+                              ],
+                              [
+                                "pane",
+                                3
+                              ],
+                              [
+                                "rows",
+                                24
+                              ],
+                              [
+                                "state",
+                                0
+                              ],
+                              [
+                                "title",
+                                "a"
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          "remote",
+                          null
+                        ],
+                        [
+                          "focused",
+                          3
+                        ],
+                        [
+                          "profile",
+                          null
+                        ],
+                        [
+                          "activity",
+                          false
+                        ]
+                      ]
+                    }
+                  ]
+                ],
+                [
+                  "title",
+                  "a"
+                ],
+                [
+                  "active",
+                  2
+                ],
+                [
+                  "pinned",
+                  []
+                ]
+              ]
+            }
+          ]
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820aa3627a7af563726576016777696e646f777381a562696401656974656d7381a963746162026462656c6cf4657469746c65616166637573746f6df4666c61796f7574a763637764f664636f6c7318506465786974f66470616e650364726f7773181865737461746500657469746c6561616672656d6f7465f667666f6375736564036770726f66696c65f6686163746976697479f4657469746c65616166616374697665026670696e6e656480",
+  "reencode_hex": "820aa263726576016777696e646f777381a562696401656974656d7381a963746162026462656c6cf4657469746c65616166637573746f6df4666c61796f7574a763637764f664636f6c7318506465786974f66470616e650364726f7773181865737461746500657469746c6561616672656d6f7465f667666f6375736564036770726f66696c65f6686163746976697479f4657469746c65616166616374697665026670696e6e656480",
+  "valido": true,
+  "erro": null,
+  "diag": "[10, {\"zz\": true, \"rev\": 1, \"windows\": [{\"id\": 1, \"items\": [{\"tab\": 2, \"bell\": false, \"title\": \"a\", \"custom\": false, \"layout\": {\"cwd\": null, \"cols\": 80, \"exit\": null, \"pane\": 3, \"rows\": 24, \"state\": 0, \"title\": \"a\"}, \"remote\": null, \"focused\": 3, \"profile\": null, \"activity\": false}], \"title\": \"a\", \"active\": 2, \"pinned\": []}]}]"
+}

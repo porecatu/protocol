@@ -1,0 +1,47 @@
+{
+  "descricao": "mensagem de 16 MiB + 1 byte: quem envia recusa e nenhum registro sai",
+  "versao": [
+    0,
+    1
+  ],
+  "host_id": "rxlgbt4qzkrrqzg4v3e6kjsprj7j6pmx",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+    },
+    "host_efemera": {
+      "bstr": "505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    "cliente_estatica": {
+      "bstr": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"
+    },
+    "cliente_efemera": {
+      "bstr": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+    }
+  },
+  "politica": {
+    "max_records": 100000,
+    "max_age_ms": 3600000
+  },
+  "handshake_ms": 0,
+  "passos": [
+    {
+      "de": "cliente",
+      "now_ms": 0,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 16777217,
+        "blake2s": "60aec5a66768f0ce83c98ec1f8c91306e2b869c29bd3dc212af3453f1924d0c8"
+      },
+      "flags": [],
+      "registros_hex": null,
+      "registros_blake2s": [],
+      "forjado": false
+    }
+  ],
+  "valido": false,
+  "erro": {
+    "camada": "registro",
+    "codigo": "too-large"
+  }
+}

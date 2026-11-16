@@ -1,0 +1,27 @@
+{
+  "descricao": "goodbye: goodbye com reason 9, fora do domínio 0..3",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    3,
+    {
+      "map": [
+        [
+          "reason",
+          9
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8203a166726561736f6e09",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[3, {\"reason\": 9}]"
+}

@@ -1,0 +1,36 @@
+{
+  "descricao": "confirm-request completo: confirm-request de conexão SSH com três nomes de processo",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    42,
+    {
+      "map": [
+        [
+          "id",
+          9007199254740991
+        ],
+        [
+          "kind",
+          1
+        ],
+        [
+          "processes",
+          [
+            "pwsh",
+            "ssh",
+            "vim é"
+          ]
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82182aa36269641b001fffffffffffff646b696e64016970726f636573736573836470777368637373686676696d20c3a9",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[42, {\"id\": 9007199254740991, \"kind\": 1, \"processes\": [\"pwsh\", \"ssh\", \"vim é\"]}]"
+}

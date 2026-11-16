@@ -1,0 +1,11 @@
+{
+  "descricao": "sem o parâmetro token",
+  "funcao": "pairing_uri_parse",
+  "entrada": "porecatu://pair?v=0&relay=wss%3A%2F%2Frelay.example.com&host=awbfmb6x7xznqlxuypemflvjmgwzrvqo&key=__________________________________________8&name=Desk",
+  "saida": null,
+  "valido": false,
+  "erro": {
+    "camada": "uri",
+    "codigo": "missing-field"
+  }
+}

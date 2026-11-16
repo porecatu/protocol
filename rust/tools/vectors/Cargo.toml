@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+[package]
+name = "vectors"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98.0"
+license = "GPL-3.0-or-later"
+publish = false
+description = "Generator and validator of the protocol test vectors."
+
+[lints.rust]
+unsafe_code = "deny"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+
+[dependencies]
+porecatu-protocol = { path = "../..", features = ["test-vectors"] }
+blake2 = "=0.10.6"
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.154"
+# CDDL parser and validator (MIT). Only the CBOR validation path is used.
+cddl = { version = "=0.10.7", default-features = false, features = ["std", "json", "cbor", "additional-controls", "ast-span", "ast-comments", "ast-parent"] }

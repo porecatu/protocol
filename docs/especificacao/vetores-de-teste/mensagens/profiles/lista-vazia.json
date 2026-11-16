@@ -1,0 +1,28 @@
+{
+  "descricao": "profiles: profiles sem nenhum perfil",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    11,
+    {
+      "map": [
+        [
+          "list",
+          []
+        ],
+        [
+          "default",
+          ""
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ba2646c697374806764656661756c7460",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[11, {\"list\": [], \"default\": \"\"}]"
+}

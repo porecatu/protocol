@@ -1,0 +1,44 @@
+{
+  "descricao": "welcome: sem a chave obrigatória \"porecatu_version\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    1,
+    {
+      "map": [
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          "host_name",
+          "desk"
+        ],
+        [
+          "host_instance",
+          {
+            "bstr": "abababababababababababababababab"
+          }
+        ],
+        [
+          "max_subscriptions",
+          4
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8201a46776657273696f6e82000169686f73745f6e616d65646465736b6d686f73745f696e7374616e636550abababababababababababababababab716d61785f737562736372697074696f6e7304",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[1, {\"version\": [0, 1], \"host_name\": \"desk\", \"host_instance\": h'abababababababababababababababab', \"max_subscriptions\": 4}]"
+}

@@ -1,0 +1,31 @@
+{
+  "descricao": "pair-rejected: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    61,
+    {
+      "map": [
+        [
+          "reason",
+          0
+        ],
+        [
+          "zz",
+          true
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82183da266726561736f6e00627a7af5",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[61, {\"reason\": 0, \"zz\": true}]"
+}

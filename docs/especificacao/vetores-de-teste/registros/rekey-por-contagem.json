@@ -1,0 +1,221 @@
+{
+  "descricao": "REKEY forçado por contagem: política de 3 registros, dez mensagens nos dois sentidos",
+  "versao": [
+    0,
+    1
+  ],
+  "host_id": "rxlgbt4qzkrrqzg4v3e6kjsprj7j6pmx",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+    },
+    "host_efemera": {
+      "bstr": "505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    "cliente_estatica": {
+      "bstr": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"
+    },
+    "cliente_efemera": {
+      "bstr": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+    }
+  },
+  "politica": {
+    "max_records": 3,
+    "max_age_ms": 3600000
+  },
+  "handshake_ms": 0,
+  "passos": [
+    {
+      "de": "cliente",
+      "now_ms": 0,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        0
+      ],
+      "registros_hex": [
+        "886410e944f45df69861eabbd2e5f288abf2b1494be455ff64881b"
+      ],
+      "registros_blake2s": [
+        "0d2bc606cfe59c8da3528ea0055b4c93b77c869421607922449564ec1ad6f240"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "cliente",
+      "now_ms": 1,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        0
+      ],
+      "registros_hex": [
+        "eb53d1540347fc732ff25b0f0dc5e2e259eca1ac70b2389115fbf2"
+      ],
+      "registros_blake2s": [
+        "0f1399de0d0be79f53c407149c2c7bb92a9cea6d76224e9d5cdbea99da33bf51"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "host",
+      "now_ms": 2,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        0
+      ],
+      "registros_hex": [
+        "c2ad11238d56f3000a7edbb442e55a36bcf3653cff5088adb87625"
+      ],
+      "registros_blake2s": [
+        "cf6585cc353dfd43d04daac4450b34701bb6e137c66d4deeabfeaa9e7fc4782a"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "cliente",
+      "now_ms": 3,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        2
+      ],
+      "registros_hex": [
+        "313e17af817be750c5e9c5c6388094d70a5e61f8188a07a4005665"
+      ],
+      "registros_blake2s": [
+        "33eb55747e2f1e8ae67524814784dcdc426dd9395bc14e26554642985c57b178"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "host",
+      "now_ms": 4,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        0
+      ],
+      "registros_hex": [
+        "1ee295d62e69540aaa06d81c9e7a8e19e03fc63f096b057d0fe545"
+      ],
+      "registros_blake2s": [
+        "5b1cd3a9abeec1d9a8eca84696afc8622b6fee5d9c3888f38b0b77606fcdac33"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "cliente",
+      "now_ms": 5,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        0
+      ],
+      "registros_hex": [
+        "a2cfd253291bd15eb169c3821f55bcd9433ac8c5eee72a628657ca"
+      ],
+      "registros_blake2s": [
+        "044cd9cd10e2d951663b00d54e438aab0eac1f46321df75be6536dee671b783a"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "host",
+      "now_ms": 6,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        2
+      ],
+      "registros_hex": [
+        "3a0ca4ae3f24127e2e2fdc6351837861a0a8d6e8c856ab198e6635"
+      ],
+      "registros_blake2s": [
+        "bcc8182b8b2315ff1202ac3a3aa0ad64fd60f615ea6c6a5b2111d62316622214"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "cliente",
+      "now_ms": 7,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        0
+      ],
+      "registros_hex": [
+        "a3327d05f7463987b57ccfedc9b73d3ea48dfe1d1550e5432e2770"
+      ],
+      "registros_blake2s": [
+        "cb90be1b6d567661d66ec12c79a9b991f9e72cf1a2fab04c51f862f264d38973"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "cliente",
+      "now_ms": 8,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        2
+      ],
+      "registros_hex": [
+        "d27c5d68033c40898730b853812d1458c29a4b897a757e25ffec9d"
+      ],
+      "registros_blake2s": [
+        "a6d855508eeeb4a1a4fbf5ca3780fbd38edb342124186f08a4a5d11c95460e02"
+      ],
+      "forjado": false
+    },
+    {
+      "de": "cliente",
+      "now_ms": 9,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        0
+      ],
+      "registros_hex": [
+        "fcaa954a7ce2581e3194ec0593657f6b3732fa00868a66939b170b"
+      ],
+      "registros_blake2s": [
+        "de95fa8890265f092dc575e179c8fad8cb70bde0d98e151a471756233a0511a4"
+      ],
+      "forjado": false
+    }
+  ],
+  "valido": true,
+  "erro": null
+}

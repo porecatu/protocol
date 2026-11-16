@@ -1,0 +1,20 @@
+{
+  "descricao": "registered com 32 letras maiúsculas, fora do alfabeto do host_id",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    2,
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  ],
+  "cbor_hex": "820278204141414141414141414141414141414141414141414141414141414141414141",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[2, \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"]"
+}

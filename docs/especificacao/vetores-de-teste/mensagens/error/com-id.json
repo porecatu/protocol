@@ -1,0 +1,28 @@
+{
+  "descricao": "error: error com o id do pedido (resposta a um scrollback-request)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": [
+        [
+          "id",
+          7
+        ],
+        [
+          "code",
+          5
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821846a26269640764636f646505",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[70, {\"id\": 7, \"code\": 5}]"
+}

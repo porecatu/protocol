@@ -1,0 +1,24 @@
+{
+  "descricao": "error: error last-tab (16), o último código",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": [
+        [
+          "code",
+          16
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821846a164636f646510",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[70, {\"code\": 16}]"
+}

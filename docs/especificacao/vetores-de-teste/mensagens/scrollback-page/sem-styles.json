@@ -1,0 +1,52 @@
+{
+  "descricao": "scrollback-page: sem a chave obrigatória \"styles\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    26,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "lines",
+          [
+            [
+              false,
+              []
+            ]
+          ]
+        ],
+        [
+          "offset",
+          0
+        ],
+        [
+          "dropped",
+          0
+        ],
+        [
+          "history",
+          5
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181aa6626964016470616e6507656c696e65738182f480666f6666736574006764726f707065640067686973746f727905",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[26, {\"id\": 1, \"pane\": 7, \"lines\": [[false, []]], \"offset\": 0, \"dropped\": 0, \"history\": 5}]"
+}

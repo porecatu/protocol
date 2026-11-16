@@ -1,0 +1,32 @@
+{
+  "descricao": "grid-ack: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    24,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "seq",
+          3
+        ],
+        [
+          "pane",
+          7
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821818a3627a7af563736571036470616e6507",
+  "reencode_hex": "821818a263736571036470616e6507",
+  "valido": true,
+  "erro": null,
+  "diag": "[24, {\"zz\": true, \"seq\": 3, \"pane\": 7}]"
+}

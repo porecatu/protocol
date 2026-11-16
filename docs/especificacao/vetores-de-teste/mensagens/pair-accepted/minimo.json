@@ -1,0 +1,24 @@
+{
+  "descricao": "pair-accepted mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    60,
+    {
+      "map": [
+        [
+          "host_name",
+          "desk"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82183ca169686f73745f6e616d65646465736b",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[60, {\"host_name\": \"desk\"}]"
+}

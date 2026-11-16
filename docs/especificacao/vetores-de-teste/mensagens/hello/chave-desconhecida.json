@@ -1,0 +1,39 @@
+{
+  "descricao": "hello: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    0,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "app",
+          "porecatu-remote"
+        ],
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          "app_version",
+          "0.1.0"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8200a4627a7af5636170706f706f7265636174752d72656d6f74656776657273696f6e8200016b6170705f76657273696f6e65302e312e30",
+  "reencode_hex": "8200a3636170706f706f7265636174752d72656d6f74656776657273696f6e8200016b6170705f76657273696f6e65302e312e30",
+  "valido": true,
+  "erro": null,
+  "diag": "[0, {\"zz\": true, \"app\": \"porecatu-remote\", \"version\": [0, 1], \"app_version\": \"0.1.0\"}]"
+}

@@ -1,0 +1,17 @@
+{
+  "descricao": "closed: close-reason normal (0)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    18,
+    0
+  ],
+  "cbor_hex": "821200",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[18, 0]"
+}

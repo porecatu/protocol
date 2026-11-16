@@ -1,0 +1,126 @@
+{
+  "descricao": "hello 0.2 para um host 0.1: com major 0 o minor também tem de ser igual, incompatible",
+  "versao": [
+    0,
+    1
+  ],
+  "host_id": "rxlgbt4qzkrrqzg4v3e6kjsprj7j6pmx",
+  "canal": 1,
+  "handshake": "IK",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+    },
+    "host_efemera": {
+      "bstr": "505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    "cliente_estatica": {
+      "bstr": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"
+    },
+    "cliente_efemera": {
+      "bstr": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+    }
+  },
+  "token_host": null,
+  "pareados": [
+    {
+      "bstr": "23b7bb8c91ae008711fb12846780bcdf1e065f821bdfec49f57e7c7dcd4c4823"
+    }
+  ],
+  "passos": [
+    {
+      "de": "cliente",
+      "now_ms": 0,
+      "mensagem": null,
+      "registros_hex": [
+        "34e42d4af5ef94a07a3a84201b889d4cd1a743cb27b11b6a10438a8feb8e5847a65c8250cb38ecb20c403153d784a77c38b86bc934d3a051b89cd9ed91ca5a9ad3ae8659ca4c1f802dee497f49bd2f5ef62cba2880b7f04cc7a36cbc19f96b84"
+      ],
+      "envelope_hex": [
+        "821058648201586034e42d4af5ef94a07a3a84201b889d4cd1a743cb27b11b6a10438a8feb8e5847a65c8250cb38ecb20c403153d784a77c38b86bc934d3a051b89cd9ed91ca5a9ad3ae8659ca4c1f802dee497f49bd2f5ef62cba2880b7f04cc7a36cbc19f96b84"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 10,
+      "mensagem": null,
+      "registros_hex": [
+        "392d174a38b3b1beafaf1fe824870841c5fa531bc6eafdb6402c124664488c1cf0b921024d21839cdec45cd604e16008"
+      ],
+      "envelope_hex": [
+        "8304015830392d174a38b3b1beafaf1fe824870841c5fa531bc6eafdb6402c124664488c1cf0b921024d21839cdec45cd604e16008"
+      ]
+    },
+    {
+      "de": "cliente",
+      "now_ms": 100,
+      "mensagem": [
+        0,
+        {
+          "map": [
+            [
+              "app",
+              "porecatu-remote"
+            ],
+            [
+              "version",
+              [
+                0,
+                2
+              ]
+            ],
+            [
+              "app_version",
+              "0.1.0"
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "88e6114824912880f0198cbe2a09109ef4d921fcf48c67bf25b6e47addf08f5c95589b952c72fdad68787dc5109b30958d0a65f6451abe41190e426c4463146c076f129607"
+      ],
+      "envelope_hex": [
+        "8210584588e6114824912880f0198cbe2a09109ef4d921fcf48c67bf25b6e47addf08f5c95589b952c72fdad68787dc5109b30958d0a65f6451abe41190e426c4463146c076f129607"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 110,
+      "mensagem": [
+        2,
+        {
+          "map": [
+            [
+              "version",
+              [
+                0,
+                1
+              ]
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "c22f1280e92493747e1fbd0ebccc8fb07f8de5a62e88e21519ad13168e55df"
+      ],
+      "envelope_hex": [
+        "830401581fc22f1280e92493747e1fbd0ebccc8fb07f8de5a62e88e21519ad13168e55df"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 111,
+      "mensagem": null,
+      "registros_hex": [],
+      "envelope_hex": [
+        "83060100"
+      ]
+    }
+  ],
+  "resultado": {
+    "estado": "fechada",
+    "erro": {
+      "camada": "mensagem",
+      "codigo": "incompatible"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "descricao": "text-input: sem a chave obrigatória \"pane\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    31,
+    {
+      "map": [
+        [
+          "text",
+          "a"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181fa164746578746161",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[31, {\"text\": \"a\"}]"
+}

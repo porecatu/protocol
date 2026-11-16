@@ -1,0 +1,91 @@
+{
+  "descricao": "conexão IK de um aparelho que não está na lista (transcrição do TypeScript): o handshake completa e a primeira mensagem do host é error not-paired",
+  "versao": [
+    0,
+    1
+  ],
+  "host_id": "grnusmtzdyp7xqt2kml7fwjmdvw75rxu",
+  "canal": 3,
+  "handshake": "IK",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "535be8fbdf5412f6283b7c9a9f2af090d46edefe27531a5f543ec7b108bff345"
+    },
+    "host_efemera": {
+      "bstr": "3054c1a04a7c5bab8a55bbeda17474cc1717a21b4905907410f9c8850f80302d"
+    },
+    "cliente_estatica": {
+      "bstr": "ba75d037ee4e0e56f19373ec5d22ba47a1af6b6eac57c3c66d6d94b8b8b34902"
+    },
+    "cliente_efemera": {
+      "bstr": "aada41a3cc71d7251e9cb6c58fdc84f78e8dfbd3cfd0adee640ec195beace5aa"
+    }
+  },
+  "token_host": null,
+  "pareados": [
+    {
+      "bstr": "d3a1e8115f1c9b9d6eca544fb067909ed0a8ae73e5f38c36388ffc56649e9268"
+    }
+  ],
+  "passos": [
+    {
+      "de": "cliente",
+      "now_ms": 0,
+      "mensagem": null,
+      "registros_hex": [
+        "2ef45d62d82f68dc17c0f25abcf56170f7de57c84f13144e2ded89ea9be3f6799b4bb8df4557351b146d2238010b5ab11490d6eaecbb3d3fd4a98781df73cd70bc94fc319ca631e4a27d3af4e053f892117247390f399f32abaa2a4250a62d82"
+      ],
+      "envelope_hex": [
+        "82105864820158602ef45d62d82f68dc17c0f25abcf56170f7de57c84f13144e2ded89ea9be3f6799b4bb8df4557351b146d2238010b5ab11490d6eaecbb3d3fd4a98781df73cd70bc94fc319ca631e4a27d3af4e053f892117247390f399f32abaa2a4250a62d82"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 11,
+      "mensagem": null,
+      "registros_hex": [
+        "64222aa0219a40e35a9601fb008d03ab0e0544ea4ab096bfddbdcb1d63d97230259bfc046725ea74ac189c9f571e9410"
+      ],
+      "envelope_hex": [
+        "830403583064222aa0219a40e35a9601fb008d03ab0e0544ea4ab096bfddbdcb1d63d97230259bfc046725ea74ac189c9f571e9410"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 11,
+      "mensagem": [
+        70,
+        {
+          "map": [
+            [
+              "code",
+              1
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "8bd9bb1c04eaee6efdc1734b855f46d1cf1e97451980da507c68b9"
+      ],
+      "envelope_hex": [
+        "830403581b8bd9bb1c04eaee6efdc1734b855f46d1cf1e97451980da507c68b9"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 12,
+      "mensagem": null,
+      "registros_hex": [],
+      "envelope_hex": [
+        "83060300"
+      ]
+    }
+  ],
+  "resultado": {
+    "estado": "fechada",
+    "erro": {
+      "camada": "mensagem",
+      "codigo": "not-paired"
+    }
+  }
+}

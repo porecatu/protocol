@@ -1,0 +1,17 @@
+{
+  "descricao": "closed: close-reason host-gone (2)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    18,
+    2
+  ],
+  "cbor_hex": "821202",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[18, 2]"
+}

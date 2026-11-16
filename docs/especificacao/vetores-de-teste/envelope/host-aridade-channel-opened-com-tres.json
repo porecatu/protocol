@@ -1,0 +1,21 @@
+{
+  "descricao": "channel-opened com um terceiro elemento",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    3,
+    7,
+    0
+  ],
+  "cbor_hex": "83030700",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[3, 7, 0]"
+}

@@ -1,0 +1,27 @@
+{
+  "descricao": "action: sem a chave obrigatória \"do\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a162696401",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[40, {\"id\": 1}]"
+}

@@ -1,0 +1,34 @@
+{
+  "descricao": "incompatible: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    2,
+    {
+      "map": [
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          "zz",
+          true
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8202a26776657273696f6e820001627a7af5",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[2, {\"version\": [0, 1], \"zz\": true}]"
+}

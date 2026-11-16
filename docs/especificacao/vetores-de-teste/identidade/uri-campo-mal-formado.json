@@ -1,0 +1,11 @@
+{
+  "descricao": "key com 31 bytes decodificados em vez de 32",
+  "funcao": "pairing_uri_parse",
+  "entrada": "porecatu://pair?v=0&relay=wss%3A%2F%2Frelay.example.com&host=awbfmb6x7xznqlxuypemflvjmgwzrvqo&key=AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQ&token=AAECAwQFBgcICQoLDA0ODw&name=Desk",
+  "saida": null,
+  "valido": false,
+  "erro": {
+    "camada": "uri",
+    "codigo": "malformed-field"
+  }
+}

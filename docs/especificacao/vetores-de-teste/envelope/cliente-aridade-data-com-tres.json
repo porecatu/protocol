@@ -1,0 +1,23 @@
+{
+  "descricao": "data com um terceiro elemento",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    16,
+    {
+      "bstr": ""
+    },
+    0
+  ],
+  "cbor_hex": "83104000",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[16, h'', 0]"
+}

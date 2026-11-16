@@ -1,0 +1,76 @@
+{
+  "descricao": "scrollback-page completo: página com um estilo (rgb e indexado, negrito e sublinhado) e duas linhas",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    26,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "lines",
+          [
+            [
+              true,
+              [
+                [
+                  0,
+                  1,
+                  0,
+                  "x"
+                ]
+              ]
+            ],
+            [
+              false,
+              []
+            ]
+          ]
+        ],
+        [
+          "offset",
+          10
+        ],
+        [
+          "styles",
+          [
+            [
+              [
+                1,
+                1122867
+              ],
+              [
+                0,
+                196
+              ],
+              5
+            ]
+          ]
+        ],
+        [
+          "dropped",
+          3
+        ],
+        [
+          "history",
+          100
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181aa7626964016470616e6507656c696e65738282f58184000100617882f480666f66667365740a667374796c6573818382011a00112233820018c4056764726f707065640367686973746f72791864",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[26, {\"id\": 1, \"pane\": 7, \"lines\": [[true, [[0, 1, 0, \"x\"]]], [false, []]], \"offset\": 10, \"styles\": [[[1, 1122867], [0, 196], 5]], \"dropped\": 3, \"history\": 100}]"
+}

@@ -1,0 +1,39 @@
+{
+  "descricao": "scrollback-request: count 501, acima do teto de 500",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    25,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "count",
+          501
+        ],
+        [
+          "offset",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821819a4626964016470616e650765636f756e741901f5666f666673657400",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[25, {\"id\": 1, \"pane\": 7, \"count\": 501, \"offset\": 0}]"
+}

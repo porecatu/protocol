@@ -1,0 +1,28 @@
+{
+  "descricao": "grid-ack completo: grid-ack com pane e seq no maior inteiro",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    24,
+    {
+      "map": [
+        [
+          "seq",
+          9007199254740991
+        ],
+        [
+          "pane",
+          9007199254740991
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821818a2637365711b001fffffffffffff6470616e651b001fffffffffffff",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[24, {\"seq\": 9007199254740991, \"pane\": 9007199254740991}]"
+}

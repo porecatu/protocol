@@ -1,0 +1,22 @@
+{
+  "descricao": "pair-accepted: sem a chave obrigatória \"host_name\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    60,
+    {
+      "map": []
+    }
+  ],
+  "cbor_hex": "82183ca0",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[60, {}]"
+}

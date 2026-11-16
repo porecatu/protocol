@@ -1,0 +1,19 @@
+{
+  "descricao": "host-unavailable (17) é da família do cliente, não do host",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    17
+  ],
+  "cbor_hex": "8111",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[17]"
+}

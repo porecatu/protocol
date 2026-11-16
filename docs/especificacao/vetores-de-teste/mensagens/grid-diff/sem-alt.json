@@ -1,0 +1,70 @@
+{
+  "descricao": "grid-diff: sem a chave obrigatória \"alt\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    23,
+    {
+      "map": [
+        [
+          "seq",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "lines",
+          []
+        ],
+        [
+          "cursor",
+          {
+            "map": [
+              [
+                "col",
+                2
+              ],
+              [
+                "row",
+                0
+              ],
+              [
+                "shape",
+                0
+              ],
+              [
+                "visible",
+                true
+              ]
+            ]
+          }
+        ],
+        [
+          "styles",
+          []
+        ],
+        [
+          "dropped",
+          2
+        ],
+        [
+          "history",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8217a763736571016470616e6507656c696e65738066637572736f72a463636f6c0263726f7700657368617065006776697369626c65f5667374796c6573806764726f707065640267686973746f727900",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[23, {\"seq\": 1, \"pane\": 7, \"lines\": [], \"cursor\": {\"col\": 2, \"row\": 0, \"shape\": 0, \"visible\": true}, \"styles\": [], \"dropped\": 2, \"history\": 0}]"
+}

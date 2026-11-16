@@ -1,0 +1,42 @@
+{
+  "descricao": "action: collapse-group (9)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            9,
+            {
+              "map": [
+                [
+                  "group",
+                  6
+                ],
+                [
+                  "collapsed",
+                  true
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          13
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8209a26567726f75700669636f6c6c6170736564f56269640d",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [9, {\"group\": 6, \"collapsed\": true}], \"id\": 13}]"
+}

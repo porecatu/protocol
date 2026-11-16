@@ -1,0 +1,31 @@
+{
+  "descricao": "pair-request: pair-request de um aparelho iOS",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "pair-request",
+  "valor": {
+    "map": [
+      [
+        "token",
+        {
+          "bstr": "000102030405060708090a0b0c0d0e0f"
+        }
+      ],
+      [
+        "device",
+        "iPhone"
+      ],
+      [
+        "platform",
+        1
+      ]
+    ]
+  },
+  "cbor_hex": "a365746f6b656e50000102030405060708090a0b0c0d0e0f66646576696365666950686f6e6568706c6174666f726d01",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "{\"token\": h'000102030405060708090a0b0c0d0e0f', \"device\": \"iPhone\", \"platform\": 1}"
+}

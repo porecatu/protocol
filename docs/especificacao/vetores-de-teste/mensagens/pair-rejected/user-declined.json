@@ -1,0 +1,24 @@
+{
+  "descricao": "pair-rejected: pair-rejected recusado pelo usuário",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    61,
+    {
+      "map": [
+        [
+          "reason",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82183da166726561736f6e01",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[61, {\"reason\": 1}]"
+}

@@ -1,0 +1,22 @@
+{
+  "descricao": "error: sem a chave obrigatória \"code\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": []
+    }
+  ],
+  "cbor_hex": "821846a0",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[70, {}]"
+}

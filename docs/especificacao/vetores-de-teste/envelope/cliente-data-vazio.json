@@ -1,0 +1,19 @@
+{
+  "descricao": "data: registro vazio",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    16,
+    {
+      "bstr": ""
+    }
+  ],
+  "cbor_hex": "821040",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[16, h'']"
+}

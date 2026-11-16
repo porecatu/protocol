@@ -1,0 +1,27 @@
+{
+  "descricao": "subscription-ended: sem a chave obrigatória \"pane\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    27,
+    {
+      "map": [
+        [
+          "reason",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ba166726561736f6e00",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[27, {\"reason\": 0}]"
+}

@@ -1,0 +1,36 @@
+{
+  "descricao": "scrollback-request mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    25,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "count",
+          1
+        ],
+        [
+          "offset",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821819a4626964016470616e650765636f756e7401666f666673657400",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[25, {\"id\": 1, \"pane\": 7, \"count\": 1, \"offset\": 0}]"
+}

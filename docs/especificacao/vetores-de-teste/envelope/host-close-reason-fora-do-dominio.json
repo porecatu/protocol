@@ -1,0 +1,21 @@
+{
+  "descricao": "channel-closed com close-reason 6 (o domínio é 0..5)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    5,
+    7,
+    6
+  ],
+  "cbor_hex": "83050706",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[5, 7, 6]"
+}

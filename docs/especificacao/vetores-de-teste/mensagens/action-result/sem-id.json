@@ -1,0 +1,22 @@
+{
+  "descricao": "action-result: sem a chave obrigatória \"id\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    41,
+    {
+      "map": []
+    }
+  ],
+  "cbor_hex": "821829a0",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[41, {}]"
+}

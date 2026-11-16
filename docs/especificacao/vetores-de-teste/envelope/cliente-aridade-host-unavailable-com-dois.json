@@ -1,0 +1,20 @@
+{
+  "descricao": "host-unavailable com um segundo elemento",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    17,
+    0
+  ],
+  "cbor_hex": "821100",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[17, 0]"
+}

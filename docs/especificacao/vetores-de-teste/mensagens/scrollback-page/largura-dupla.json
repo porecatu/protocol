@@ -1,0 +1,72 @@
+{
+  "descricao": "scrollback-page: uma célula de largura dupla (界, width 2) ao lado de uma comum",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    26,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "lines",
+          [
+            [
+              false,
+              [
+                [
+                  0,
+                  2,
+                  0,
+                  "界"
+                ],
+                [
+                  2,
+                  1,
+                  0,
+                  "a"
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "offset",
+          10
+        ],
+        [
+          "styles",
+          [
+            [
+              null,
+              null,
+              0
+            ]
+          ]
+        ],
+        [
+          "dropped",
+          3
+        ],
+        [
+          "history",
+          100
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181aa7626964016470616e6507656c696e65738182f4828400020063e7958c840201006161666f66667365740a667374796c65738183f6f6006764726f707065640367686973746f72791864",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[26, {\"id\": 1, \"pane\": 7, \"lines\": [[false, [[0, 2, 0, \"界\"], [2, 1, 0, \"a\"]]]], \"offset\": 10, \"styles\": [[null, null, 0]], \"dropped\": 3, \"history\": 100}]"
+}

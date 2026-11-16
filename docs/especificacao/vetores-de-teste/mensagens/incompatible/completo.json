@@ -1,0 +1,27 @@
+{
+  "descricao": "incompatible completo: incompatible com a versão no maior inteiro nos dois campos",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    2,
+    {
+      "map": [
+        [
+          "version",
+          [
+            9007199254740991,
+            9007199254740991
+          ]
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8202a16776657273696f6e821b001fffffffffffff1b001fffffffffffff",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[2, {\"version\": [9007199254740991, 9007199254740991]}]"
+}

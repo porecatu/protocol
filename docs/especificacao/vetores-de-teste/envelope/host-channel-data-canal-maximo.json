@@ -1,0 +1,20 @@
+{
+  "descricao": "channel-data: canal 2^53-1 (o maior inteiro do fio) e registro vazio",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    4,
+    9007199254740991,
+    {
+      "bstr": ""
+    }
+  ],
+  "cbor_hex": "83041b001fffffffffffff40",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[4, 9007199254740991, h'']"
+}

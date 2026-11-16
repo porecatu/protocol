@@ -1,0 +1,42 @@
+{
+  "descricao": "action: move-tab-to-window (5)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            5,
+            {
+              "map": [
+                [
+                  "tab",
+                  2
+                ],
+                [
+                  "window",
+                  2
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          8
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8205a263746162026677696e646f770262696408",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [5, {\"tab\": 2, \"window\": 2}], \"id\": 8}]"
+}

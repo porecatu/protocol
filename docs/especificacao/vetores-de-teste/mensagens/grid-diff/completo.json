@@ -1,0 +1,95 @@
+{
+  "descricao": "grid-diff completo: diff com um estilo (vermelho indexado, negrito) e uma linha contínua com 界",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    23,
+    {
+      "map": [
+        [
+          "alt",
+          false
+        ],
+        [
+          "seq",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "lines",
+          [
+            [
+              0,
+              [
+                true,
+                [
+                  [
+                    0,
+                    2,
+                    0,
+                    "界"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "cursor",
+          {
+            "map": [
+              [
+                "col",
+                2
+              ],
+              [
+                "row",
+                0
+              ],
+              [
+                "shape",
+                0
+              ],
+              [
+                "visible",
+                true
+              ]
+            ]
+          }
+        ],
+        [
+          "styles",
+          [
+            [
+              [
+                0,
+                196
+              ],
+              null,
+              1
+            ]
+          ]
+        ],
+        [
+          "dropped",
+          2
+        ],
+        [
+          "history",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8217a863616c74f463736571016470616e6507656c696e657381820082f5818400020063e7958c66637572736f72a463636f6c0263726f7700657368617065006776697369626c65f5667374796c65738183820018c4f6016764726f707065640267686973746f727900",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[23, {\"alt\": false, \"seq\": 1, \"pane\": 7, \"lines\": [[0, [true, [[0, 2, 0, \"界\"]]]]], \"cursor\": {\"col\": 2, \"row\": 0, \"shape\": 0, \"visible\": true}, \"styles\": [[[0, 196], null, 1]], \"dropped\": 2, \"history\": 0}]"
+}

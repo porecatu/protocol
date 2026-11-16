@@ -1,0 +1,22 @@
+{
+  "descricao": "goodbye: sem a chave obrigatória \"reason\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    3,
+    {
+      "map": []
+    }
+  ],
+  "cbor_hex": "8203a0",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[3, {}]"
+}

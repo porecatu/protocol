@@ -1,0 +1,48 @@
+{
+  "descricao": "IK com o prólogo do Porecatu, chaves e efêmeros fixos; payloads vazios",
+  "versao": [
+    0,
+    1
+  ],
+  "padrao": "IK",
+  "nome": "Noise_IK_25519_ChaChaPoly_BLAKE2s",
+  "host_id": "rxlgbt4qzkrrqzg4v3e6kjsprj7j6pmx",
+  "prologo_hex": "706f7265636174752d72656d6f74652f302072786c67627434717a6b7272717a6734763365366b6a7370726a376a36706d78",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+    },
+    "host_efemera": {
+      "bstr": "505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    "cliente_estatica": {
+      "bstr": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"
+    },
+    "cliente_efemera": {
+      "bstr": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+    }
+  },
+  "chave_do_host": {
+    "bstr": "9fd7ad6dcff4298dd3f96d5b1b2af910a0535b1488d7f8fabb349a982880b615"
+  },
+  "mensagens": [
+    {
+      "de": "cliente",
+      "payload": {
+        "bstr": ""
+      },
+      "hex": "34e42d4af5ef94a07a3a84201b889d4cd1a743cb27b11b6a10438a8feb8e5847a65c8250cb38ecb20c403153d784a77c38b86bc934d3a051b89cd9ed91ca5a9ad3ae8659ca4c1f802dee497f49bd2f5ef62cba2880b7f04cc7a36cbc19f96b84"
+    },
+    {
+      "de": "host",
+      "payload": {
+        "bstr": ""
+      },
+      "hex": "392d174a38b3b1beafaf1fe824870841c5fa531bc6eafdb6402c124664488c1cf0b921024d21839cdec45cd604e16008"
+    }
+  ],
+  "handshake_hash": "4eb3708f2cf5e9a1d2c66ab41b940ed62f98a35044795710bae0fb583e7207ff",
+  "quem_falha": null,
+  "valido": true,
+  "erro": null
+}

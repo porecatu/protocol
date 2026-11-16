@@ -1,0 +1,39 @@
+{
+  "descricao": "scrollback-request: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    25,
+    {
+      "map": [
+        [
+          "pane",
+          7
+        ],
+        [
+          "id",
+          1
+        ],
+        [
+          "count",
+          1
+        ],
+        [
+          "offset",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821819a46470616e65076269640165636f756e7401666f666673657400",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[25, {\"pane\": 7, \"id\": 1, \"count\": 1, \"offset\": 0}]"
+}

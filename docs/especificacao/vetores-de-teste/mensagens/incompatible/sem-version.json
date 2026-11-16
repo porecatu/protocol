@@ -1,0 +1,22 @@
+{
+  "descricao": "incompatible: sem a chave obrigatória \"version\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    2,
+    {
+      "map": []
+    }
+  ],
+  "cbor_hex": "8202a0",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[2, {}]"
+}

@@ -1,0 +1,24 @@
+{
+  "descricao": "goodbye: goodbye normal",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    3,
+    {
+      "map": [
+        [
+          "reason",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8203a166726561736f6e00",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[3, {\"reason\": 0}]"
+}

@@ -1,0 +1,17 @@
+{
+  "descricao": "channel-opened: canal 5 (cabeça de um byte)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    3,
+    5
+  ],
+  "cbor_hex": "820305",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[3, 5]"
+}

@@ -1,0 +1,38 @@
+{
+  "descricao": "action: close-tab (1)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            1,
+            {
+              "map": [
+                [
+                  "tab",
+                  2
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          2
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8201a1637461620262696402",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [1, {\"tab\": 2}], \"id\": 2}]"
+}

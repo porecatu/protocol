@@ -1,0 +1,19 @@
+{
+  "descricao": "handshake-start pair: a mensagem 1 do Noise (32 bytes) depois do tipo",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "handshake-start",
+  "valor": [
+    0,
+    {
+      "bstr": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+    }
+  ],
+  "cbor_hex": "82005820000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[0, h'000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f']"
+}

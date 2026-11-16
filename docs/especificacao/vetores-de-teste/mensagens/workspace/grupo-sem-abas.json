@@ -1,0 +1,81 @@
+{
+  "descricao": "workspace: grupo com a lista de abas vazia (tabs é [+ tab])",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    10,
+    {
+      "map": [
+        [
+          "rev",
+          1
+        ],
+        [
+          "windows",
+          [
+            {
+              "map": [
+                [
+                  "id",
+                  1
+                ],
+                [
+                  "items",
+                  [
+                    {
+                      "map": [
+                        [
+                          "name",
+                          "g"
+                        ],
+                        [
+                          "tabs",
+                          []
+                        ],
+                        [
+                          "color",
+                          0
+                        ],
+                        [
+                          "group",
+                          6
+                        ],
+                        [
+                          "collapsed",
+                          false
+                        ]
+                      ]
+                    }
+                  ]
+                ],
+                [
+                  "title",
+                  "a"
+                ],
+                [
+                  "active",
+                  null
+                ],
+                [
+                  "pinned",
+                  []
+                ]
+              ]
+            }
+          ]
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820aa263726576016777696e646f777381a562696401656974656d7381a5646e616d65616764746162738065636f6c6f72006567726f75700669636f6c6c6170736564f4657469746c65616166616374697665f66670696e6e656480",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[10, {\"rev\": 1, \"windows\": [{\"id\": 1, \"items\": [{\"name\": \"g\", \"tabs\": [], \"color\": 0, \"group\": 6, \"collapsed\": false}], \"title\": \"a\", \"active\": null, \"pinned\": []}]}]"
+}

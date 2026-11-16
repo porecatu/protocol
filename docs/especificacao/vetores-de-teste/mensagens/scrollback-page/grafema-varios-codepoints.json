@@ -1,0 +1,76 @@
+{
+  "descricao": "scrollback-page: grafemas de vários code points, cada um num span de grafema `[tstr]` (família com ZWJ e e + acento combinante)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    26,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "lines",
+          [
+            [
+              false,
+              [
+                [
+                  0,
+                  2,
+                  0,
+                  [
+                    "👨‍👩‍👧"
+                  ]
+                ],
+                [
+                  2,
+                  1,
+                  0,
+                  [
+                    "é"
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "offset",
+          10
+        ],
+        [
+          "styles",
+          [
+            [
+              null,
+              null,
+              0
+            ]
+          ]
+        ],
+        [
+          "dropped",
+          3
+        ],
+        [
+          "history",
+          100
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181aa7626964016470616e6507656c696e65738182f482840002008172f09f91a8e2808df09f91a9e2808df09f91a784020100816365cc81666f66667365740a667374796c65738183f6f6006764726f707065640367686973746f72791864",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[26, {\"id\": 1, \"pane\": 7, \"lines\": [[false, [[0, 2, 0, [\"👨‍👩‍👧\"]], [2, 1, 0, [\"é\"]]]]], \"offset\": 10, \"styles\": [[null, null, 0]], \"dropped\": 3, \"history\": 100}]"
+}

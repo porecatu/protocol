@@ -1,0 +1,39 @@
+{
+  "descricao": "leitura da URI completa: o relay volta normalizado, a chave e o token como bytes",
+  "funcao": "pairing_uri_parse",
+  "entrada": "porecatu://pair?v=0&relay=wss%3A%2F%2Frelay.exemplo.com.br%3A8443%2Fporecatu&host=awbfmb6x7xznqlxuypemflvjmgwzrvqo&key=__________________________________________8&token=AAECAwQFBgcICQoLDA0ODw&name=Mesa%20do%20L%C3%A9o%20%28casa%29",
+  "saida": {
+    "map": [
+      [
+        "v",
+        0
+      ],
+      [
+        "relay",
+        "wss://relay.exemplo.com.br:8443/porecatu"
+      ],
+      [
+        "host",
+        "awbfmb6x7xznqlxuypemflvjmgwzrvqo"
+      ],
+      [
+        "key",
+        {
+          "bstr": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      [
+        "token",
+        {
+          "bstr": "000102030405060708090a0b0c0d0e0f"
+        }
+      ],
+      [
+        "name",
+        "Mesa do Léo (casa)"
+      ]
+    ]
+  },
+  "valido": true,
+  "erro": null
+}

@@ -1,0 +1,28 @@
+{
+  "descricao": "goodbye: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    3,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "reason",
+          2
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8203a2627a7af566726561736f6e02",
+  "reencode_hex": "8203a166726561736f6e02",
+  "valido": true,
+  "erro": null,
+  "diag": "[3, {\"zz\": true, \"reason\": 2}]"
+}

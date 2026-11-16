@@ -1,0 +1,48 @@
+{
+  "descricao": "profiles: perfil com kind 4, fora do domínio 0..3",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    11,
+    {
+      "map": [
+        [
+          "list",
+          [
+            {
+              "map": [
+                [
+                  "id",
+                  "x"
+                ],
+                [
+                  "kind",
+                  4
+                ],
+                [
+                  "name",
+                  "y"
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "default",
+          "x"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ba2646c69737481a36269646178646b696e6404646e616d6561796764656661756c746178",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[11, {\"list\": [{\"id\": \"x\", \"kind\": 4, \"name\": \"y\"}], \"default\": \"x\"}]"
+}

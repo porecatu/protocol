@@ -1,0 +1,27 @@
+{
+  "descricao": "paste: sem a chave obrigatória \"pane\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    32,
+    {
+      "map": [
+        [
+          "text",
+          "x"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821820a164746578746178",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[32, {\"text\": \"x\"}]"
+}

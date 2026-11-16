@@ -1,0 +1,28 @@
+{
+  "descricao": "pair-rejected: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    61,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "reason",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82183da2627a7af566726561736f6e00",
+  "reencode_hex": "82183da166726561736f6e00",
+  "valido": true,
+  "erro": null,
+  "diag": "[61, {\"zz\": true, \"reason\": 0}]"
+}

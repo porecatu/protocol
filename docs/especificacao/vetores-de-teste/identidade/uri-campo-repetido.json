@@ -1,0 +1,11 @@
+{
+  "descricao": "o parâmetro name aparece duas vezes",
+  "funcao": "pairing_uri_parse",
+  "entrada": "porecatu://pair?v=0&relay=wss%3A%2F%2Frelay.example.com&host=awbfmb6x7xznqlxuypemflvjmgwzrvqo&key=__________________________________________8&token=AAECAwQFBgcICQoLDA0ODw&name=Desk&name=Other",
+  "saida": null,
+  "valido": false,
+  "erro": {
+    "camada": "uri",
+    "codigo": "duplicate-field"
+  }
+}

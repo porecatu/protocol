@@ -1,0 +1,96 @@
+{
+  "descricao": "grid-snapshot: sem a chave obrigatória \"dropped\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    22,
+    {
+      "map": [
+        [
+          "alt",
+          false
+        ],
+        [
+          "seq",
+          0
+        ],
+        [
+          "cols",
+          2
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "rows",
+          1
+        ],
+        [
+          "lines",
+          [
+            [
+              false,
+              [
+                [
+                  0,
+                  1,
+                  0,
+                  "ab"
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "cursor",
+          {
+            "map": [
+              [
+                "col",
+                2
+              ],
+              [
+                "row",
+                0
+              ],
+              [
+                "shape",
+                0
+              ],
+              [
+                "visible",
+                true
+              ]
+            ]
+          }
+        ],
+        [
+          "styles",
+          [
+            [
+              null,
+              null,
+              0
+            ]
+          ]
+        ],
+        [
+          "history",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8216a963616c74f4637365710064636f6c73026470616e650764726f777301656c696e65738182f4818400010062616266637572736f72a463636f6c0263726f7700657368617065006776697369626c65f5667374796c65738183f6f60067686973746f727900",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[22, {\"alt\": false, \"seq\": 0, \"cols\": 2, \"pane\": 7, \"rows\": 1, \"lines\": [[false, [[0, 1, 0, \"ab\"]]]], \"cursor\": {\"col\": 2, \"row\": 0, \"shape\": 0, \"visible\": true}, \"styles\": [[null, null, 0]], \"history\": 0}]"
+}

@@ -1,0 +1,30 @@
+{
+  "descricao": "pair-request: sem a chave obrigatória \"platform\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "pair-request",
+  "valor": {
+    "map": [
+      [
+        "token",
+        {
+          "bstr": "00000000000000000000000000000000"
+        }
+      ],
+      [
+        "device",
+        "a"
+      ]
+    ]
+  },
+  "cbor_hex": "a265746f6b656e5000000000000000000000000000000000666465766963656161",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "{\"token\": h'00000000000000000000000000000000', \"device\": \"a\"}"
+}

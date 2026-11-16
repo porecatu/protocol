@@ -1,0 +1,36 @@
+{
+  "descricao": "scrollback-request completo: scrollback-request com id e offset no maior inteiro e count no teto de 500",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    25,
+    {
+      "map": [
+        [
+          "id",
+          9007199254740991
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "count",
+          500
+        ],
+        [
+          "offset",
+          9007199254740991
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821819a46269641b001fffffffffffff6470616e650765636f756e741901f4666f66667365741b001fffffffffffff",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[25, {\"id\": 9007199254740991, \"pane\": 7, \"count\": 500, \"offset\": 9007199254740991}]"
+}

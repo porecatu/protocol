@@ -1,0 +1,31 @@
+{
+  "descricao": "key: sem a chave obrigatória \"pane\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    30,
+    {
+      "map": [
+        [
+          "key",
+          0
+        ],
+        [
+          "mods",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ea2636b657900646d6f647300",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[30, {\"key\": 0, \"mods\": 0}]"
+}

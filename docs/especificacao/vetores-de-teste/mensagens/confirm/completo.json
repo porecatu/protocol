@@ -1,0 +1,28 @@
+{
+  "descricao": "confirm completo: confirm recusando, com id no maior inteiro",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    43,
+    {
+      "map": [
+        [
+          "id",
+          9007199254740991
+        ],
+        [
+          "accept",
+          false
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82182ba26269641b001fffffffffffff66616363657074f4",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[43, {\"id\": 9007199254740991, \"accept\": false}]"
+}

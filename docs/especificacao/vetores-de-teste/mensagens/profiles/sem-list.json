@@ -1,0 +1,27 @@
+{
+  "descricao": "profiles: sem a chave obrigatória \"list\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    11,
+    {
+      "map": [
+        [
+          "default",
+          "auto:pwsh"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ba16764656661756c74696175746f3a70777368",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[11, {\"default\": \"auto:pwsh\"}]"
+}

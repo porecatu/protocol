@@ -1,0 +1,38 @@
+{
+  "descricao": "action: ungroup (11)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            11,
+            {
+              "map": [
+                [
+                  "group",
+                  6
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          15
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f820ba16567726f7570066269640f",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [11, {\"group\": 6}], \"id\": 15}]"
+}

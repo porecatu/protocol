@@ -1,0 +1,22 @@
+{
+  "descricao": "bell: sem a chave obrigatória \"pane\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    50,
+    {
+      "map": []
+    }
+  ],
+  "cbor_hex": "821832a0",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[50, {}]"
+}

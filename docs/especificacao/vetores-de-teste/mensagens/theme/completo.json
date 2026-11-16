@@ -1,0 +1,66 @@
+{
+  "descricao": "theme completo: theme com o maior rgb, o menor rgb e quatro cores de grupo",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    12,
+    {
+      "map": [
+        [
+          "bg",
+          0
+        ],
+        [
+          "fg",
+          16777215
+        ],
+        [
+          "cursor",
+          6214588
+        ],
+        [
+          "palette",
+          [
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215,
+            16777215
+          ]
+        ],
+        [
+          "group_colors",
+          [
+            1,
+            2,
+            3,
+            11259375
+          ]
+        ],
+        [
+          "selection_bg",
+          2832970
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ca6626267006266671a00ffffff66637572736f721a005ed3bc6770616c65747465901a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff1a00ffffff6c67726f75705f636f6c6f7273840102031a00abcdef6c73656c656374696f6e5f62671a002b3a4a",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[12, {\"bg\": 0, \"fg\": 16777215, \"cursor\": 6214588, \"palette\": [16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215, 16777215], \"group_colors\": [1, 2, 3, 11259375], \"selection_bg\": 2832970}]"
+}

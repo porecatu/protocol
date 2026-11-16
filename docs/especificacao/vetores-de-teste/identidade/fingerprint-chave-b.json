@@ -1,0 +1,10 @@
+{
+  "descricao": "impressão digital da chave estática 32 bytes ff (16 caracteres; exibição \"MHJ6 7ICR SCNS VBOF\")",
+  "funcao": "fingerprint",
+  "entrada": {
+    "bstr": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "saida": "MHJ67ICRSCNSVBOF",
+  "valido": true,
+  "erro": null
+}

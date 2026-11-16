@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# pnpm 12 reads its settings from this file, not from .npmrc. None are needed
+# today: no dependency of the package runs an install script.

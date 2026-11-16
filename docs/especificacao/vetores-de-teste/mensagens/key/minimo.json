@@ -1,0 +1,32 @@
+{
+  "descricao": "key mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    30,
+    {
+      "map": [
+        [
+          "key",
+          0
+        ],
+        [
+          "mods",
+          0
+        ],
+        [
+          "pane",
+          7
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ea3636b657900646d6f6473006470616e6507",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[30, {\"key\": 0, \"mods\": 0, \"pane\": 7}]"
+}

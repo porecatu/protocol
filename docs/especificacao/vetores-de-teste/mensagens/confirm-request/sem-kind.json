@@ -1,0 +1,31 @@
+{
+  "descricao": "confirm-request: sem a chave obrigatória \"kind\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    42,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "processes",
+          []
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82182aa2626964016970726f63657373657380",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[42, {\"id\": 1, \"processes\": []}]"
+}

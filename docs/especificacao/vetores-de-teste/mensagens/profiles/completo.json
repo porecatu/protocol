@@ -1,0 +1,93 @@
+{
+  "descricao": "profiles completo: profiles com os quatro tipos de perfil",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    11,
+    {
+      "map": [
+        [
+          "list",
+          [
+            {
+              "map": [
+                [
+                  "id",
+                  "p0"
+                ],
+                [
+                  "kind",
+                  0
+                ],
+                [
+                  "name",
+                  "n"
+                ]
+              ]
+            },
+            {
+              "map": [
+                [
+                  "id",
+                  "p1"
+                ],
+                [
+                  "kind",
+                  1
+                ],
+                [
+                  "name",
+                  "n"
+                ]
+              ]
+            },
+            {
+              "map": [
+                [
+                  "id",
+                  "p2"
+                ],
+                [
+                  "kind",
+                  2
+                ],
+                [
+                  "name",
+                  "n"
+                ]
+              ]
+            },
+            {
+              "map": [
+                [
+                  "id",
+                  "p3"
+                ],
+                [
+                  "kind",
+                  3
+                ],
+                [
+                  "name",
+                  "n"
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "default",
+          "p0"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ba2646c69737484a3626964627030646b696e6400646e616d65616ea3626964627031646b696e6401646e616d65616ea3626964627032646b696e6402646e616d65616ea3626964627033646b696e6403646e616d65616e6764656661756c74627030",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[11, {\"list\": [{\"id\": \"p0\", \"kind\": 0, \"name\": \"n\"}, {\"id\": \"p1\", \"kind\": 1, \"name\": \"n\"}, {\"id\": \"p2\", \"kind\": 2, \"name\": \"n\"}, {\"id\": \"p3\", \"kind\": 3, \"name\": \"n\"}], \"default\": \"p0\"}]"
+}

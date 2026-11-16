@@ -1,0 +1,31 @@
+{
+  "descricao": "incompatible: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    2,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8202a2627a7af56776657273696f6e820001",
+  "reencode_hex": "8202a16776657273696f6e820001",
+  "valido": true,
+  "erro": null,
+  "diag": "[2, {\"zz\": true, \"version\": [0, 1]}]"
+}

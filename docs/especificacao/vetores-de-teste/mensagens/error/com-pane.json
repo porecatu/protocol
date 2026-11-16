@@ -1,0 +1,28 @@
+{
+  "descricao": "error: error com o painel (resposta a um subscribe)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": [
+        [
+          "code",
+          9
+        ],
+        [
+          "pane",
+          3
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821846a264636f6465096470616e6503",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[70, {\"code\": 9, \"pane\": 3}]"
+}

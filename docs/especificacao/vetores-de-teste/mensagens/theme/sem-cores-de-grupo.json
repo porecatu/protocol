@@ -1,0 +1,64 @@
+{
+  "descricao": "theme: group_colors vazio ([+ rgb] pede ao menos uma)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    12,
+    {
+      "map": [
+        [
+          "bg",
+          0
+        ],
+        [
+          "fg",
+          0
+        ],
+        [
+          "cursor",
+          6214588
+        ],
+        [
+          "palette",
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ]
+        ],
+        [
+          "group_colors",
+          []
+        ],
+        [
+          "selection_bg",
+          2832970
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ca6626267006266670066637572736f721a005ed3bc6770616c6574746590000102030405060708090a0b0c0d0e0f6c67726f75705f636f6c6f7273806c73656c656374696f6e5f62671a002b3a4a",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[12, {\"bg\": 0, \"fg\": 0, \"cursor\": 6214588, \"palette\": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], \"group_colors\": [], \"selection_bg\": 2832970}]"
+}

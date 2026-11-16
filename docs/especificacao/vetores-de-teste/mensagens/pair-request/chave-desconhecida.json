@@ -1,0 +1,35 @@
+{
+  "descricao": "pair-request: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "pair-request",
+  "valor": {
+    "map": [
+      [
+        "zz",
+        true
+      ],
+      [
+        "token",
+        {
+          "bstr": "00000000000000000000000000000000"
+        }
+      ],
+      [
+        "device",
+        "a"
+      ],
+      [
+        "platform",
+        2
+      ]
+    ]
+  },
+  "cbor_hex": "a4627a7af565746f6b656e500000000000000000000000000000000066646576696365616168706c6174666f726d02",
+  "reencode_hex": "a365746f6b656e500000000000000000000000000000000066646576696365616168706c6174666f726d02",
+  "valido": true,
+  "erro": null,
+  "diag": "{\"zz\": true, \"token\": h'00000000000000000000000000000000', \"device\": \"a\", \"platform\": 2}"
+}

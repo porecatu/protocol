@@ -1,0 +1,42 @@
+{
+  "descricao": "action: move-group-to-window (10)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            10,
+            {
+              "map": [
+                [
+                  "group",
+                  6
+                ],
+                [
+                  "window",
+                  2
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          14
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f820aa26567726f7570066677696e646f77026269640e",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [10, {\"group\": 6, \"window\": 2}], \"id\": 14}]"
+}

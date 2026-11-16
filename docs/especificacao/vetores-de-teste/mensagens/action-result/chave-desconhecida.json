@@ -1,0 +1,28 @@
+{
+  "descricao": "action-result: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    41,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "zz",
+          true
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821829a262696401627a7af5",
+  "reencode_hex": "821829a162696401",
+  "valido": true,
+  "erro": null,
+  "diag": "[41, {\"id\": 1, \"zz\": true}]"
+}

@@ -1,0 +1,24 @@
+{
+  "descricao": "goodbye completo: goodbye host-quitting, o último valor do enum",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    3,
+    {
+      "map": [
+        [
+          "reason",
+          3
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8203a166726561736f6e03",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[3, {\"reason\": 3}]"
+}

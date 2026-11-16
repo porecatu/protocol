@@ -1,0 +1,128 @@
+{
+  "descricao": "workspace: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    10,
+    {
+      "map": [
+        [
+          "windows",
+          [
+            {
+              "map": [
+                [
+                  "id",
+                  1
+                ],
+                [
+                  "items",
+                  [
+                    {
+                      "map": [
+                        [
+                          "tab",
+                          2
+                        ],
+                        [
+                          "bell",
+                          false
+                        ],
+                        [
+                          "title",
+                          "a"
+                        ],
+                        [
+                          "custom",
+                          false
+                        ],
+                        [
+                          "layout",
+                          {
+                            "map": [
+                              [
+                                "cwd",
+                                null
+                              ],
+                              [
+                                "cols",
+                                80
+                              ],
+                              [
+                                "exit",
+                                null
+                              ],
+                              [
+                                "pane",
+                                3
+                              ],
+                              [
+                                "rows",
+                                24
+                              ],
+                              [
+                                "state",
+                                0
+                              ],
+                              [
+                                "title",
+                                "a"
+                              ]
+                            ]
+                          }
+                        ],
+                        [
+                          "remote",
+                          null
+                        ],
+                        [
+                          "focused",
+                          3
+                        ],
+                        [
+                          "profile",
+                          null
+                        ],
+                        [
+                          "activity",
+                          false
+                        ]
+                      ]
+                    }
+                  ]
+                ],
+                [
+                  "title",
+                  "a"
+                ],
+                [
+                  "active",
+                  2
+                ],
+                [
+                  "pinned",
+                  []
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "rev",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820aa26777696e646f777381a562696401656974656d7381a963746162026462656c6cf4657469746c65616166637573746f6df4666c61796f7574a763637764f664636f6c7318506465786974f66470616e650364726f7773181865737461746500657469746c6561616672656d6f7465f667666f6375736564036770726f66696c65f6686163746976697479f4657469746c65616166616374697665026670696e6e6564806372657601",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[10, {\"windows\": [{\"id\": 1, \"items\": [{\"tab\": 2, \"bell\": false, \"title\": \"a\", \"custom\": false, \"layout\": {\"cwd\": null, \"cols\": 80, \"exit\": null, \"pane\": 3, \"rows\": 24, \"state\": 0, \"title\": \"a\"}, \"remote\": null, \"focused\": 3, \"profile\": null, \"activity\": false}], \"title\": \"a\", \"active\": 2, \"pinned\": []}], \"rev\": 1}]"
+}

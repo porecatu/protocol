@@ -1,0 +1,28 @@
+{
+  "descricao": "action-result: sucesso que criou algo (created)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    41,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "created",
+          9
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821829a262696401676372656174656409",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[41, {\"id\": 1, \"created\": 9}]"
+}

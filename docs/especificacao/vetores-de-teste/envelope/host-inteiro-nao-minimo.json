@@ -1,0 +1,20 @@
+{
+  "descricao": "canal 7 escrito com um byte de argumento (18 07) em vez de 07",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    3,
+    7
+  ],
+  "cbor_hex": "82031807",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[3, 7]"
+}

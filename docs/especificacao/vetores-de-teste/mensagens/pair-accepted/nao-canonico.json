@@ -1,0 +1,31 @@
+{
+  "descricao": "pair-accepted: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    60,
+    {
+      "map": [
+        [
+          "host_name",
+          "desk"
+        ],
+        [
+          "zz",
+          true
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82183ca269686f73745f6e616d65646465736b627a7af5",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[60, {\"host_name\": \"desk\", \"zz\": true}]"
+}

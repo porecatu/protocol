@@ -1,0 +1,28 @@
+{
+  "descricao": "action-result: falha com error unknown-tab",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    41,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "error",
+          5
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821829a262696401656572726f7205",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[41, {\"id\": 1, \"error\": 5}]"
+}

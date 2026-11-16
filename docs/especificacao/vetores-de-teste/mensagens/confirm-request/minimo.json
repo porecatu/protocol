@@ -1,0 +1,32 @@
+{
+  "descricao": "confirm-request mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    42,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "kind",
+          0
+        ],
+        [
+          "processes",
+          []
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82182aa362696401646b696e64006970726f63657373657380",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[42, {\"id\": 1, \"kind\": 0, \"processes\": []}]"
+}

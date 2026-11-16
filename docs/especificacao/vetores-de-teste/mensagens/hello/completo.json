@@ -1,0 +1,35 @@
+{
+  "descricao": "hello completo: hello com texto fora do ASCII e um semver com pré-lançamento",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    0,
+    {
+      "map": [
+        [
+          "app",
+          "Porecatu Remote (beta) é"
+        ],
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          "app_version",
+          "1.2.3-rc.1+build.5"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8200a3636170707819506f7265636174752052656d6f74652028626574612920c3a96776657273696f6e8200016b6170705f76657273696f6e72312e322e332d72632e312b6275696c642e35",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[0, {\"app\": \"Porecatu Remote (beta) é\", \"version\": [0, 1], \"app_version\": \"1.2.3-rc.1+build.5\"}]"
+}

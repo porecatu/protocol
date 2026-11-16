@@ -1,0 +1,24 @@
+{
+  "descricao": "goodbye mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    3,
+    {
+      "map": [
+        [
+          "reason",
+          2
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8203a166726561736f6e02",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[3, {\"reason\": 2}]"
+}

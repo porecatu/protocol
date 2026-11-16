@@ -1,0 +1,32 @@
+{
+  "descricao": "subscription-ended: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    27,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "reason",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ba3627a7af56470616e650766726561736f6e00",
+  "reencode_hex": "82181ba26470616e650766726561736f6e00",
+  "valido": true,
+  "erro": null,
+  "diag": "[27, {\"zz\": true, \"pane\": 7, \"reason\": 0}]"
+}

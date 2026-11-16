@@ -1,0 +1,24 @@
+{
+  "descricao": "pair-accepted completo: pair-accepted com nome fora do ASCII",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    60,
+    {
+      "map": [
+        [
+          "host_name",
+          "Mesa do Léo (casa)"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82183ca169686f73745f6e616d65734d65736120646f204cc3a96f20286361736129",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[60, {\"host_name\": \"Mesa do Léo (casa)\"}]"
+}

@@ -1,0 +1,31 @@
+{
+  "descricao": "subscribe: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    20,
+    {
+      "map": [
+        [
+          "pane",
+          7
+        ],
+        [
+          "zz",
+          true
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8214a26470616e6507627a7af5",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[20, {\"pane\": 7, \"zz\": true}]"
+}

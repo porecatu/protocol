@@ -1,0 +1,23 @@
+{
+  "descricao": "bstr de 1 byte com o comprimento em forma longa (58 01)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    4,
+    7,
+    {
+      "bstr": "aa"
+    }
+  ],
+  "cbor_hex": "8304075801aa",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[4, 7, h'aa']"
+}

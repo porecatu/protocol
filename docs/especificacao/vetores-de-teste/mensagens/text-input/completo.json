@@ -1,0 +1,28 @@
+{
+  "descricao": "text-input completo: texto com acentos, emoji e acento combinante",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    31,
+    {
+      "map": [
+        [
+          "pane",
+          9007199254740991
+        ],
+        [
+          "text",
+          "ação 😀 é"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181fa26470616e651b001fffffffffffff64746578746f61c3a7c3a36f20f09f98802065cc81",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[31, {\"pane\": 9007199254740991, \"text\": \"ação 😀 é\"}]"
+}

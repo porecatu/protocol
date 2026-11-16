@@ -1,0 +1,39 @@
+{
+  "descricao": "URI de pareamento: relay normalizado na escrita, nome com acento, espaço e parênteses em %HH maiúsculo",
+  "funcao": "pairing_uri_format",
+  "entrada": {
+    "map": [
+      [
+        "v",
+        0
+      ],
+      [
+        "relay",
+        "wss://Relay.Exemplo.com.br:8443/porecatu/"
+      ],
+      [
+        "host",
+        "awbfmb6x7xznqlxuypemflvjmgwzrvqo"
+      ],
+      [
+        "key",
+        {
+          "bstr": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      [
+        "token",
+        {
+          "bstr": "000102030405060708090a0b0c0d0e0f"
+        }
+      ],
+      [
+        "name",
+        "Mesa do Léo (casa)"
+      ]
+    ]
+  },
+  "saida": "porecatu://pair?v=0&relay=wss%3A%2F%2Frelay.exemplo.com.br%3A8443%2Fporecatu&host=awbfmb6x7xznqlxuypemflvjmgwzrvqo&key=__________________________________________8&token=AAECAwQFBgcICQoLDA0ODw&name=Mesa%20do%20L%C3%A9o%20%28casa%29",
+  "valido": true,
+  "erro": null
+}

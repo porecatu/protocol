@@ -1,0 +1,16 @@
+{
+  "descricao": "host-unavailable: sem corpo",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    17
+  ],
+  "cbor_hex": "8111",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[17]"
+}

@@ -1,0 +1,48 @@
+{
+  "descricao": "welcome: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    1,
+    {
+      "map": [
+        [
+          "host_name",
+          "desk"
+        ],
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          "host_instance",
+          {
+            "bstr": "abababababababababababababababab"
+          }
+        ],
+        [
+          "porecatu_version",
+          "0.9.11"
+        ],
+        [
+          "max_subscriptions",
+          4
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8201a569686f73745f6e616d65646465736b6776657273696f6e8200016d686f73745f696e7374616e636550abababababababababababababababab70706f7265636174755f76657273696f6e66302e392e3131716d61785f737562736372697074696f6e7304",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[1, {\"host_name\": \"desk\", \"version\": [0, 1], \"host_instance\": h'abababababababababababababababab', \"porecatu_version\": \"0.9.11\", \"max_subscriptions\": 4}]"
+}

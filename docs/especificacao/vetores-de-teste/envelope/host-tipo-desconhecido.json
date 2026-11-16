@@ -1,0 +1,20 @@
+{
+  "descricao": "tipo 7 não existe na família do host",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    7,
+    0
+  ],
+  "cbor_hex": "820700",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[7, 0]"
+}

@@ -1,0 +1,79 @@
+{
+  "descricao": "grid-snapshot: snapshot de um painel 0x0: sem estilos e sem linhas",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    22,
+    {
+      "map": [
+        [
+          "alt",
+          false
+        ],
+        [
+          "seq",
+          0
+        ],
+        [
+          "cols",
+          0
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "rows",
+          0
+        ],
+        [
+          "lines",
+          []
+        ],
+        [
+          "cursor",
+          {
+            "map": [
+              [
+                "col",
+                2
+              ],
+              [
+                "row",
+                0
+              ],
+              [
+                "shape",
+                0
+              ],
+              [
+                "visible",
+                true
+              ]
+            ]
+          }
+        ],
+        [
+          "styles",
+          []
+        ],
+        [
+          "dropped",
+          0
+        ],
+        [
+          "history",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8216aa63616c74f4637365710064636f6c73006470616e650764726f777300656c696e65738066637572736f72a463636f6c0263726f7700657368617065006776697369626c65f5667374796c6573806764726f707065640067686973746f727900",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[22, {\"alt\": false, \"seq\": 0, \"cols\": 0, \"pane\": 7, \"rows\": 0, \"lines\": [], \"cursor\": {\"col\": 2, \"row\": 0, \"shape\": 0, \"visible\": true}, \"styles\": [], \"dropped\": 0, \"history\": 0}]"
+}

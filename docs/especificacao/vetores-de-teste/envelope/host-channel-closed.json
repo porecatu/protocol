@@ -1,0 +1,18 @@
+{
+  "descricao": "channel-closed: canal 7, o host-replaced",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "host-envelope",
+  "valor": [
+    5,
+    7,
+    1
+  ],
+  "cbor_hex": "83050701",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[5, 7, 1]"
+}

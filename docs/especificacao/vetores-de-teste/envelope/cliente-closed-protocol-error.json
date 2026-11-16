@@ -1,0 +1,17 @@
+{
+  "descricao": "closed: close-reason protocol-error (5)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    18,
+    5
+  ],
+  "cbor_hex": "821205",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[18, 5]"
+}

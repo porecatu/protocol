@@ -1,0 +1,27 @@
+{
+  "descricao": "grid-ack: sem a chave obrigatória \"pane\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    24,
+    {
+      "map": [
+        [
+          "seq",
+          3
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821818a16373657103",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[24, {\"seq\": 3}]"
+}

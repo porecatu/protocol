@@ -1,0 +1,117 @@
+{
+  "descricao": "pareamento XX recusado: o token do pair-request não é o do host; pair-rejected token-invalid e o canal fecha",
+  "versao": [
+    0,
+    1
+  ],
+  "host_id": "rxlgbt4qzkrrqzg4v3e6kjsprj7j6pmx",
+  "canal": 1,
+  "handshake": "XX",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+    },
+    "host_efemera": {
+      "bstr": "505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    "cliente_estatica": {
+      "bstr": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"
+    },
+    "cliente_efemera": {
+      "bstr": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+    }
+  },
+  "token_host": {
+    "bstr": "d0d1d2d3d4d5d6d7d8d9dadbdcdddedf"
+  },
+  "pareados": [],
+  "passos": [
+    {
+      "de": "cliente",
+      "now_ms": 0,
+      "mensagem": null,
+      "registros_hex": [
+        "34e42d4af5ef94a07a3a84201b889d4cd1a743cb27b11b6a10438a8feb8e5847"
+      ],
+      "envelope_hex": [
+        "821058248200582034e42d4af5ef94a07a3a84201b889d4cd1a743cb27b11b6a10438a8feb8e5847"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 12,
+      "mensagem": null,
+      "registros_hex": [
+        "392d174a38b3b1beafaf1fe824870841c5fa531bc6eafdb6402c124664488c1cb156955c7ba0cc3bcd56ecfc29ba40622468da7ecf09b47761648921464e95952ae67f08fa98991e67c067fd317b9bf61466a973aa3c76f0bf2f5d4ff22fdf95"
+      ],
+      "envelope_hex": [
+        "8304015860392d174a38b3b1beafaf1fe824870841c5fa531bc6eafdb6402c124664488c1cb156955c7ba0cc3bcd56ecfc29ba40622468da7ecf09b47761648921464e95952ae67f08fa98991e67c067fd317b9bf61466a973aa3c76f0bf2f5d4ff22fdf95"
+      ]
+    },
+    {
+      "de": "cliente",
+      "now_ms": 25,
+      "mensagem": {
+        "map": [
+          [
+            "token",
+            {
+              "bstr": "c0c1c2c3c4c5c6c7c8c9cacbcccdcecf"
+            }
+          ],
+          [
+            "device",
+            "Pixel 8"
+          ],
+          [
+            "platform",
+            0
+          ]
+        ]
+      },
+      "registros_hex": [
+        "67cfd16f639ca709f110c98c5f2077a0ca64834a31e69a620bbc8aed966213b9dd34cd56123a852220d60e6283b291961bb4857791ea86e22edd1be55f0c998158cbeef8e4204b5ab58477e24e0d75f3c1f5bf04b48f51d9dacd0cd52b8f871e88ed54626fe5470adfd998079467c70b21"
+      ],
+      "envelope_hex": [
+        "8210587167cfd16f639ca709f110c98c5f2077a0ca64834a31e69a620bbc8aed966213b9dd34cd56123a852220d60e6283b291961bb4857791ea86e22edd1be55f0c998158cbeef8e4204b5ab58477e24e0d75f3c1f5bf04b48f51d9dacd0cd52b8f871e88ed54626fe5470adfd998079467c70b21"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 30,
+      "mensagem": [
+        61,
+        {
+          "map": [
+            [
+              "reason",
+              0
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "1b9eb72d93ebb1d93ff6b585e1c1173e679d4bc50247eecabe28a9fe85"
+      ],
+      "envelope_hex": [
+        "830401581d1b9eb72d93ebb1d93ff6b585e1c1173e679d4bc50247eecabe28a9fe85"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 31,
+      "mensagem": null,
+      "registros_hex": [],
+      "envelope_hex": [
+        "83060100"
+      ]
+    }
+  ],
+  "resultado": {
+    "estado": "fechada",
+    "erro": {
+      "camada": "mensagem",
+      "codigo": "token-invalid"
+    }
+  }
+}

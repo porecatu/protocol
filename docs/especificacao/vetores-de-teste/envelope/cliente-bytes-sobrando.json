@@ -1,0 +1,19 @@
+{
+  "descricao": "host-unavailable seguido de um byte a mais no quadro",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    17
+  ],
+  "cbor_hex": "811100",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[17]"
+}

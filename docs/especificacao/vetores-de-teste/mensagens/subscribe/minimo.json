@@ -1,0 +1,24 @@
+{
+  "descricao": "subscribe mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    20,
+    {
+      "map": [
+        [
+          "pane",
+          7
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8214a16470616e6507",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[20, {\"pane\": 7}]"
+}

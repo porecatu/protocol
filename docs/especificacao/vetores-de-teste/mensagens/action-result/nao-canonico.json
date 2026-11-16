@@ -1,0 +1,31 @@
+{
+  "descricao": "action-result: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    41,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "id",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821829a2627a7af562696401",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[41, {\"zz\": true, \"id\": 1}]"
+}

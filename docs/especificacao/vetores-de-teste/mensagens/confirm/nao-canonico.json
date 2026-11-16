@@ -1,0 +1,31 @@
+{
+  "descricao": "confirm: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    43,
+    {
+      "map": [
+        [
+          "accept",
+          true
+        ],
+        [
+          "id",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82182ba266616363657074f562696401",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[43, {\"accept\": true, \"id\": 1}]"
+}

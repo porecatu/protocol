@@ -1,0 +1,28 @@
+{
+  "descricao": "subscription-ended completo: subscription-ended por host-limit, painel de maior id",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    27,
+    {
+      "map": [
+        [
+          "pane",
+          9007199254740991
+        ],
+        [
+          "reason",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ba26470616e651b001fffffffffffff66726561736f6e01",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[27, {\"pane\": 9007199254740991, \"reason\": 1}]"
+}

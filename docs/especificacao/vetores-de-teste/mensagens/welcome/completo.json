@@ -1,0 +1,45 @@
+{
+  "descricao": "welcome completo: welcome com nome fora do ASCII e max_subscriptions no maior inteiro",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    1,
+    {
+      "map": [
+        [
+          "version",
+          [
+            0,
+            1
+          ]
+        ],
+        [
+          "host_name",
+          "Mesa do Léo (casa)"
+        ],
+        [
+          "host_instance",
+          {
+            "bstr": "000102030405060708090a0b0c0d0e0f"
+          }
+        ],
+        [
+          "porecatu_version",
+          "0.9.11-beta.1"
+        ],
+        [
+          "max_subscriptions",
+          9007199254740991
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8201a56776657273696f6e82000169686f73745f6e616d65734d65736120646f204cc3a96f202863617361296d686f73745f696e7374616e636550000102030405060708090a0b0c0d0e0f70706f7265636174755f76657273696f6e6d302e392e31312d626574612e31716d61785f737562736372697074696f6e731b001fffffffffffff",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[1, {\"version\": [0, 1], \"host_name\": \"Mesa do Léo (casa)\", \"host_instance\": h'000102030405060708090a0b0c0d0e0f', \"porecatu_version\": \"0.9.11-beta.1\", \"max_subscriptions\": 9007199254740991}]"
+}

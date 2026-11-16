@@ -1,0 +1,38 @@
+{
+  "descricao": "action: start-pane (12)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            12,
+            {
+              "map": [
+                [
+                  "pane",
+                  3
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          16
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f820ca16470616e650362696410",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [12, {\"pane\": 3}], \"id\": 16}]"
+}

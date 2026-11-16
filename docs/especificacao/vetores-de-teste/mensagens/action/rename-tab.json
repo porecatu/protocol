@@ -1,0 +1,42 @@
+{
+  "descricao": "action: rename-tab (3) com um título",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            3,
+            {
+              "map": [
+                [
+                  "tab",
+                  2
+                ],
+                [
+                  "title",
+                  "build"
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          4
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8203a26374616202657469746c65656275696c6462696404",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [3, {\"tab\": 2, \"title\": \"build\"}], \"id\": 4}]"
+}

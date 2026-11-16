@@ -1,0 +1,46 @@
+{
+  "descricao": "action completo: new-tab com group e profile",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            0,
+            {
+              "map": [
+                [
+                  "group",
+                  6
+                ],
+                [
+                  "window",
+                  1
+                ],
+                [
+                  "profile",
+                  "auto:pwsh"
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          9007199254740991
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8200a36567726f7570066677696e646f77016770726f66696c65696175746f3a707773686269641b001fffffffffffff",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [0, {\"group\": 6, \"window\": 1, \"profile\": \"auto:pwsh\"}], \"id\": 9007199254740991}]"
+}

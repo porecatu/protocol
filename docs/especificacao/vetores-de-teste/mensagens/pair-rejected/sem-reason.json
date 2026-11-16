@@ -1,0 +1,22 @@
+{
+  "descricao": "pair-rejected: sem a chave obrigatória \"reason\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    61,
+    {
+      "map": []
+    }
+  ],
+  "cbor_hex": "82183da0",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[61, {}]"
+}

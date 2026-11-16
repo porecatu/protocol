@@ -1,0 +1,32 @@
+{
+  "descricao": "error completo: error unknown-tab com id e pane, as duas chaves opcionais",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": [
+        [
+          "id",
+          7
+        ],
+        [
+          "code",
+          5
+        ],
+        [
+          "pane",
+          3
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821846a36269640764636f6465056470616e6503",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[70, {\"id\": 7, \"code\": 5, \"pane\": 3}]"
+}

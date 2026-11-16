@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
+[workspace]
+members = [".", "tools/vectors"]
+resolver = "3"
+
+[package]
+name = "porecatu-protocol"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.98.0"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/porecatu/protocol"
+description = "Porecatu remote access protocol: relay envelope, Noise handshake and records, CBOR messages (sans-IO)."
+
+[lints.rust]
+unsafe_code = "deny"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+
+[features]
+default = ["session", "message"]
+session = ["dep:snow", "dep:zeroize"]
+message = []
+# Injection of ephemeral keys and nonces in tests; never enabled in production.
+test-vectors = []
+
+[dependencies]
+# Without the `std` feature on purpose: in snow 0.10.0 it enables `ring/std`
+# and `sha2/std` unconditionally, pulling `ring` and `sha2` into the tree even
+# though the resolver below only uses the pure-Rust primitives.
+snow = { version = "=0.10.0", default-features = false, features = [
+    "default-resolver",
+    "use-curve25519",
+    "use-chacha20poly1305",
+    "use-blake2",
+    "use-getrandom",
+], optional = true }
+blake2 = "=0.10.6"
+subtle = "=2.6.1"
+data-encoding = "=2.11.1"
+zeroize = { version = "=1.9.1", optional = true }
+bytes = "=1.12.1"

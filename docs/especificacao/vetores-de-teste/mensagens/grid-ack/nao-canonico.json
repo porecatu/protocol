@@ -1,0 +1,31 @@
+{
+  "descricao": "grid-ack: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    24,
+    {
+      "map": [
+        [
+          "pane",
+          7
+        ],
+        [
+          "seq",
+          3
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821818a26470616e65076373657103",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[24, {\"pane\": 7, \"seq\": 3}]"
+}

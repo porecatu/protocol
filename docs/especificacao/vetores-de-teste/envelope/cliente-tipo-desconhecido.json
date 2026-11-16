@@ -1,0 +1,20 @@
+{
+  "descricao": "tipo 19 não existe na família do cliente",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    19,
+    0
+  ],
+  "cbor_hex": "821300",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "envelope",
+    "codigo": "4004"
+  },
+  "diag": "[19, 0]"
+}

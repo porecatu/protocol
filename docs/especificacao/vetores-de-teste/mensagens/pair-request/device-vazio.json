@@ -1,0 +1,34 @@
+{
+  "descricao": "pair-request: nome do aparelho vazio (o mínimo é 1 byte)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "pair-request",
+  "valor": {
+    "map": [
+      [
+        "token",
+        {
+          "bstr": "000102030405060708090a0b0c0d0e0f"
+        }
+      ],
+      [
+        "device",
+        ""
+      ],
+      [
+        "platform",
+        2
+      ]
+    ]
+  },
+  "cbor_hex": "a365746f6b656e50000102030405060708090a0b0c0d0e0f666465766963656068706c6174666f726d02",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "{\"token\": h'000102030405060708090a0b0c0d0e0f', \"device\": \"\", \"platform\": 2}"
+}

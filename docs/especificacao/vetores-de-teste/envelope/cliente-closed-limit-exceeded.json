@@ -1,0 +1,17 @@
+{
+  "descricao": "closed: close-reason limit-exceeded (4)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    18,
+    4
+  ],
+  "cbor_hex": "821204",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[18, 4]"
+}

@@ -1,0 +1,45 @@
+{
+  "descricao": "theme: sem a chave obrigatória \"palette\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    12,
+    {
+      "map": [
+        [
+          "bg",
+          1382429
+        ],
+        [
+          "fg",
+          14146787
+        ],
+        [
+          "cursor",
+          6214588
+        ],
+        [
+          "group_colors",
+          [
+            16711680
+          ]
+        ],
+        [
+          "selection_bg",
+          2832970
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ca56262671a0015181d6266671a00d7dce366637572736f721a005ed3bc6c67726f75705f636f6c6f7273811a00ff00006c73656c656374696f6e5f62671a002b3a4a",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[12, {\"bg\": 1382429, \"fg\": 14146787, \"cursor\": 6214588, \"group_colors\": [16711680], \"selection_bg\": 2832970}]"
+}

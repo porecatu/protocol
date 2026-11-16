@@ -1,0 +1,55 @@
+{
+  "descricao": "XX com o prólogo do Porecatu, chaves e efêmeros fixos; a msg3 leva o pair-request",
+  "versao": [
+    0,
+    1
+  ],
+  "padrao": "XX",
+  "nome": "Noise_XX_25519_ChaChaPoly_BLAKE2s",
+  "host_id": "rxlgbt4qzkrrqzg4v3e6kjsprj7j6pmx",
+  "prologo_hex": "706f7265636174752d72656d6f74652f302072786c67627434717a6b7272717a6734763365366b6a7370726a376a36706d78",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+    },
+    "host_efemera": {
+      "bstr": "505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    "cliente_estatica": {
+      "bstr": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"
+    },
+    "cliente_efemera": {
+      "bstr": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+    }
+  },
+  "chave_do_host": {
+    "bstr": "9fd7ad6dcff4298dd3f96d5b1b2af910a0535b1488d7f8fabb349a982880b615"
+  },
+  "mensagens": [
+    {
+      "de": "cliente",
+      "payload": {
+        "bstr": ""
+      },
+      "hex": "34e42d4af5ef94a07a3a84201b889d4cd1a743cb27b11b6a10438a8feb8e5847"
+    },
+    {
+      "de": "host",
+      "payload": {
+        "bstr": ""
+      },
+      "hex": "392d174a38b3b1beafaf1fe824870841c5fa531bc6eafdb6402c124664488c1cb156955c7ba0cc3bcd56ecfc29ba40622468da7ecf09b47761648921464e95952ae67f08fa98991e67c067fd317b9bf61466a973aa3c76f0bf2f5d4ff22fdf95"
+    },
+    {
+      "de": "cliente",
+      "payload": {
+        "bstr": "a365746f6b656e50c0c1c2c3c4c5c6c7c8c9cacbcccdcecf6664657669636567506978656c203868706c6174666f726d00"
+      },
+      "hex": "67cfd16f639ca709f110c98c5f2077a0ca64834a31e69a620bbc8aed966213b9dd34cd56123a852220d60e6283b291961bb4857791ea86e22edd1be55f0c998158cbeef8e4204b5ab58477e24e0d75f3c1f5bf04b48f51d9dacd0cd52b8f871e88ed54626fe5470adfd998079467c70b21"
+    }
+  ],
+  "handshake_hash": "0431b22ffed217edd8d8e015a7b42aa1f7a915a2882c45b62eae4f5c04f73e03",
+  "quem_falha": null,
+  "valido": true,
+  "erro": null
+}

@@ -1,0 +1,663 @@
+{
+  "descricao": "conexão IK de um aparelho pareado (transcrição do TypeScript): hello/welcome, theme/profiles/workspace, subscribe, grid-snapshot, action new-tab com action-result e grid-ack",
+  "versao": [
+    0,
+    1
+  ],
+  "host_id": "grnusmtzdyp7xqt2kml7fwjmdvw75rxu",
+  "canal": 3,
+  "handshake": "IK",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "535be8fbdf5412f6283b7c9a9f2af090d46edefe27531a5f543ec7b108bff345"
+    },
+    "host_efemera": {
+      "bstr": "3054c1a04a7c5bab8a55bbeda17474cc1717a21b4905907410f9c8850f80302d"
+    },
+    "cliente_estatica": {
+      "bstr": "ba75d037ee4e0e56f19373ec5d22ba47a1af6b6eac57c3c66d6d94b8b8b34902"
+    },
+    "cliente_efemera": {
+      "bstr": "aada41a3cc71d7251e9cb6c58fdc84f78e8dfbd3cfd0adee640ec195beace5aa"
+    }
+  },
+  "token_host": null,
+  "pareados": [
+    {
+      "bstr": "d3a1e8115f1c9b9d6eca544fb067909ed0a8ae73e5f38c36388ffc56649e9268"
+    },
+    {
+      "bstr": "f0d1939db4033d0365de77449a4dc095d398fe7599d3ec8dcad4cafa1134fb4e"
+    }
+  ],
+  "passos": [
+    {
+      "de": "cliente",
+      "now_ms": 0,
+      "mensagem": null,
+      "registros_hex": [
+        "2ef45d62d82f68dc17c0f25abcf56170f7de57c84f13144e2ded89ea9be3f6799b4bb8df4557351b146d2238010b5ab11490d6eaecbb3d3fd4a98781df73cd70bc94fc319ca631e4a27d3af4e053f892117247390f399f32abaa2a4250a62d82"
+      ],
+      "envelope_hex": [
+        "82105864820158602ef45d62d82f68dc17c0f25abcf56170f7de57c84f13144e2ded89ea9be3f6799b4bb8df4557351b146d2238010b5ab11490d6eaecbb3d3fd4a98781df73cd70bc94fc319ca631e4a27d3af4e053f892117247390f399f32abaa2a4250a62d82"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 9,
+      "mensagem": null,
+      "registros_hex": [
+        "64222aa0219a40e35a9601fb008d03ab0e0544ea4ab096bfddbdcb1d63d97230259bfc046725ea74ac189c9f571e9410"
+      ],
+      "envelope_hex": [
+        "830403583064222aa0219a40e35a9601fb008d03ab0e0544ea4ab096bfddbdcb1d63d97230259bfc046725ea74ac189c9f571e9410"
+      ]
+    },
+    {
+      "de": "cliente",
+      "now_ms": 120,
+      "mensagem": [
+        0,
+        {
+          "map": [
+            [
+              "app",
+              "porecatu-remote"
+            ],
+            [
+              "version",
+              [
+                0,
+                1
+              ]
+            ],
+            [
+              "app_version",
+              "0.1.0-ts"
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "87e13c1506bb61a47f132d74295de3dc27382da2e5c5f9ffc0efd3eb8fc817b25942e9a0bba7436375c717fec3858660f30d39a9ba9c538c334866024cf0d968baa7cc06f5b35d33"
+      ],
+      "envelope_hex": [
+        "8210584887e13c1506bb61a47f132d74295de3dc27382da2e5c5f9ffc0efd3eb8fc817b25942e9a0bba7436375c717fec3858660f30d39a9ba9c538c334866024cf0d968baa7cc06f5b35d33"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 131,
+      "mensagem": [
+        1,
+        {
+          "map": [
+            [
+              "version",
+              [
+                0,
+                1
+              ]
+            ],
+            [
+              "host_name",
+              "Workstation"
+            ],
+            [
+              "host_instance",
+              {
+                "bstr": "b0b1b2b3b4b5b6b7b8b9babbbcbdbebf"
+              }
+            ],
+            [
+              "porecatu_version",
+              "0.9.11"
+            ],
+            [
+              "max_subscriptions",
+              4
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "8bd9a2ffc2f8e873eacd1da18fab0c54f53989c2bb404d13bceab69a7f8bf9ed9255444c299c43e64641f0ceac1837b6ede3fd3e47503b259e12a10bab488dcbb7f382435c52deaaaa494cdd3a2cead3b6c17b31135e20380f630692048ba2df05d5cc9a737f72fb975c5fd67c2208dbd1e2ab3f50e1b1710ac3f772e7c1b4"
+      ],
+      "envelope_hex": [
+        "830403587f8bd9a2ffc2f8e873eacd1da18fab0c54f53989c2bb404d13bceab69a7f8bf9ed9255444c299c43e64641f0ceac1837b6ede3fd3e47503b259e12a10bab488dcbb7f382435c52deaaaa494cdd3a2cead3b6c17b31135e20380f630692048ba2df05d5cc9a737f72fb975c5fd67c2208dbd1e2ab3f50e1b1710ac3f772e7c1b4"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 132,
+      "mensagem": [
+        12,
+        {
+          "map": [
+            [
+              "bg",
+              988185
+            ],
+            [
+              "fg",
+              15131087
+            ],
+            [
+              "cursor",
+              15898392
+            ],
+            [
+              "palette",
+              [
+                657930,
+                1710618,
+                2763306,
+                3815994,
+                4868682,
+                5921370,
+                6974058,
+                8026746,
+                9079434,
+                10132122,
+                11184810,
+                12237498,
+                13290186,
+                14342874,
+                15395562,
+                16448250
+              ]
+            ],
+            [
+              "group_colors",
+              [
+                16746496,
+                43775,
+                5622869
+              ]
+            ],
+            [
+              "selection_bg",
+              2437952
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "ca53e57409994dfd7543add7fd50b4edc31144a3a9b3fd765cf8577ad8a4af2e722e622a31bbee84ba5b53b482857c7e0e6f4a9d5e82f9e65f45d9c05b3388df61d90927412ba1c366bded6e4a1fe6cdcd16adceb4fbb123a9e4ee6337b12f2cd6c5e3640627549e9f43219377b95eedc6dad5cdfc2b9570aa65f6dfee8384b8f98c680bf76eac6f35ac2949900771b0d94ac927d186bb304d89f5620bbc01e6342ae6305bc8393427280a9a8f4a5339f0c89872f7de"
+      ],
+      "envelope_hex": [
+        "83040358b6ca53e57409994dfd7543add7fd50b4edc31144a3a9b3fd765cf8577ad8a4af2e722e622a31bbee84ba5b53b482857c7e0e6f4a9d5e82f9e65f45d9c05b3388df61d90927412ba1c366bded6e4a1fe6cdcd16adceb4fbb123a9e4ee6337b12f2cd6c5e3640627549e9f43219377b95eedc6dad5cdfc2b9570aa65f6dfee8384b8f98c680bf76eac6f35ac2949900771b0d94ac927d186bb304d89f5620bbc01e6342ae6305bc8393427280a9a8f4a5339f0c89872f7de"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 133,
+      "mensagem": [
+        11,
+        {
+          "map": [
+            [
+              "list",
+              [
+                {
+                  "map": [
+                    [
+                      "id",
+                      "auto:pwsh"
+                    ],
+                    [
+                      "kind",
+                      0
+                    ],
+                    [
+                      "name",
+                      "PowerShell"
+                    ]
+                  ]
+                },
+                {
+                  "map": [
+                    [
+                      "id",
+                      "ssh:build"
+                    ],
+                    [
+                      "kind",
+                      1
+                    ],
+                    [
+                      "name",
+                      "Build box"
+                    ]
+                  ]
+                }
+              ]
+            ],
+            [
+              "default",
+              "auto:pwsh"
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "74a434b9825aee2dd5e9ef208c22831acba8c9a850b51d3b67d43da3ad51689d73acdbc0451a17209babcb7d873ad2470f3e330d08398c4ebe6760e68c84ba97c41d8285e2d70bdf4ad7a2c17ed02e312ccb4da0ec4ea09a796a233c342f32dd40136935ff41b05b6586da0c86a751e0b798a6"
+      ],
+      "envelope_hex": [
+        "830403587374a434b9825aee2dd5e9ef208c22831acba8c9a850b51d3b67d43da3ad51689d73acdbc0451a17209babcb7d873ad2470f3e330d08398c4ebe6760e68c84ba97c41d8285e2d70bdf4ad7a2c17ed02e312ccb4da0ec4ea09a796a233c342f32dd40136935ff41b05b6586da0c86a751e0b798a6"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 134,
+      "mensagem": [
+        10,
+        {
+          "map": [
+            [
+              "rev",
+              4
+            ],
+            [
+              "windows",
+              [
+                {
+                  "map": [
+                    [
+                      "id",
+                      1
+                    ],
+                    [
+                      "items",
+                      [
+                        {
+                          "map": [
+                            [
+                              "tab",
+                              2
+                            ],
+                            [
+                              "bell",
+                              false
+                            ],
+                            [
+                              "title",
+                              "build"
+                            ],
+                            [
+                              "custom",
+                              true
+                            ],
+                            [
+                              "layout",
+                              {
+                                "map": [
+                                  [
+                                    "dir",
+                                    0
+                                  ],
+                                  [
+                                    "first",
+                                    {
+                                      "map": [
+                                        [
+                                          "cwd",
+                                          "C:/Users/dev/porecatu"
+                                        ],
+                                        [
+                                          "cols",
+                                          40
+                                        ],
+                                        [
+                                          "exit",
+                                          null
+                                        ],
+                                        [
+                                          "pane",
+                                          3
+                                        ],
+                                        [
+                                          "rows",
+                                          2
+                                        ],
+                                        [
+                                          "state",
+                                          0
+                                        ],
+                                        [
+                                          "title",
+                                          "pwsh"
+                                        ]
+                                      ]
+                                    }
+                                  ],
+                                  [
+                                    "ratio",
+                                    32768
+                                  ],
+                                  [
+                                    "second",
+                                    {
+                                      "map": [
+                                        [
+                                          "cwd",
+                                          null
+                                        ],
+                                        [
+                                          "cols",
+                                          39
+                                        ],
+                                        [
+                                          "exit",
+                                          null
+                                        ],
+                                        [
+                                          "pane",
+                                          4
+                                        ],
+                                        [
+                                          "rows",
+                                          2
+                                        ],
+                                        [
+                                          "state",
+                                          0
+                                        ],
+                                        [
+                                          "title",
+                                          "htop"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ],
+                            [
+                              "remote",
+                              null
+                            ],
+                            [
+                              "focused",
+                              3
+                            ],
+                            [
+                              "profile",
+                              "auto:pwsh"
+                            ],
+                            [
+                              "activity",
+                              true
+                            ]
+                          ]
+                        }
+                      ]
+                    ],
+                    [
+                      "title",
+                      "Workstation"
+                    ],
+                    [
+                      "active",
+                      2
+                    ],
+                    [
+                      "pinned",
+                      []
+                    ]
+                  ]
+                }
+              ]
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "93c09d6237533c90f26a1682f217c79c5f1be10982b0e19d62dbd1b30fe4f7f92d00252e89acb01686424c8a30d94d812620afb304bd657fecb8bb6009f897c630db6da862c4eda43e757befce0eb6cc1a5a215ac44255218aa688f300d6882c84ce1ab8ef7c25959114614bd25db55aab7001aa8c2458788250392eec30c5fa68d97a25aa133d733ceb99ee1e47e3e4102c8b89d42886a167f295a7f4ef2f9e12e4a135582b1ea8b0950e2dcb973d23ef6346af04198668826bab2a33f317f771ed7e0cd61e2456278bbfc658ed89497f9f748dbcc57decebd3fedbb784bf44bcedfc6051026632047ed001910d699ec7e7174baaaa11043139a67cfcabc08e9cf72547c9591df33710baddfac8634e09180ca46ff7397edaefae3c90d45d0224785d6fba8586e8281850e7ccbd1c0939838780a68470"
+      ],
+      "envelope_hex": [
+        "83040359013793c09d6237533c90f26a1682f217c79c5f1be10982b0e19d62dbd1b30fe4f7f92d00252e89acb01686424c8a30d94d812620afb304bd657fecb8bb6009f897c630db6da862c4eda43e757befce0eb6cc1a5a215ac44255218aa688f300d6882c84ce1ab8ef7c25959114614bd25db55aab7001aa8c2458788250392eec30c5fa68d97a25aa133d733ceb99ee1e47e3e4102c8b89d42886a167f295a7f4ef2f9e12e4a135582b1ea8b0950e2dcb973d23ef6346af04198668826bab2a33f317f771ed7e0cd61e2456278bbfc658ed89497f9f748dbcc57decebd3fedbb784bf44bcedfc6051026632047ed001910d699ec7e7174baaaa11043139a67cfcabc08e9cf72547c9591df33710baddfac8634e09180ca46ff7397edaefae3c90d45d0224785d6fba8586e8281850e7ccbd1c0939838780a68470"
+      ]
+    },
+    {
+      "de": "cliente",
+      "now_ms": 200,
+      "mensagem": [
+        20,
+        {
+          "map": [
+            [
+              "pane",
+              3
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "0f9d2d77cadc002054056d66877c94ce56852638d71f9f9610e0"
+      ],
+      "envelope_hex": [
+        "8210581a0f9d2d77cadc002054056d66877c94ce56852638d71f9f9610e0"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 215,
+      "mensagem": [
+        22,
+        {
+          "map": [
+            [
+              "alt",
+              false
+            ],
+            [
+              "seq",
+              0
+            ],
+            [
+              "cols",
+              40
+            ],
+            [
+              "pane",
+              3
+            ],
+            [
+              "rows",
+              2
+            ],
+            [
+              "lines",
+              [
+                [
+                  false,
+                  [
+                    [
+                      0,
+                      1,
+                      0,
+                      "$ "
+                    ],
+                    [
+                      2,
+                      1,
+                      1,
+                      "ls -la"
+                    ]
+                  ]
+                ],
+                [
+                  true,
+                  [
+                    [
+                      0,
+                      2,
+                      0,
+                      "日本"
+                    ],
+                    [
+                      4,
+                      2,
+                      0,
+                      [
+                        "👨‍👩‍👧"
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            [
+              "cursor",
+              {
+                "map": [
+                  [
+                    "col",
+                    8
+                  ],
+                  [
+                    "row",
+                    0
+                  ],
+                  [
+                    "shape",
+                    2
+                  ],
+                  [
+                    "visible",
+                    true
+                  ]
+                ]
+              }
+            ],
+            [
+              "styles",
+              [
+                [
+                  null,
+                  null,
+                  0
+                ],
+                [
+                  [
+                    1,
+                    16746496
+                  ],
+                  [
+                    0,
+                    4
+                  ],
+                  1
+                ]
+              ]
+            ],
+            [
+              "dropped",
+              0
+            ],
+            [
+              "history",
+              0
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "9d1a1b0085d3cf0d3127f543d3b0b1a601a8c2f04b44b075ade2e37e1fc27252e9e25f7560353c4739d44e703a87c48a95188819a086d53a9acffa6e7668c6d7e09bd520c4a04c4026608c8a4c94b56ea4a5506cd060e1189e1a6fef3f5005b3c75d3746c1aecae9393b58926faa1642a06768a0d020d88fae47c8159f2ef90c508f399b5cfeb04af9e78daa17638e1ab1ab8507402795ee53b889397a9ec5d40ea57a2397c29bb5e66028b6ddab6b0464983c5568675b6b86df2660d0faac"
+      ],
+      "envelope_hex": [
+        "83040358bf9d1a1b0085d3cf0d3127f543d3b0b1a601a8c2f04b44b075ade2e37e1fc27252e9e25f7560353c4739d44e703a87c48a95188819a086d53a9acffa6e7668c6d7e09bd520c4a04c4026608c8a4c94b56ea4a5506cd060e1189e1a6fef3f5005b3c75d3746c1aecae9393b58926faa1642a06768a0d020d88fae47c8159f2ef90c508f399b5cfeb04af9e78daa17638e1ab1ab8507402795ee53b889397a9ec5d40ea57a2397c29bb5e66028b6ddab6b0464983c5568675b6b86df2660d0faac"
+      ]
+    },
+    {
+      "de": "cliente",
+      "now_ms": 230,
+      "mensagem": [
+        40,
+        {
+          "map": [
+            [
+              "do",
+              [
+                0,
+                {
+                  "map": [
+                    [
+                      "window",
+                      1
+                    ]
+                  ]
+                }
+              ]
+            ],
+            [
+              "id",
+              7
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "c9e804e482339af7ba3afea6a964046a87a099bedccb3f0a02bd87862f9aeac47b288b160fb18a"
+      ],
+      "envelope_hex": [
+        "82105827c9e804e482339af7ba3afea6a964046a87a099bedccb3f0a02bd87862f9aeac47b288b160fb18a"
+      ]
+    },
+    {
+      "de": "host",
+      "now_ms": 245,
+      "mensagem": [
+        41,
+        {
+          "map": [
+            [
+              "id",
+              7
+            ],
+            [
+              "created",
+              5
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "21d8a880489b2fb8c7e36ca98c28086ede57e19f7d501b5c5a1e7f15cd84c2445dfb"
+      ],
+      "envelope_hex": [
+        "830403582221d8a880489b2fb8c7e36ca98c28086ede57e19f7d501b5c5a1e7f15cd84c2445dfb"
+      ]
+    },
+    {
+      "de": "cliente",
+      "now_ms": 300,
+      "mensagem": [
+        24,
+        {
+          "map": [
+            [
+              "seq",
+              0
+            ],
+            [
+              "pane",
+              3
+            ]
+          ]
+        }
+      ],
+      "registros_hex": [
+        "2f88a423cf763143cbd98290b96599bfb4021e8ac15c21c69836cc1bef65ede2"
+      ],
+      "envelope_hex": [
+        "821058202f88a423cf763143cbd98290b96599bfb4021e8ac15c21c69836cc1bef65ede2"
+      ]
+    }
+  ],
+  "resultado": {
+    "estado": "aberta",
+    "erro": null
+  }
+}

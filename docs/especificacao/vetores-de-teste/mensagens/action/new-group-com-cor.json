@@ -1,0 +1,48 @@
+{
+  "descricao": "action: new-group (6) com color",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            6,
+            {
+              "map": [
+                [
+                  "name",
+                  "work"
+                ],
+                [
+                  "tabs",
+                  [
+                    2
+                  ]
+                ],
+                [
+                  "color",
+                  2
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          10
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8206a3646e616d6564776f726b6474616273810265636f6c6f72026269640a",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [6, {\"name\": \"work\", \"tabs\": [2], \"color\": 2}], \"id\": 10}]"
+}

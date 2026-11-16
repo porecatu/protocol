@@ -1,0 +1,11 @@
+{
+  "descricao": "outro caminho do esquema porecatu",
+  "funcao": "pairing_uri_parse",
+  "entrada": "porecatu://other?v=0",
+  "saida": null,
+  "valido": false,
+  "erro": {
+    "camada": "uri",
+    "codigo": "not-porecatu"
+  }
+}

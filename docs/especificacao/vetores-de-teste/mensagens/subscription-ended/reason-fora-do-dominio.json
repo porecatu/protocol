@@ -1,0 +1,31 @@
+{
+  "descricao": "subscription-ended: reason 2, fora do domínio 0..1",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    27,
+    {
+      "map": [
+        [
+          "pane",
+          7
+        ],
+        [
+          "reason",
+          2
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ba26470616e650766726561736f6e02",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[27, {\"pane\": 7, \"reason\": 2}]"
+}

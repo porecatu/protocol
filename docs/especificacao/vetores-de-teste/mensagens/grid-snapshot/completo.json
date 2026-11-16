@@ -1,0 +1,141 @@
+{
+  "descricao": "grid-snapshot completo: snapshot de 8 colunas com três estilos, linha com quebra suave e quatro spans (largura dupla, família ZWJ, e + acento)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    22,
+    {
+      "map": [
+        [
+          "alt",
+          false
+        ],
+        [
+          "seq",
+          0
+        ],
+        [
+          "cols",
+          8
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "rows",
+          1
+        ],
+        [
+          "lines",
+          [
+            [
+              true,
+              [
+                [
+                  0,
+                  2,
+                  1,
+                  "界"
+                ],
+                [
+                  2,
+                  2,
+                  0,
+                  [
+                    "👨‍👩‍👧"
+                  ]
+                ],
+                [
+                  4,
+                  1,
+                  2,
+                  [
+                    "é"
+                  ]
+                ],
+                [
+                  5,
+                  1,
+                  0,
+                  "abc"
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "cursor",
+          {
+            "map": [
+              [
+                "col",
+                2
+              ],
+              [
+                "row",
+                0
+              ],
+              [
+                "shape",
+                0
+              ],
+              [
+                "visible",
+                true
+              ]
+            ]
+          }
+        ],
+        [
+          "styles",
+          [
+            [
+              null,
+              null,
+              0
+            ],
+            [
+              [
+                0,
+                0
+              ],
+              [
+                1,
+                16777215
+              ],
+              127
+            ],
+            [
+              [
+                0,
+                255
+              ],
+              [
+                1,
+                0
+              ],
+              0
+            ]
+          ]
+        ],
+        [
+          "dropped",
+          0
+        ],
+        [
+          "history",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8216aa63616c74f4637365710064636f6c73086470616e650764726f777301656c696e65738182f5848400020163e7958c840202008172f09f91a8e2808df09f91a9e2808df09f91a784040102816365cc81840501006361626366637572736f72a463636f6c0263726f7700657368617065006776697369626c65f5667374796c65738383f6f6008382000082011a00ffffff187f83820018ff820100006764726f707065640067686973746f727900",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[22, {\"alt\": false, \"seq\": 0, \"cols\": 8, \"pane\": 7, \"rows\": 1, \"lines\": [[true, [[0, 2, 1, \"界\"], [2, 2, 0, [\"👨‍👩‍👧\"]], [4, 1, 2, [\"é\"]], [5, 1, 0, \"abc\"]]]], \"cursor\": {\"col\": 2, \"row\": 0, \"shape\": 0, \"visible\": true}, \"styles\": [[null, null, 0], [[0, 0], [1, 16777215], 127], [[0, 255], [1, 0], 0]], \"dropped\": 0, \"history\": 0}]"
+}

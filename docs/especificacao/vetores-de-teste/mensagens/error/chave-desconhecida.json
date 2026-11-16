@@ -1,0 +1,28 @@
+{
+  "descricao": "error: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "code",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821846a2627a7af564636f646500",
+  "reencode_hex": "821846a164636f646500",
+  "valido": true,
+  "erro": null,
+  "diag": "[70, {\"zz\": true, \"code\": 0}]"
+}

@@ -1,0 +1,53 @@
+{
+  "descricao": "registro com o bit reservado 0x04 ligado: a sessão fecha",
+  "versao": [
+    0,
+    1
+  ],
+  "host_id": "rxlgbt4qzkrrqzg4v3e6kjsprj7j6pmx",
+  "chaves": {
+    "host_estatica": {
+      "bstr": "909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+    },
+    "host_efemera": {
+      "bstr": "505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f"
+    },
+    "cliente_estatica": {
+      "bstr": "707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f"
+    },
+    "cliente_efemera": {
+      "bstr": "303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f"
+    }
+  },
+  "politica": {
+    "max_records": 100000,
+    "max_age_ms": 3600000
+  },
+  "handshake_ms": 0,
+  "passos": [
+    {
+      "de": "cliente",
+      "now_ms": 0,
+      "texto_claro": {
+        "padrao": "i mod 251",
+        "tamanho": 10,
+        "blake2s": "bb473deddc055fea6228f207da575347bb00404cd349d38c18026307a224cbff"
+      },
+      "flags": [
+        4
+      ],
+      "registros_hex": [
+        "8c6410e944f45df69861ea18c580de61a5cec84296ec81b04458c6"
+      ],
+      "registros_blake2s": [
+        "1713586eea3d958f97014f387e257e7e668226234cac4a88060421f82271000a"
+      ],
+      "forjado": true
+    }
+  ],
+  "valido": false,
+  "erro": {
+    "camada": "registro",
+    "codigo": "reserved-flag"
+  }
+}

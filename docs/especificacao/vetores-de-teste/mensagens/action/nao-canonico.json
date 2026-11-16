@@ -1,0 +1,41 @@
+{
+  "descricao": "action: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "id",
+          1
+        ],
+        [
+          "do",
+          [
+            0,
+            {
+              "map": [
+                [
+                  "window",
+                  1
+                ]
+              ]
+            }
+          ]
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a26269640162646f8200a16677696e646f7701",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[40, {\"id\": 1, \"do\": [0, {\"window\": 1}]}]"
+}

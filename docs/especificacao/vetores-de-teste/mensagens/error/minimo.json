@@ -1,0 +1,24 @@
+{
+  "descricao": "error mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": [
+        [
+          "code",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821846a164636f646500",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[70, {\"code\": 0}]"
+}

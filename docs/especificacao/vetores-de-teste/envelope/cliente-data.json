@@ -1,0 +1,19 @@
+{
+  "descricao": "data: um registro de dois bytes",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    16,
+    {
+      "bstr": "aabb"
+    }
+  ],
+  "cbor_hex": "821042aabb",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[16, h'aabb']"
+}

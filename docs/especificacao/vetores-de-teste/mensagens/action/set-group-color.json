@@ -1,0 +1,42 @@
+{
+  "descricao": "action: set-group-color (8)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            8,
+            {
+              "map": [
+                [
+                  "color",
+                  3
+                ],
+                [
+                  "group",
+                  6
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          12
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8208a265636f6c6f72036567726f7570066269640c",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [8, {\"color\": 3, \"group\": 6}], \"id\": 12}]"
+}

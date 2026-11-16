@@ -1,0 +1,24 @@
+{
+  "descricao": "goodbye: goodbye remote-disabled",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    3,
+    {
+      "map": [
+        [
+          "reason",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8203a166726561736f6e01",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[3, {\"reason\": 1}]"
+}

@@ -1,0 +1,28 @@
+{
+  "descricao": "paste mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    32,
+    {
+      "map": [
+        [
+          "pane",
+          7
+        ],
+        [
+          "text",
+          "x"
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821820a26470616e650764746578746178",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[32, {\"pane\": 7, \"text\": \"x\"}]"
+}

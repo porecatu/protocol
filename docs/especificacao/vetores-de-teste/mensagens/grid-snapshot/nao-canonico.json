@@ -1,0 +1,100 @@
+{
+  "descricao": "grid-snapshot: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    22,
+    {
+      "map": [
+        [
+          "seq",
+          0
+        ],
+        [
+          "alt",
+          false
+        ],
+        [
+          "cols",
+          2
+        ],
+        [
+          "pane",
+          7
+        ],
+        [
+          "rows",
+          1
+        ],
+        [
+          "lines",
+          [
+            [
+              false,
+              [
+                [
+                  0,
+                  1,
+                  0,
+                  "ab"
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "cursor",
+          {
+            "map": [
+              [
+                "col",
+                2
+              ],
+              [
+                "row",
+                0
+              ],
+              [
+                "shape",
+                0
+              ],
+              [
+                "visible",
+                true
+              ]
+            ]
+          }
+        ],
+        [
+          "styles",
+          [
+            [
+              null,
+              null,
+              0
+            ]
+          ]
+        ],
+        [
+          "dropped",
+          0
+        ],
+        [
+          "history",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "8216aa637365710063616c74f464636f6c73026470616e650764726f777301656c696e65738182f4818400010062616266637572736f72a463636f6c0263726f7700657368617065006776697369626c65f5667374796c65738183f6f6006764726f707065640067686973746f727900",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[22, {\"seq\": 0, \"alt\": false, \"cols\": 2, \"pane\": 7, \"rows\": 1, \"lines\": [[false, [[0, 1, 0, \"ab\"]]]], \"cursor\": {\"col\": 2, \"row\": 0, \"shape\": 0, \"visible\": true}, \"styles\": [[null, null, 0]], \"dropped\": 0, \"history\": 0}]"
+}

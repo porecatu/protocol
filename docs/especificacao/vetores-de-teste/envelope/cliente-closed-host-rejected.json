@@ -1,0 +1,17 @@
+{
+  "descricao": "closed: close-reason host-rejected (3)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "client-envelope",
+  "valor": [
+    18,
+    3
+  ],
+  "cbor_hex": "821203",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[18, 3]"
+}

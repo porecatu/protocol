@@ -1,0 +1,31 @@
+{
+  "descricao": "pair-request: nome do aparelho com exatamente 64 bytes, o máximo",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "pair-request",
+  "valor": {
+    "map": [
+      [
+        "token",
+        {
+          "bstr": "000102030405060708090a0b0c0d0e0f"
+        }
+      ],
+      [
+        "device",
+        "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      ],
+      [
+        "platform",
+        2
+      ]
+    ]
+  },
+  "cbor_hex": "a365746f6b656e50000102030405060708090a0b0c0d0e0f6664657669636578406464646464646464646464646464646464646464646464646464646464646464646464646464646464646464646464646464646464646464646464646464646468706c6174666f726d02",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "{\"token\": h'000102030405060708090a0b0c0d0e0f', \"device\": \"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\", \"platform\": 2}"
+}

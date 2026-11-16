@@ -1,0 +1,35 @@
+{
+  "descricao": "key: número 14, que não é uma tecla nomeada",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    30,
+    {
+      "map": [
+        [
+          "key",
+          14
+        ],
+        [
+          "mods",
+          0
+        ],
+        [
+          "pane",
+          7
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82181ea3636b65790e646d6f6473006470616e6507",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[30, {\"key\": 14, \"mods\": 0, \"pane\": 7}]"
+}

@@ -1,0 +1,27 @@
+{
+  "descricao": "confirm: sem a chave obrigatória \"id\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    43,
+    {
+      "map": [
+        [
+          "accept",
+          true
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "82182ba166616363657074f5",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[43, {\"accept\": true}]"
+}
