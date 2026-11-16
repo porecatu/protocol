@@ -15,6 +15,8 @@ allow = [
     "Unicode-DFS-2016",
     "CC0-1.0",
     "MPL-2.0",
+    # The license of the crates of this workspace (ADR-0006).
+    "GPL-3.0-or-later",
 ]
 confidence-threshold = 0.8
 
