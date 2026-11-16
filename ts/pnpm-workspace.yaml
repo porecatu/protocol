@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# pnpm 12 reads its settings from this file, not from .npmrc. None are needed
-# today: no dependency of the package runs an install script.
+# pnpm 12 reads its settings from this file, not from .npmrc. No dependency of
+# the package runs an install script, so none is allowed. The file must stay a
+# YAML mapping: Dependabot fails to parse an empty one.
+allowBuilds: {}
