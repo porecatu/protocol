@@ -22,6 +22,11 @@ updates:
     commit-message:
       prefix: chore
       include: scope
+    ignore:
+      # BLAKE2s derives the host_id, so the protocol and the relay move to a
+      # new blake2 minor together, by hand, with the vectors checked.
+      - dependency-name: blake2
+        versions: [">= 0.11"]
 
   - package-ecosystem: npm
     directory: /ts
