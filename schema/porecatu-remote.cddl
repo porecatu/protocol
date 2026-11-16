@@ -1,0 +1,372 @@
+; SPDX-License-Identifier: GPL-3.0-or-later
+;
+; Schema CDDL do protocolo de acesso remoto do Porecatu.
+;
+; ARQUIVO GERADO por scripts/extract-cddl.py a partir dos blocos `cddl` de
+; docs/especificacao/01-*.md, 02-*.md e 03-*.md. Nao edite: mude a
+; especificacao e rode o script. O verificador de documentacao reprova o
+; arquivo fora de sincronia.
+;
+; Todo mapa de corpo termina em `* tstr => any` (03 §1): chave desconhecida
+; e ignorada. Os vetores de teste sao validados contra a regra indicada no
+; campo `raiz` de cada um; `porecatu-root` e a uniao de todas as categorias.
+
+porecatu-root = host-envelope / client-envelope / handshake-start
+              / pair-request / message
+
+; ==== 01-transporte-e-relay.md ====
+; ---- host <-> relay -----------------------------------------------------
+host-envelope = challenge / register / registered
+              / channel-opened / channel-data / channel-closed / close-channel
+
+challenge      = [0, nonce: bstr .size 32]                         ; relay -> host
+register       = [1, routing-key: bstr .size 32, signature: bstr .size 64]  ; host -> relay
+registered     = [2, host-id: tstr]                                ; relay -> host
+channel-opened = [3, channel: uint]                                ; relay -> host
+channel-data   = [4, channel: uint, payload: bstr]                 ; nos dois sentidos
+channel-closed = [5, channel: uint, reason: close-reason]          ; relay -> host
+close-channel  = [6, channel: uint, reason: close-reason]          ; host -> relay
+
+; ---- cliente <-> relay --------------------------------------------------
+client-envelope = data / host-unavailable / closed
+
+data             = [16, payload: bstr]                             ; nos dois sentidos
+host-unavailable = [17]                                            ; relay -> cliente
+closed           = [18, reason: close-reason]                      ; relay -> cliente
+
+close-reason = &(
+  normal:           0,   ; o outro lado fechou
+  host-replaced:    1,   ; o host se registrou de novo
+  host-gone:        2,   ; a conexão do host caiu
+  host-rejected:    3,   ; o host recusou o canal (ex.: acesso remoto desligado)
+  limit-exceeded:   4,   ; limite do relay (canais por host, banda, tamanho)
+  protocol-error:   5,   ; envelope inválido
+)
+
+; ==== 02-handshake-e-pareamento.md ====
+handshake-start = [kind: &(pair: 0, connect: 1), noise-message-1: bstr]
+
+; ==== 02-handshake-e-pareamento.md ====
+pair-request = {
+  "token":    bstr .size 16,
+  "device":   tstr .size (1..64),   ; nome do aparelho, escolhido pelo usuário (padrão: modelo)
+  "platform": &(android: 0, ios: 1, other: 2),
+  * tstr => any,
+}
+
+; ==== 03-mensagens.md ====
+hello = [0, {
+  "version":     [major: uint, minor: uint],   ; o que o cliente fala
+  "app":         tstr,                          ; ex.: "porecatu-remote"
+  "app_version": tstr,                          ; semver do app
+  * tstr => any,
+}]
+
+; ==== 03-mensagens.md ====
+welcome = [1, {
+  "version":          [major: uint, minor: uint],  ; major igual; minor = menor dos dois
+  "host_name":        tstr,                        ; nome do host para exibição
+  "porecatu_version": tstr,                        ; semver do Porecatu
+  "max_subscriptions": uint,                       ; >= 1; o host atual usa 4
+  "host_instance":    bstr .size 16,               ; aleatório, novo a cada processo do host (§3)
+  * tstr => any,
+}]
+
+incompatible = [2, {
+  "version": [major: uint, minor: uint],           ; o que o host fala
+  * tstr => any,
+}]
+
+; ==== 03-mensagens.md ====
+goodbye = [3, { "reason": goodbye-reason, * tstr => any }]
+goodbye-reason = &(
+  normal:          0,
+  remote-disabled: 1,   ; o usuário desligou o acesso remoto no host
+  revoked:         2,   ; este aparelho foi removido da lista de pareados
+  host-quitting:   3,   ; o Porecatu está fechando
+)
+
+; ==== 03-mensagens.md ====
+window-id  = uint
+group-id   = uint
+tab-id     = uint
+pane-id    = uint
+profile-id = tstr
+request-id = uint
+
+; ==== 03-mensagens.md ====
+workspace = [10, {
+  "rev":     uint,                 ; cresce a cada envio na sessão
+  "windows": [* window],           ; na ordem de foco do host, mais recente primeiro
+  * tstr => any,
+}]
+
+window = {
+  "id":     window-id,
+  "title":  tstr,                  ; título da aba ativa da janela, para o cliente identificar a janela
+  "pinned": [* tab],               ; abas fixadas, na ordem da zona
+  "items":  [* item],              ; a trilha: abas soltas e grupos, na ordem visual
+  "active": tab-id / null,         ; aba ativa da janela no desktop
+  * tstr => any,
+}
+
+item  = tab / group
+
+group = {
+  "group":     group-id,           ; a presença desta chave distingue grupo de aba
+  "name":      tstr,
+  "color":     uint,               ; índice em theme.group_colors
+  "collapsed": bool,
+  "tabs":      [+ tab],
+  * tstr => any,
+}
+
+tab = {
+  "tab":     tab-id,
+  "title":   tstr,                 ; o título que o desktop mostra, já com a precedência aplicada
+  "custom":  bool,                 ; true se o título foi definido pelo usuário
+  "profile": profile-id / null,
+  "remote":  tstr / null,          ; "usuário@host" em aba SSH; null nas locais
+  "activity": bool,                ; indicador de atividade em segundo plano
+  "bell":    bool,                 ; indicador de campainha
+  "layout":  pane-node,
+  "focused": pane-id,              ; painel focado da aba
+  * tstr => any,
+}
+
+pane-node = pane / split
+
+split = {
+  "dir":   &(side-by-side: 0, stacked: 1),
+  "ratio": 1..65535,               ; fração do primeiro filho = ratio / 65536 (inteiro: sem ponto flutuante no fio)
+  "first": pane-node,
+  "second": pane-node,
+  * tstr => any,
+}
+
+pane = {
+  "pane":  pane-id,
+  "title": tstr,
+  "cwd":   tstr / null,            ; diretório local; null se desconhecido ou se o painel é SSH
+  "state": pane-state,
+  "exit":  int / null,             ; código de saída quando state = exited
+  "cols":  uint,
+  "rows":  uint,
+  * tstr => any,
+}
+
+pane-state = &(
+  running:      0,
+  exited:       1,
+  not-started:  2,   ; aba restaurada e ainda não iniciada, ou SSH dormente
+  connecting:   3,
+  reconnecting: 4,
+  disconnected: 5,
+  awaiting-desktop: 6,   ; parado numa pergunta respondida só no desktop (senha, passphrase, chave do servidor)
+)
+
+; ==== 03-mensagens.md ====
+profiles = [11, {
+  "list":    [* profile],
+  "default": profile-id,
+  * tstr => any,
+}]
+
+profile = {
+  "id":   profile-id,
+  "name": tstr,
+  "kind": &(local: 0, ssh: 1, wsl: 2, other: 3),
+  * tstr => any,
+}
+
+; ==== 03-mensagens.md ====
+theme = [12, {
+  "fg":           rgb,
+  "bg":           rgb,
+  "cursor":       rgb,
+  "selection_bg": rgb,
+  "palette":      [16*16 rgb],     ; cores 0..15
+  "group_colors": [+ rgb],         ; a paleta de cores de grupo, na ordem do host
+  * tstr => any,
+}]
+
+; ==== 03-mensagens.md ====
+subscribe   = [20, { "pane": pane-id, * tstr => any }]
+unsubscribe = [21, { "pane": pane-id, * tstr => any }]
+
+subscription-ended = [27, {
+  "pane":   pane-id,
+  "reason": &(pane-closed: 0, host-limit: 1),
+  * tstr => any,
+}]
+
+; ==== 03-mensagens.md ====
+line  = [wrapped: bool, spans: [* span]]       ; wrapped: a linha continua na seguinte (quebra suave)
+span  = [col: uint, width: 1 / 2, style: uint, text: tstr / [tstr]]
+                                                ; tstr: span comum, um code point por célula
+                                                ; [tstr]: um único grafema de vários code points, uma célula
+style = [fg: color, bg: color, flags: uint]
+color = null                                    ; cor padrão (fg ou bg do tema)
+      / [0, uint .le 255]                       ; cor indexada
+      / [1, rgb]                                ; cor direta
+
+; flags de estilo
+; 0x01 negrito   0x02 itálico   0x04 sublinhado   0x08 inverso
+; 0x10 esmaecido 0x20 riscado   0x40 oculto
+
+; ==== 03-mensagens.md ====
+grid-snapshot = [22, {
+  "pane":    pane-id,
+  "seq":     uint,                 ; monotônico por assinatura: = seq da mensagem de grade anterior + 1 (a primeira é 0)
+  "cols":    uint,
+  "rows":    uint,
+  "history": uint,                 ; linhas de scrollback disponíveis acima da tela
+  "dropped": uint,                 ; linhas já descartadas do topo do histórico deste painel (§5.5)
+  "styles":  [* style],
+  "lines":   [* line],             ; exatamente `rows` linhas, de cima para baixo
+  "cursor":  cursor,
+  "alt":     bool,                 ; tela alternativa ativa (TUI); sem scrollback
+  * tstr => any,
+}]
+
+grid-diff = [23, {
+  "pane":    pane-id,
+  "seq":     uint,                 ; = seq da mensagem anterior desta assinatura + 1
+  "history": uint,
+  "dropped": uint,
+  "styles":  [* style],
+  "lines":   [* [row: uint, line: line]],   ; só as linhas que mudaram
+  "cursor":  cursor,
+  "alt":     bool,
+  * tstr => any,
+}]
+
+cursor = {
+  "row":   uint,
+  "col":   uint,
+  "shape": &(block: 0, underline: 1, beam: 2),
+  "visible": bool,
+  * tstr => any,
+}
+
+; ==== 03-mensagens.md ====
+grid-ack = [24, { "pane": pane-id, "seq": uint, * tstr => any }]
+
+; ==== 03-mensagens.md ====
+scrollback-request = [25, {
+  "id":     request-id,
+  "pane":   pane-id,
+  "offset": uint,                  ; 0 = a linha logo acima do topo da tela
+  "count":  uint .le 500,
+  * tstr => any,
+}]
+
+scrollback-page = [26, {
+  "id":      request-id,
+  "pane":    pane-id,
+  "history": uint,                 ; linhas disponíveis no momento da resposta
+  "dropped": uint,                 ; o mesmo contador do grid-snapshot/grid-diff, no momento da resposta
+  "offset":  uint,
+  "styles":  [* style],
+  "lines":   [* line],             ; de cima para baixo: a última é a de `offset`
+  * tstr => any,
+}]
+
+; ==== 03-mensagens.md ====
+key = [30, {
+  "pane": pane-id,
+  "key":  named-key / tstr,        ; tstr: exatamente um valor escalar Unicode (ex.: "c" com Ctrl)
+  "mods": uint,                    ; 0x01 Ctrl, 0x02 Alt, 0x04 Shift, 0x08 Meta
+  * tstr => any,
+}]
+
+named-key = &(
+  enter: 0, tab: 1, backspace: 2, escape: 3,
+  up: 4, down: 5, left: 6, right: 7,
+  home: 8, end: 9, page-up: 10, page-down: 11, insert: 12, delete: 13,
+  f1: 21, f2: 22, f3: 23, f4: 24, f5: 25, f6: 26,
+  f7: 27, f8: 28, f9: 29, f10: 30, f11: 31, f12: 32,
+)
+
+text-input = [31, { "pane": pane-id, "text": tstr, * tstr => any }]   ; texto digitado (inclusive composição de IME)
+paste = [32, { "pane": pane-id, "text": tstr, * tstr => any }]   ; colar: o host aplica as regras do colar local
+
+; ==== 03-mensagens.md ====
+action = [40, { "id": request-id, "do": action-body, * tstr => any }]
+
+action-body =
+    [0,  { "window": window-id, ? "group": group-id, ? "profile": profile-id, * tstr => any }]  ; new-tab
+  / [1,  { "tab": tab-id, * tstr => any }]                                    ; close-tab
+  / [2,  { "pane": pane-id, * tstr => any }]                                  ; close-pane
+  / [3,  { "tab": tab-id, "title": tstr / null, * tstr => any }]              ; rename-tab (null limpa o título próprio)
+  / [4,  { "tab": tab-id, "group": group-id / null, * tstr => any }]          ; move-tab-to-group (null: sai do grupo)
+  / [5,  { "tab": tab-id, "window": window-id, * tstr => any }]               ; move-tab-to-window
+  / [6,  { "tabs": [+ tab-id], "name": tstr, ? "color": uint, * tstr => any }]; new-group
+  / [7,  { "group": group-id, "name": tstr, * tstr => any }]                  ; rename-group
+  / [8,  { "group": group-id, "color": uint, * tstr => any }]                 ; set-group-color
+  / [9,  { "group": group-id, "collapsed": bool, * tstr => any }]             ; collapse-group
+  / [10, { "group": group-id, "window": window-id, * tstr => any }]           ; move-group-to-window
+  / [11, { "group": group-id, * tstr => any }]                                ; ungroup
+  / [12, { "pane": pane-id, * tstr => any }]                                  ; start-pane
+
+action-result = [41, {
+  "id": request-id,
+  ? "error":   error-code,         ; ausente = sucesso
+  ? "created": tab-id / group-id,  ; new-tab devolve tab-id; new-group devolve group-id (os dois são uint: a ação de origem diz qual é)
+  * tstr => any,
+}]
+
+; ==== 03-mensagens.md ====
+confirm-request = [42, {
+  "id":        request-id,       ; o da ação
+  "kind":      &(running-process: 0, ssh-connection: 1),
+  "processes": [* tstr],         ; nomes dos processos, para o cliente listar
+  * tstr => any,
+}]
+
+confirm = [43, { "id": request-id, "accept": bool, * tstr => any }]
+
+; ==== 03-mensagens.md ====
+pair-accepted = [60, { "host_name": tstr, * tstr => any }]
+pair-rejected = [61, { "reason": &(token-invalid: 0, user-declined: 1, timeout: 2), * tstr => any }]
+
+; ==== 03-mensagens.md ====
+bell  = [50, { "pane": pane-id, * tstr => any }]           ; campainha num painel (transitório; o indicador fica no workspace)
+
+error = [70, {
+  "code": error-code,
+  ? "id": request-id,                       ; quando é resposta a um pedido com id (scrollback-request)
+  ? "pane": pane-id,                        ; quando é resposta a subscribe, unsubscribe, grid-ack, key, text-input ou paste
+  * tstr => any,
+}]
+
+error-code = &(
+  protocol:               0,
+  not-paired:             1,
+  ; 2 reservado: a revogação de uma sessão viva é `goodbye { revoked }` (§2)
+  unknown-window:         3,
+  unknown-group:          4,
+  unknown-tab:            5,
+  unknown-pane:           6,
+  unknown-profile:        7,
+  pane-not-running:       8,
+  not-subscribed:         9,
+  too-many-subscriptions: 10,
+  invalid-argument:       11,
+  busy:                   12,   ; o desktop está num estado que impede a ação (ex.: diálogo modal aberto)
+  confirm-timeout:        13,
+  cancelled:              14,
+  unsupported:            15,
+  last-tab:               16,   ; a ação fecharia a última aba da última janela, encerrando o host
+)
+
+; ==== 03-mensagens.md ====
+message = hello / welcome / incompatible / goodbye
+        / workspace / profiles / theme
+        / subscribe / unsubscribe / grid-snapshot / grid-diff / grid-ack
+        / scrollback-request / scrollback-page / subscription-ended
+        / key / text-input / paste
+        / action / action-result / confirm-request / confirm
+        / bell / pair-accepted / pair-rejected / error
+
+rgb = uint .le 0xFFFFFF

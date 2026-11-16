@@ -1,6 +1,6 @@
 # 02 — Handshake e pareamento
 
-**Versão da especificação:** 0.1 (rascunho)
+**Versão da especificação:** 0.3 (rascunho)
 
 Este documento cobre a camada 3: as chaves de cada parte, o pareamento por QR code, o handshake das conexões seguintes e o formato dos registros cifrados. A escolha do Noise está no [ADR-0002](../adr/0002-noise-para-a-sessao-ponta-a-ponta.md).
 
@@ -44,6 +44,10 @@ Esse item CBOR é o primeiro `payload` do canal (ainda em claro: carrega só a m
 
 O handshake **DEVE** terminar em 15 s contados do `channel-opened`; o host fecha o canal que estourar com `close-channel { host-rejected }`.
 
+**Falha de handshake.** Qualquer falha do lado do host — mensagem Noise que não decifra (inclusive por prólogo de `major` diferente), `handshake-start` mal formado, tipo de handshake desconhecido — fecha o canal com `close-channel { host-rejected }`, sem mensagem de aplicação. O cliente vê `closed { host-rejected }` e trata como falha de handshake. Do lado do cliente, falha de decifração da `msg2` aborta sem mandar nada mais.
+
+**Resultado de DH nulo.** As duas partes **DEVEM** recusar, como falha de handshake, qualquer operação DH cujo resultado seja 32 bytes zero (chave pública de ordem baixa). As bibliotecas diferem nisso por padrão; a regra é do protocolo, e há vetor de teste para ela.
+
 ## 3. Pareamento
 
 ### 3.1 O QR code
@@ -63,9 +67,16 @@ porecatu://pair?v=0&relay=<url>&host=<host_id>&key=<pub>&token=<token>&name=<nom
 | `host` | `host_id` ([01](01-transporte-e-relay.md) §3) |
 | `key` | Chave pública estática do host, base64url sem padding (43 caracteres) |
 | `token` | Token de pareamento, base64url sem padding (22 caracteres) |
-| `name` | Nome do host para exibição (padrão: nome da máquina), UTF-8 percent-encoded, até 32 caracteres |
+| `name` | Nome do host para exibição (padrão: nome da máquina), UTF-8 percent-encoded, de 1 a 32 valores escalares Unicode |
 
 O esquema `porecatu://` permite que a câmera do sistema abra o app direto. O cliente **DEVE** recusar URI com `v` diferente da sua versão maior, ou com `relay` que não seja `wss://` (salvo `localhost`, como em [01](01-transporte-e-relay.md) §1).
+
+**Forma exata da URI**, para as duas implementações gerarem os mesmos bytes:
+
+- Os parâmetros saem **nesta ordem**: `v`, `relay`, `host`, `key`, `token`, `name`.
+- Todo byte UTF-8 fora do conjunto *unreserved* da RFC 3986 (`A–Z a–z 0–9 - . _ ~`) é escrito como `%HH`, com **hexadecimal maiúsculo**. Nada mais é deixado em claro.
+- `relay` é normalizado antes de codificar: esquema e host em minúsculas, sem barra final, sem query nem fragmento; pode ter porta e um prefixo de caminho (relay atrás de proxy num subcaminho). Hosts locais aceitos com `ws://`: `localhost`, `127.0.0.1` e `[::1]`.
+- Quem lê **ignora parâmetros desconhecidos** (versões menores futuras) e **recusa** parâmetro obrigatório ausente, repetido ou mal formado, e `key`/`token` com tamanho decodificado diferente de 32/16 bytes.
 
 O **token do operador do relay não vai no QR** ([01](01-transporte-e-relay.md) §2).
 
@@ -104,7 +115,7 @@ host -> cliente:  msg2                 msg2 = <- e, ee, se       payload: vazio
 
 - O cliente conhece a estática do host desde o QR; é isso que permite o `IK`, com um round-trip só.
 - O host lê a estática do cliente na `msg1` e **sempre completa o handshake**, pareado ou não. Se o aparelho não está na lista (nunca pareou, ou foi revogado), a primeira mensagem de aplicação do host é `error { code: not-paired }` e o canal fecha. Completar o handshake antes de recusar dá ao cliente uma resposta autenticada ("este aparelho não está pareado") sem revelar nada a quem não tem a chave do host.
-- Os payloads do handshake vão vazios de propósito: o da `msg1` do `IK` não tem sigilo futuro.
+- Os payloads do handshake vão vazios de propósito: o da `msg1` do `IK` não tem sigilo futuro. O receptor **DEVE** recusar, como falha de handshake, uma `msg1` (`XX` ou `IK`) ou `msg2` cujo payload decifrado não seja vazio. Só a `msg3` do `XX` leva payload (o `pair-request`).
 
 ## 5. Registros
 

@@ -10,14 +10,16 @@ Roda no CI e localmente:
 Sem dependências além da biblioteca padrão. Sai com código 1 se alguma
 checagem falhar.
 
-Versão reduzida do verify-docs.py do Porecatu: aqui só a checagem de links
-relativos. Links para os outros repositórios do projeto são URLs absolutas
-e ficam fora da checagem.
+Versão reduzida do verify-docs.py do Porecatu: aqui a checagem de links
+relativos e a de que schema/porecatu-remote.cddl está em sincronia com os
+blocos cddl da especificação (scripts/extract-cddl.py). Links para os outros
+repositórios do projeto são URLs absolutas e ficam fora da checagem.
 """
 
 from __future__ import annotations
 
 import glob
+import importlib.util
 import os
 import re
 import sys
@@ -85,9 +87,27 @@ def verificar_links() -> None:
         ok(f"{total} links relativos resolvem")
 
 
+def verificar_schema() -> None:
+    secao("Schema CDDL em sincronia")
+    # extract-cddl.py tem hifen no nome: carrega pelo caminho.
+    caminho = os.path.join(ROOT, "scripts", "extract-cddl.py")
+    spec = importlib.util.spec_from_file_location("extract_cddl", caminho)
+    if spec is None or spec.loader is None:
+        erro("nao foi possivel carregar scripts/extract-cddl.py")
+        return
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    sincronizado, mensagem = modulo.conferir()
+    if sincronizado:
+        ok(mensagem)
+    else:
+        erro(mensagem)
+
+
 def main() -> int:
     os.chdir(ROOT)
     verificar_links()
+    verificar_schema()
     print()
     if falhas:
         print(f"{len(falhas)} falha(s).")

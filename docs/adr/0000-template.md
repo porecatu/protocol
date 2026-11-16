@@ -6,11 +6,13 @@
 |---|--------|--------|
 | [0001](0001-tres-partes-e-relay-cego.md) | Três partes e relay cego: o host é a fonte da verdade, o relay só roteia bytes cifrados | Aceito |
 | [0002](0002-noise-para-a-sessao-ponta-a-ponta.md) | Noise para a sessão ponta a ponta: `XX` no pareamento, `IK` nas conexões seguintes | Aceito |
-| [0003](0003-cbor-com-schema-em-cddl.md) | Mensagens em CBOR determinístico, com schema em CDDL e vetores de teste | Aceito |
+| [0003](0003-cbor-com-schema-em-cddl.md) | Mensagens em CBOR determinístico, com schema em CDDL e vetores de teste | Aceito · codificação no TS e `float32` revistos por ADR-0008 (**parcial**) |
 | [0004](0004-websocket-sobre-tls.md) | Transporte por WebSocket sobre TLS, quadros binários, um envelope por quadro | Aceito |
-| [0005](0005-implementacoes-de-referencia.md) | Implementações de referência em Rust e TypeScript neste repositório, árbitro pelos vetores | Aceito |
+| [0005](0005-implementacoes-de-referencia.md) | Implementações de referência em Rust e TypeScript neste repositório, árbitro pelos vetores | Aceito · envelope TS só do cliente revisto por ADR-0008 (**parcial**: os dois papéis) |
 | [0006](0006-licenca-gpl.md) | GPL-3.0-or-later nos quatro projetos, com DCO | Aceito |
 | [0007](0007-toolchains.md) | Toolchains pinadas: Rust stable e Node LTS com `pnpm` | Aceito |
+| [0008](0008-especificacao-0-2.md) | Especificação 0.2: codificação estrita, sem ponto flutuante, vetores tipados e as lacunas achadas antes do código | Aceito · `span` e scrollback revistos por ADR-0009 (**parcial**) |
+| [0009](0009-grafema-no-fio-e-linhas-descartadas.md) | Grafema composto marcado no fio e contador de linhas descartadas do histórico | Aceito |
 
 ## Convenção
 

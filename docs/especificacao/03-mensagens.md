@@ -1,16 +1,34 @@
 # 03 — Mensagens
 
-**Versão da especificação:** 0.1 (rascunho)
+**Versão da especificação:** 0.3 (rascunho)
 
-Este documento cobre a camada 4: as mensagens de aplicação que host e cliente trocam dentro da sessão Noise. A escolha de CBOR e CDDL está no [ADR-0003](../adr/0003-cbor-com-schema-em-cddl.md).
+Este documento cobre a camada 4: as mensagens de aplicação que host e cliente trocam dentro da sessão Noise. A escolha de CBOR e CDDL está no [ADR-0003](../adr/0003-cbor-com-schema-em-cddl.md); as regras estritas de codificação e decodificação desta versão, no [ADR-0008](../adr/0008-especificacao-0-2.md).
 
 ## 1. Convenções
 
-- Cada mensagem é **um item CBOR** (RFC 8949), em codificação determinística (§4.2.1), remontado dos registros ([02](02-handshake-e-pareamento.md) §5).
+- Cada mensagem é **um item CBOR** (RFC 8949), remontado dos registros ([02](02-handshake-e-pareamento.md) §5).
 - Toda mensagem é um array `[tipo, corpo]`, com `tipo` inteiro (tabela do §10) e `corpo` um mapa de chaves de texto.
-- **Chave desconhecida num mapa é ignorada.** É o que permite acrescentar campo numa versão menor ([04](04-versionamento.md)). Chave obrigatória ausente é erro de protocolo.
-- **Tipo de mensagem desconhecido é erro de protocolo.** Mensagem nova numa versão menor só é mandada a quem anunciou essa versão menor no `hello`/`welcome`.
-- Erro de protocolo (CBOR inválido, campo obrigatório ausente, tipo desconhecido, valor fora do domínio): quem detecta manda `error { code: protocol }` e fecha a sessão.
+- **Chave desconhecida num mapa é ignorada.** É o que permite acrescentar campo numa versão menor ([04](04-versionamento.md)). Chave obrigatória ausente é erro de protocolo. No schema consolidado (anexo A), todo mapa de corpo termina em `* tstr => any`.
+- **Tipo de mensagem desconhecido é erro de protocolo.** Mensagem nova numa versão menor só é mandada a quem anunciou essa versão menor no `hello`/`welcome`. Mensagem de tipo conhecido **no sentido errado** (ex.: `welcome` vindo do cliente) também é erro de protocolo.
+- Erro de protocolo (CBOR inválido ou não canônico, campo obrigatório ausente, tipo desconhecido, valor fora do domínio): quem detecta manda `error { code: protocol }` e fecha a sessão.
+
+### 1.1 Codificação e decodificação estritas
+
+Duas implementações em linguagens diferentes precisam concordar **byte a byte**. Por isso:
+
+1. **Quem manda DEVE** usar a codificação determinística da RFC 8949 §4.2.1: inteiros e comprimentos na forma mais curta, comprimentos definidos, chaves de mapa ordenadas pela ordem lexicográfica dos seus bytes codificados.
+2. **Quem recebe DEVE recusar** como erro de protocolo:
+   - qualquer item que não esteja na forma determinística (inteiro ou comprimento não mínimo, chaves fora de ordem, comprimento indefinido);
+   - chave de mapa duplicada;
+   - bytes sobrando depois do item;
+   - **tags** CBOR de qualquer tipo e **números de ponto flutuante**: nenhuma mensagem desta versão os usa;
+   - valores simples além de `false`, `true` e `null`;
+   - inteiro fora de `-(2^53 − 1) .. 2^53 − 1` (o maior inteiro exato em JavaScript);
+   - aninhamento de arrays e mapas além de **32** níveis;
+   - array posicional (envelopes, `span`, `style`, `line`, `color`, `action-body`, pares `[row, line]`, versões) com número de elementos diferente do definido.
+3. Chaves desconhecidas são ignoradas **depois** da conferência acima: um mapa com chave desconhecida ainda tem de estar em forma canônica.
+
+A forma recomendada de conferir o item 2 é decodificar para uma árvore genérica, recodificar deterministicamente e comparar os bytes.
 - **Nenhum texto para humano é gerado pelo protocolo.** Motivos e erros são códigos; títulos, nomes e diretórios são dados do usuário, repassados como estão.
 - Cores são `rgb = uint .le 0xFFFFFF` (`0xRRGGBB`).
 - O schema completo, num bloco só, está no [anexo A](#anexo-a--schema-cddl-completo).
@@ -35,6 +53,7 @@ welcome = [1, {
   "host_name":        tstr,                        ; nome do host para exibição
   "porecatu_version": tstr,                        ; semver do Porecatu
   "max_subscriptions": uint,                       ; >= 1; o host atual usa 4
+  "host_instance":    bstr .size 16,               ; aleatório, novo a cada processo do host (§3)
 }]
 
 incompatible = [2, {
@@ -68,6 +87,8 @@ goodbye-reason = &(
 | `request-id` | sessão | Escolhido pelo cliente, único entre os pedidos pendentes da sessão |
 
 Os ids do protocolo **não são** os ids internos do Porecatu (que são por janela e mudam quando uma aba muda de janela). O host mantém o mapeamento; o cliente nunca vê id interno. Reiniciar o Porecatu reinicia todos os ids.
+
+**`host_instance`** (no `welcome`) é um valor aleatório de 16 bytes que o host gera ao iniciar o processo. Os ids só são comparáveis entre duas sessões **com o mesmo `host_instance`**: um cliente que reconecta e recebe outro valor **NÃO DEVE** reaproveitar nenhum id guardado (aba aberta, zoom por aba, rascunho), porque o mesmo número pode ser outra aba — e digitar na aba errada é o pior erro deste protocolo.
 
 ```cddl
 window-id  = uint
@@ -124,7 +145,7 @@ pane-node = pane / split
 
 split = {
   "dir":   &(side-by-side: 0, stacked: 1),
-  "ratio": float32,                ; fração do primeiro filho, 0 < ratio < 1
+  "ratio": 1..65535,               ; fração do primeiro filho = ratio / 65536 (inteiro: sem ponto flutuante no fio)
   "first": pane-node,
   "second": pane-node,
 }
@@ -202,7 +223,7 @@ subscription-ended = [27, {
 }]
 ```
 
-Resposta a `subscribe`: um `grid-snapshot`, ou `error` (`unknown-pane`, `too-many-subscriptions`). Assinar de novo um painel já assinado manda um `grid-snapshot` novo, e é o jeito de o cliente se ressincronizar.
+Resposta a `subscribe`: um `grid-snapshot`, ou `error` (`unknown-pane`, `too-many-subscriptions`). Assinar de novo um painel já assinado manda um `grid-snapshot` novo (com o `seq` seguinte da mesma assinatura, §5.3), e é o jeito de o cliente pedir o estado completo de novo.
 
 O painel que fecha encerra a assinatura com `subscription-ended`. Painel `not-started` pode ser assinado: o snapshot vem vazio, e o cliente oferece iniciar (`start-pane`, §7).
 
@@ -210,7 +231,9 @@ O painel que fecha encerra a assinatura com `subscription-ended`. Painel `not-st
 
 ```cddl
 line  = [wrapped: bool, spans: [* span]]       ; wrapped: a linha continua na seguinte (quebra suave)
-span  = [col: uint, width: 1 / 2, style: uint, text: tstr]
+span  = [col: uint, width: 1 / 2, style: uint, text: tstr / [tstr]]
+                                                ; tstr: span comum, um code point por célula
+                                                ; [tstr]: um único grafema de vários code points, uma célula
 style = [fg: color, bg: color, flags: uint]
 color = null                                    ; cor padrão (fg ou bg do tema)
       / [0, uint .le 255]                       ; cor indexada
@@ -223,7 +246,9 @@ color = null                                    ; cor padrão (fg ou bg do tema)
 
 - Uma linha é uma lista de **spans** que não se sobrepõem, em ordem de coluna. Célula sem span é **espaço com estilo padrão** — é por isso que linha vazia é `[false, []]`.
 - `width` é a largura em células de **cada** grafema do span: `1` para comuns, `2` para os de largura dupla (CJK, emoji). Um span nunca mistura larguras.
-- **Um grafema por code point**, salvo exceção: o host **DEVE** pôr todo grafema de mais de um code point (emoji com ZWJ, base com combinantes) **sozinho num span**, com `text` igual ao grafema inteiro. Assim o cliente acha a coluna de cada caractere sem segmentar grafemas: o *i*-ésimo code point de um span comum está em `col + i × width`.
+- **Span comum** (`text` é texto): um grafema por code point. O *i*-ésimo code point está na coluna `col + i × width`, e o span ocupa `(número de code points) × width` células. O host **NÃO DEVE** pôr num span comum um grafema de mais de um code point.
+- **Span de grafema** (`text` é um array de exatamente um texto): o texto é **um único grafema** de mais de um code point (emoji com ZWJ, base com combinantes, bandeira, sequência com seletor de variação) e o span ocupa **uma** célula de `width` colunas, na coluna `col`. Array vazio, com mais de um elemento ou com texto vazio é fora do domínio.
+- Assim o cliente acha a coluna de cada caractere **sem segmentar grafemas** e sem heurística: a forma do `text` diz se é um code point por célula ou um grafema numa célula ([ADR-0009](../adr/0009-grafema-no-fio-e-linhas-descartadas.md)).
 - `style` é um índice na tabela `styles` da própria mensagem. As cores vão **não resolvidas** (padrão, indexada ou direta); quem resolve é o cliente, com o `theme`.
 
 ### 5.3 `grid-snapshot` e `grid-diff`
@@ -231,10 +256,11 @@ color = null                                    ; cor padrão (fg ou bg do tema)
 ```cddl
 grid-snapshot = [22, {
   "pane":    pane-id,
-  "seq":     uint,                 ; reinicia a cada snapshot
+  "seq":     uint,                 ; monotônico por assinatura: = seq da mensagem de grade anterior + 1 (a primeira é 0)
   "cols":    uint,
   "rows":    uint,
   "history": uint,                 ; linhas de scrollback disponíveis acima da tela
+  "dropped": uint,                 ; linhas já descartadas do topo do histórico deste painel (§5.5)
   "styles":  [* style],
   "lines":   [* line],             ; exatamente `rows` linhas, de cima para baixo
   "cursor":  cursor,
@@ -245,6 +271,7 @@ grid-diff = [23, {
   "pane":    pane-id,
   "seq":     uint,                 ; = seq da mensagem anterior desta assinatura + 1
   "history": uint,
+  "dropped": uint,
   "styles":  [* style],
   "lines":   [* [row: uint, line: line]],   ; só as linhas que mudaram
   "cursor":  cursor,
@@ -259,7 +286,8 @@ cursor = {
 }
 ```
 
-- O `grid-diff` se aplica sobre o estado que resultou da mensagem anterior **da mesma assinatura** (`seq − 1`). `seq` fora de sequência é erro de protocolo.
+- **`seq` é monotônico por assinatura e nunca reinicia**: snapshots e diffs compartilham a mesma sequência, começando em 0 na primeira mensagem de grade da assinatura. Uma assinatura dura do `subscribe` até o `unsubscribe` ou o `subscription-ended`; assinar de novo um painel já assinado **não** abre outra.
+- O `grid-diff` se aplica sobre o estado que resultou da mensagem de grade anterior **da mesma assinatura** (`seq − 1`). Como os registros chegam em ordem, um `seq` fora de sequência só acontece por defeito de implementação: é **erro de protocolo** (`error { protocol }` e a sessão fecha). O cliente não tenta se recuperar dele por conta própria.
 - Mudou o tamanho do painel, ou entrou/saiu da tela alternativa: o host manda `grid-snapshot`, nunca diff. O cliente **DEVE** aceitar snapshot a qualquer momento.
 - O tamanho é **sempre o do desktop**. O cliente não tem como redimensionar o PTY; adapta zoom e rolagem horizontal.
 
@@ -292,13 +320,22 @@ scrollback-page = [26, {
   "id":      request-id,
   "pane":    pane-id,
   "history": uint,                 ; linhas disponíveis no momento da resposta
+  "dropped": uint,                 ; o mesmo contador do grid-snapshot/grid-diff, no momento da resposta
   "offset":  uint,
   "styles":  [* style],
   "lines":   [* line],             ; de cima para baixo: a última é a de `offset`
 }]
 ```
 
-O histórico anda enquanto a saída corre: um `history` maior que o da página anterior significa que linhas novas empurraram as antigas para cima, e o cliente corrige o deslocamento pela diferença. Rolar no celular **não** move a rolagem do desktop. Na tela alternativa (`alt = true`), `history` é 0.
+O histórico anda enquanto a saída corre, e tem teto no host: quando ele enche, cada linha nova empurra a mais antiga para fora, e `history` fica constante. Por isso o host manda, junto de `history`, o contador **`dropped`**: quantas linhas já saíram do topo do histórico deste painel desde que o painel existe no host (monotônico, nunca diminui; zera só quando o histórico do painel é limpo, ex.: `clear`/reset do terminal, e então o host manda `grid-snapshot`).
+
+Com os dois números, cada linha de histórico tem um **índice absoluto estável**, que não muda com a saída correndo:
+
+```
+índice absoluto = dropped + (history − 1 − offset)        ; 0 = a primeira linha que o painel já teve
+```
+
+O cliente guarda o scrollback pelo índice absoluto e converte de volta para `offset` ao pedir. Uma linha com índice absoluto menor que o `dropped` atual já não existe no host. Rolar no celular **não** move a rolagem do desktop. Na tela alternativa (`alt = true`), `history` é 0 e `dropped` repete o valor da tela normal.
 
 ## 6. Input
 
@@ -307,7 +344,7 @@ O cliente manda input **semântico**; quem o traduz em bytes é o host, com o me
 ```cddl
 key = [30, {
   "pane": pane-id,
-  "key":  named-key / tstr,        ; tstr: um único caractere (ex.: "c" com Ctrl)
+  "key":  named-key / tstr,        ; tstr: exatamente um valor escalar Unicode (ex.: "c" com Ctrl)
   "mods": uint,                    ; 0x01 Ctrl, 0x02 Alt, 0x04 Shift, 0x08 Meta
 }]
 
@@ -319,7 +356,7 @@ named-key = &(
   f7: 27, f8: 28, f9: 29, f10: 30, f11: 31, f12: 32,
 )
 
-text  = [31, { "pane": pane-id, "text": tstr }]   ; texto digitado (inclusive composição de IME)
+text-input = [31, { "pane": pane-id, "text": tstr }]   ; texto digitado (inclusive composição de IME)
 paste = [32, { "pane": pane-id, "text": tstr }]   ; colar: o host aplica as regras do colar local
 ```
 
@@ -373,13 +410,15 @@ action-result = [41, {
   confirm = [43, { "id": request-id, "accept": bool }]
   ```
 
-  Sem resposta em 60 s, a ação termina com `error { confirm-timeout }`. Recusa termina com `cancelled`.
+  Sem resposta em 60 s, a ação termina com `action-result { error: confirm-timeout }`. Recusa termina com `action-result { error: cancelled }`.
+
+**Resultado de ação sempre vem em `action-result`**, com o mesmo `id`, nunca numa mensagem `error` avulsa — inclusive `busy`, `last-tab`, `unknown-*` e `invalid-argument`.
 
 Fora do v0, de propósito: fixar e desafixar, sessões nomeadas, configurações, gerenciador de tarefas, abrir janela nova, mudar o foco do desktop.
 
 ## 8. Pareamento
 
-Só existem dentro de um handshake `XX` ([02](02-handshake-e-pareamento.md) §3).
+Só existem numa sessão aberta por um handshake `XX` ([02](02-handshake-e-pareamento.md) §3), e são a primeira mensagem de aplicação do host nela. Depois de `pair-rejected`, o host fecha o canal com `close-channel { normal }`.
 
 ```cddl
 pair-accepted = [60, { "host_name": tstr }]
@@ -393,7 +432,8 @@ bell  = [50, { "pane": pane-id }]           ; campainha num painel (transitório
 
 error = [70, {
   "code": error-code,
-  ? "id": request-id,                       ; quando é resposta a um pedido
+  ? "id": request-id,                       ; quando é resposta a um pedido com id (scrollback-request)
+  ? "pane": pane-id,                        ; quando é resposta a subscribe, unsubscribe, grid-ack, key, text-input ou paste
 }]
 
 error-code = &(
@@ -437,7 +477,7 @@ error-code = &(
 | 26 | `scrollback-page` | H → C | §5.5 |
 | 27 | `subscription-ended` | H → C | §5.1 |
 | 30 | `key` | C → H | §6 |
-| 31 | `text` | C → H | §6 |
+| 31 | `text-input` | C → H | §6 |
 | 32 | `paste` | C → H | §6 |
 | 40 | `action` | C → H | §7 |
 | 41 | `action-result` | H → C | §7 |
@@ -452,14 +492,14 @@ As faixas livres entre os grupos são para mensagens de versões menores futuras
 
 ## Anexo A — Schema CDDL completo
 
-O schema normativo é o conjunto dos blocos `cddl` deste documento e de [02](02-handshake-e-pareamento.md). Quando as implementações de referência existirem, o arquivo `schema/porecatu-remote.cddl` passa a ser a fonte única, gerado a partir destes blocos e conferido pelo CI contra os vetores de teste ([vetores-de-teste](vetores-de-teste/README.md)).
+A **fonte** do schema são os blocos `cddl` de [01](01-transporte-e-relay.md), [02](02-handshake-e-pareamento.md) e deste documento. O arquivo `schema/porecatu-remote.cddl` é **gerado** deles pelo script `scripts/extract-cddl.py`, que acrescenta `* tstr => any` a todo mapa de corpo (§1) e uma regra raiz por categoria de vetor; o verificador de documentação reprova se o arquivo estiver fora de sincronia, e o CI valida todos os vetores de teste ([vetores-de-teste](vetores-de-teste/README.md)) contra ele.
 
 ```cddl
 message = hello / welcome / incompatible / goodbye
         / workspace / profiles / theme
         / subscribe / unsubscribe / grid-snapshot / grid-diff / grid-ack
         / scrollback-request / scrollback-page / subscription-ended
-        / key / text / paste
+        / key / text-input / paste
         / action / action-result / confirm-request / confirm
         / bell / pair-accepted / pair-rejected / error
 

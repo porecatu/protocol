@@ -1,6 +1,6 @@
 # 01 — Transporte e relay
 
-**Versão da especificação:** 0.1 (rascunho)
+**Versão da especificação:** 0.3 (rascunho)
 
 Este documento cobre as camadas 1 e 2: como host e cliente chegam ao relay e o que o relay vê. Tudo acima da camada 2 é opaco para o relay.
 
@@ -26,6 +26,8 @@ E um terceiro, fora do WebSocket:
 | Caminho | Quem consulta | Resposta |
 |---|---|---|
 | `GET /v0/presence/<host_id>` (HTTPS) | cliente | `204` se há host registrado com esse `host_id`, `404` se não. Sem corpo. Sujeito ao limite de consultas por origem (`429`) |
+
+A URL da consulta é **derivada da URL base do relay**: `wss://` vira `https://` e `ws://` vira `http://`, com a mesma autoridade e o mesmo prefixo de caminho, seguidos de `/v0/presence/<host_id>`. Ex.: `wss://exemplo.com.br/relay` → `https://exemplo.com.br/relay/v0/presence/<host_id>`.
 
 A consulta de presença existe para o cliente mostrar quais desktops estão online **sem abrir canal**: abrir um canal só para sondar dispararia `channel-opened` e o prazo de handshake no host. Ela revela a quem conhece o `host_id` se o desktop está ligado agora; ver o [modelo de ameaça](modelo-de-ameaca.md).
 
@@ -53,7 +55,7 @@ Registro, logo depois do upgrade em `/v0/host`:
 
 1. Relay → host: `Challenge { nonce: 32 bytes aleatórios }`.
 2. Host → relay: `Register { routing_key: 32 bytes, signature: 64 bytes }`, com `signature = Ed25519_sign(chave_privada_de_roteamento, "porecatu-relay/v0/register" || nonce)`.
-3. O relay verifica a assinatura e calcula o `host_id`. Se ok: `Registered { host_id }`. Se não: fecha com o código `4001`.
+3. O relay verifica a assinatura e calcula o `host_id`. Se ok: `Registered { host_id }`. Se não: fecha com o código `4001`. Se o relay já tem o número máximo de hosts que o operador configurou e este `host_id` não está entre eles (substituição não conta), fecha com `4003`.
 
 O host tem **10 s** desde o upgrade para concluir o registro; passado o prazo, o relay fecha com `4005`.
 
@@ -107,13 +109,18 @@ close-reason = &(
 
 O host **PODE** fechar um canal a qualquer momento (acesso remoto desligado, aparelho revogado, handshake inválido). O relay **NÃO DEVE** reabrir um canal fechado.
 
-- `channel-data` ou `close-channel` que o host mande para um canal **já fechado** (corrida com o fechamento pelo cliente) é **ignorado** pelo relay, sem erro: o `channel-closed` correspondente já está a caminho do host.
+- `channel-data` ou `close-channel` que o host mande para um canal **já fechado** (corrida com o fechamento pelo cliente) é **ignorado** pelo relay, sem erro: o `channel-closed` correspondente já está a caminho do host. Para um canal que **nunca foi aberto** (número maior ou igual ao próximo que o relay daria), é envelope inválido: `4004` (abaixo).
+- O relay **não** devolve `channel-closed` em resposta a um `close-channel` do host.
+- **Erros de envelope.** Do **host**, depois do registro: envelope que não decodifica, fora da forma canônica ([03](03-mensagens.md) §1.1, que vale também aqui) ou de tipo que o host não manda → o relay fecha a conexão do host com `4004`, e cada cliente dela recebe `closed { host-gone }`. Do **cliente**: qualquer coisa que não seja `data` válido → `closed { protocol-error }` e `4004` ao cliente, e `channel-closed { protocol-error }` ao host. Quadro de texto WebSocket fecha com `1003`, sem `closed` antes.
+- **Limites estourados por um canal** (fila, banda, tamanho): `closed { limit-exceeded }` e `4003` ao cliente, `channel-closed { limit-exceeded }` ao host. Um `data` do cliente cujo `channel-data` correspondente passaria do tamanho máximo de quadro é limite estourado. Quadro WebSocket maior que o máximo, de qualquer lado, fecha com `1009`.
+- **Pong que não chega** (§1): o relay derruba a conexão sem código de fechamento; se era um host, os clientes recebem `closed { host-gone }`; se era um cliente, o host recebe `channel-closed { normal }`.
+- **Desligamento do relay**: clientes recebem `closed { normal }`; todas as conexões fecham com `1001`.
 - Depois de mandar `closed { reason }` ao cliente, o relay fecha o WebSocket dele com `4003` se o motivo é `limit-exceeded`, `4004` se é `protocol-error`, e `1000` nos demais.
 - Erros antes do upgrade são respostas HTTP: `400` para `host_id` mal formado em `/v0/client/<host_id>`, `401` para token do operador ausente ou errado, `429` quando o relay recusa por excesso de conexões da mesma origem.
 
 ## 5. Códigos de fechamento WebSocket
 
-Além dos padronizados (`1000`, `1003`, `1008`, `1009`, `1011`):
+Além dos padronizados (`1000`, `1001`, `1003`, `1008`, `1009`, `1011`):
 
 | Código | Significado |
 |---|---|
@@ -130,7 +137,7 @@ Os limites são configuráveis pelo operador; estes são os pisos que uma implem
 | Limite | Piso |
 |---|---|
 | Canais simultâneos por host | 8 |
-| Tamanho de quadro | 70 000 bytes (§1) |
+| Tamanho de quadro | 70 000 bytes (§1) — é piso **e** teto: nenhum lado manda quadro maior |
 | Banda por canal, sustentada, **em cada sentido** | 2 Mbit/s |
 
 Acima do limite, o relay fecha o canal com `limit-exceeded`, nunca descarta um `payload` em silêncio: um registro Noise perdido quebra o contador de nonce e a sessão inteira.
