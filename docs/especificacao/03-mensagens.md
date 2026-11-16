@@ -397,7 +397,7 @@ action-result = [41, {
 - **`close-pane`** do último painel de uma aba fecha a aba, como no desktop (salvo aba fixada, que fica com o painel reiniciado pela regra do desktop); fechar assim a última aba da última janela é recusado com `last-tab`, como `close-tab`.
 - **`new-group`** exige que todas as abas estejam na **mesma janela** e nenhuma seja fixada; senão, `invalid-argument`. O grupo nasce na posição da primeira aba da lista.
 - **`move-*-to-window`** move com o processo vivo, como o arraste e o "Mover para janela…" do desktop. Não há "destacar numa janela nova" no v0.
-- **`start-pane`** inicia painel `not-started` ou conecta SSH dormente, como o clique no desktop. Perguntas do backend (senha, passphrase, chave do servidor desconhecida) aparecem **só no desktop** no v0; o cliente vê o painel em `connecting` até resolver.
+- **`start-pane`** inicia painel `not-started` ou conecta SSH dormente, como o clique no desktop. Perguntas do backend (senha, passphrase, chave do servidor desconhecida) aparecem **só no desktop** no v0; enquanto a pergunta espera resposta, o cliente vê o painel em `awaiting-desktop` (§4.1).
 - **Fechar com confirmação.** Quando o gesto local pediria confirmação (processo em primeiro plano, conexão SSH aberta), o host pergunta **ao cliente que pediu**, não ao desktop:
 
   ```cddl

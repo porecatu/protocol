@@ -4,6 +4,10 @@ Mudanças da especificação e das implementações de referência. Formato insp
 
 ## [Não publicado]
 
+### Correção da especificação 0.3 — 2026-11-16
+
+- **Texto:** a regra do `start-pane` (§7 de 03) dizia que o cliente vê o painel em `connecting` enquanto uma pergunta do backend espera no desktop; passa a dizer `awaiting-desktop`, o estado que a 0.2 criou para esse caso (§4.1). O fio não muda.
+
 ### Implementações de referência, vetores e CI — 2026-11-16
 
 Primeira implementação da especificação 0.3, versão de fio `[0, 1]`. Crate e pacote estão na versão `0.1.0` e ainda não foram publicados.
