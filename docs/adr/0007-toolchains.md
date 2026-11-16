@@ -19,12 +19,16 @@ Este repositório terá código em duas linguagens ([ADR-0005](0005-implementaco
 - Dependências em **versão exata** (`snow = "=…"`, `ciborium = "=…"`), `Cargo.lock` versionado, `cargo deny` (licenças e RUSTSEC) no CI.
 - O crate **não pode** exigir toolchain mais nova que a do Porecatu: quem sobe primeiro é o Porecatu.
 
+> **Nota de implementação (2026-11-16):** o `rust-toolchain.toml` ficou na **raiz** do repositório, não em `rust/`, com `channel = "1.98.0"` (a mesma do Porecatu); `rust/Cargo.toml` é um workspace com o crate e a ferramenta de vetores `rust/tools/vectors`. O `snow =0.10.0` entra **sem a feature `std`**: nessa versão, `std` ativa `ring/std` e `sha2/std`, o que liga as dependências opcionais `ring` e `sha2`; sem ela, nenhuma das duas entra na árvore. O `cargo deny` roda no CI (`rust/deny.toml`), não localmente.
+
 ### TypeScript (`ts/`)
 
 - **Node LTS** pinado em `.nvmrc` e em `engines`; **`pnpm`** pinado pelo campo `packageManager` (Corepack); `pnpm-lock.yaml` versionado, `--frozen-lockfile` no CI.
 - `tsconfig` com `strict: true`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`; saída ESM; alvo compatível com o Hermes do Expo.
 - Dependências em versão exata (`"@noble/curves": "x.y.z"`, sem `^`), auditoria de dependências e de licenças no CI.
 - Testes com um runner que roda em Node (ex.: `vitest`), lendo os mesmos vetores JSON.
+
+> **Nota de implementação (2026-11-16):** Node 26.13.0 em `ts/.nvmrc` e `engines` (`>=26.13.0`), `pnpm@12.17.0` em `packageManager`, `vitest` 5.1.0, TypeScript 6.0.3. A configuração do `pnpm` (`allowBuilds`, `nodeLinker` e afins) mora em **`ts/pnpm-workspace.yaml`**: o pnpm 12 não a lê do `.npmrc`, e o pacote não tem `.npmrc`. O CI do pacote roda typecheck, lint, testes e build; a **auditoria de dependências e de licenças do `pnpm` ainda não está no CI** (dívida, no [roadmap](../roadmap.md)).
 
 ## Alternativas consideradas
 

@@ -23,6 +23,10 @@ O protocolo precisa de um formato para o envelope do relay e para as mensagens d
 4. **CDDL é o schema normativo**, em blocos dentro de [03](../especificacao/03-mensagens.md) e [02](../especificacao/02-handshake-e-pareamento.md); a partir da P1, consolidado em `schema/porecatu-remote.cddl` e conferido no CI contra os vetores.
 5. **Os tipos são escritos à mão** em cada implementação de referência, não gerados, e os vetores garantem que batem com o CDDL.
 
+> **Revisão parcial ([ADR-0008](0008-especificacao-0-2.md)):** sem ponto flutuante no fio (`ratio` virou inteiro) e o `cbor-x` deixou de codificar no TS.
+>
+> **Nota de implementação (2026-11-16):** nenhuma das bibliotecas citadas acima é usada. O codificador determinístico e o decodificador estrito são **escritos à mão nos dois lados** (`rust/src/cbor.rs` e `ts/src/cbor/`); o `cbor-x` foi removido do pacote TS, e o `ciborium` saiu das dependências do crate (só a ferramenta `vectors` o tem, trazido pelo `cddl`). A decisão — CBOR determinístico, CDDL normativo, vetores como árbitro — não muda. O schema consolidado existe em `schema/porecatu-remote.cddl`, gerado dos blocos da especificação por `scripts/extract-cddl.py`, e `vectors check` confere os vetores contra ele.
+
 ## Alternativas consideradas
 
 - **Protocol Buffers.** Schema `.proto` como fonte única, tipos gerados para Rust (`prost`) e TS, evolução de campos bem resolvida. Rejeitada: geração de código em três repositórios (com `protoc` ou plugins no build de cada um, inclusive no Expo), e os tipos gerados vazam para o código de quem consome; a regra de evolução que o Protobuf dá é obtida em CBOR com "chave desconhecida é ignorada". O ganho de tamanho do Protobuf sobre CBOR com arrays posicionais nas partes quentes é pequeno.

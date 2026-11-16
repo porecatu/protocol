@@ -22,6 +22,8 @@ O dono decidiu: **tudo GPL-3.0-or-later**, com o atrito da App Store como risco 
 1. `LICENSE` em cada repositório é a cópia verbatim da FSF, a mesma do Porecatu (sha256 `3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986`), e nunca é editado.
 2. Todo arquivo de código e script começa com `SPDX-License-Identifier: GPL-3.0-or-later`.
 3. Dependência nova só com licença compatível com GPLv3 (MIT, Apache-2.0, BSD, ISC, MPL-2.0, …). `snow`, `ciborium`, `@noble/*` e `cbor-x` são MIT ou Apache-2.0.
+
+   > **Nota de implementação (2026-11-16):** o `cbor-x` não é mais dependência (o CBOR é escrito à mão nos dois lados, [ADR-0008](0008-especificacao-0-2.md)). As licenças aceitas no crate são conferidas no CI pelo `cargo deny` (`rust/deny.toml`); no pacote TS, a conferência de licenças ainda não está no CI.
 4. **DCO** (`git commit -s`) em todo commit dos projetos novos. O DCO não transfere direitos; registra a origem de cada contribuição, o que mantém possível, no futuro, ao menos saber quem teria de autorizar uma exceção para a App Store.
 5. A **especificação em prosa** (os `.md`) está sob a mesma licença; implementar o protocolo a partir dela, sem copiar código, não é obra derivada do código de referência.
 

@@ -12,8 +12,12 @@ Obrigado pelo interesse. Este repositório é o **contrato** entre três projeto
 1. **ADR** com a decisão (próximo número; veja o [índice](docs/adr/0000-template.md)).
 2. **Texto da especificação** atualizado no mesmo PR, com a versão no cabeçalho dos documentos tocados.
 3. Mexeu no fio: sobe `[major, minor]` ([04 — Versionamento](docs/especificacao/04-versionamento.md)), acrescenta **vetores de teste** e registra no [CHANGELOG](CHANGELOG.md).
-4. As implementações de referência (quando existirem) passam nos vetores novos no mesmo PR.
+4. As duas implementações de referência (`rust/` e `ts/`) passam nos vetores novos no mesmo PR. Vetores se regeneram com a ferramenta Rust (`cargo run -p vectors -- generate`, em `rust/`); as transcrições do TypeScript em `sessoes-ts/`, com o teste `transcripts.test.ts` ([vetores de teste](docs/especificacao/vetores-de-teste/README.md#gerar-e-conferir)). Mudou um bloco `cddl`: `python scripts/extract-cddl.py` regera o schema.
 5. `python scripts/verify-docs.py` passa.
+
+## Rodar as verificações
+
+As toolchains são pinadas ([ADR-0007](docs/adr/0007-toolchains.md)): Rust pelo `rust-toolchain.toml` da raiz; Node por `ts/.nvmrc`; `pnpm` pelo `packageManager` de `ts/package.json`. A configuração do `pnpm` fica em `ts/pnpm-workspace.yaml` (o pnpm 12 não a lê do `.npmrc`). Os comandos estão no [CLAUDE.md](CLAUDE.md#comandos); o CI roda os mesmos.
 
 ## Commits
 

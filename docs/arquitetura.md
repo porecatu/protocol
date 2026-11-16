@@ -2,7 +2,7 @@
 
 Como o protocolo se organiza em camadas e como as implementações de referência ([ADR-0005](adr/0005-implementacoes-de-referencia.md)) se encaixam nos três projetos que o falam. A especificação diz **o quê**; este documento diz **onde cada coisa mora**.
 
-**Estado:** só a especificação existe (P0 do [roadmap](roadmap.md)). Tudo o que fala de `rust/` e `ts/` é o desenho para a P1 e a P2.
+**Estado:** especificação 0.3 (rascunho, versão de fio `[0, 1]`); o crate Rust e o pacote TypeScript implementam as camadas 2, 3 e 4 (P1 e P2 do [roadmap](roadmap.md)) e ainda não foram publicados. Este documento descreve o código como ele está.
 
 ## 1. Camadas e quem as implementa
 
@@ -30,9 +30,11 @@ Como o protocolo se organiza em camadas e como as implementações de referênci
 | Camada | Especificação | Crate Rust | Pacote TS |
 |---|---|---|---|
 | 1 — WebSocket/TLS | [01](especificacao/01-transporte-e-relay.md) §1 | — (consumidor) | — (consumidor) |
-| 2 — Envelope do relay | [01](especificacao/01-transporte-e-relay.md) §2–§5 | módulo `envelope` (feature `envelope`, a única que o Relay liga) | módulo `envelope` (só o lado do cliente) |
-| 3 — Noise e registros | [02](especificacao/02-handshake-e-pareamento.md) | módulo `session` (sobre `snow`) | módulo `session` (sobre `@noble`) |
-| 4 — Mensagens | [03](especificacao/03-mensagens.md) | módulo `message` (`serde` + `ciborium`) | módulo `message` (`cbor-x`) |
+| 2 — Envelope do relay | [01](especificacao/01-transporte-e-relay.md) §2–§5 | módulo `envelope`, sempre compilado (o Relay usa `default-features = false`, sem `session` e `message`) | módulo `envelope` (os dois lados, para o teste cruzado e o desktop falso do app — [ADR-0008](adr/0008-especificacao-0-2.md)) |
+| 3 — Noise e registros | [02](especificacao/02-handshake-e-pareamento.md) | módulo `session`, feature `session` (sobre `snow` 0.10.0 sem a feature `std`) | módulo `session` (Noise próprio sobre `@noble/curves`, `@noble/ciphers` e `@noble/hashes`) |
+| 4 — Mensagens | [03](especificacao/03-mensagens.md) | módulo `message`, feature `message`, sobre o CBOR escrito à mão de `cbor.rs` | módulo `message`, sobre o CBOR escrito à mão de `cbor/` |
+
+O CBOR determinístico e estrito ([03](especificacao/03-mensagens.md) §1.1) é **escrito à mão nos dois lados**, codificador e decodificador; nem `ciborium` nem `cbor-x` participam ([ADR-0003](adr/0003-cbor-com-schema-em-cddl.md) e [ADR-0008](adr/0008-especificacao-0-2.md), notas de implementação). O `snow` fica sem `std` porque essa feature, na 0.10.0, liga as dependências opcionais `ring` e `sha2`.
 
 ## 2. O que as implementações de referência são, e o que não são
 
@@ -42,9 +44,10 @@ São **bibliotecas puras**: recebem bytes e o instante atual, devolvem bytes e e
 |---|---|
 | Codificar e decodificar envelope e mensagens | aqui |
 | Máquina de estado do handshake (`XX`, `IK`), registros, fragmentação, rekey | aqui |
-| Comparações em tempo constante (chave do QR, token) | aqui |
+| Comparações em tempo constante (chave do QR, token de pareamento; o token do operador do relay é comparado pelo próprio relay) | aqui |
 | Formato da URI do QR (gerar e interpretar) | aqui |
-| Prazos (handshake em 15 s, confirmação em 120 s) | aqui como **regra** (`deadline(now)`); o relógio é do consumidor |
+| Prazos do handshake (15 s, `HANDSHAKE_TIMEOUT_MS`) e validade do token de pareamento (5 min, `TOKEN_TTL_MS`); prazos do envelope (`REGISTER_TIMEOUT_MS`, `PONG_TIMEOUT_MS`) como constantes | aqui como **regra** sobre um `now` recebido (`tick(now)` e `next_deadline()` nas máquinas de estado); o relógio é do consumidor |
+| Prazo de 120 s do diálogo de confirmação do pareamento ([02](especificacao/02-handshake-e-pareamento.md) §3.2) | consumidor (o host): as bibliotecas não têm constante nem regra para ele |
 | WebSocket, TLS, reconexão | consumidor |
 | Gerar e guardar chaves (cofre do SO, Keychain/Keystore) | consumidor |
 | Ler o motor VT e montar a grade; executar ações | Porecatu (`porecatu-remote` + `porecatu-ui`) |
@@ -53,34 +56,45 @@ São **bibliotecas puras**: recebem bytes e o instante atual, devolvem bytes e e
 
 Isso mantém o crate encaixado nas regras de dependência do Porecatu: quem traz `tokio` é o crate de rede do Porecatu (`porecatu-remote`), não este.
 
-## 3. Organização do código (P1 e P2)
+## 3. Organização do código
 
 ```
+rust-toolchain.toml          toolchain Rust pinada (1.98.0), na raiz do repositório
+
 rust/
-  Cargo.toml                 crate porecatu-protocol, features: envelope (default-off p/ o relay), session, message
-  rust-toolchain.toml
+  Cargo.toml                 workspace + crate porecatu-protocol; features: default = [session, message],
+                             test-vectors (efêmeros e nonces fixos, só em teste); o envelope é sempre compilado
+  deny.toml                  cargo deny: licenças, fontes, RUSTSEC
   src/
-    envelope.rs              camada 2
-    session/                 camada 3: handshake.rs, record.rs, rekey.rs
+    lib.rs                   PROTOCOL_VERSION = [0, 1] (versão de fio) e reexportações
+    cbor.rs                  CBOR determinístico e estrito, escrito à mão (03 §1.1)
+    envelope.rs              camada 2, os dois lados
+    session/                 camada 3: keys, handshake, record, rekey, pairing_token,
+                             client (ClientSession), host (HostChannel)
     message/                 camada 4: um módulo por grupo do §10 de 03
-    pairing_uri.rs           porecatu://pair
-    fingerprint.rs
+    host_id.rs, fingerprint.rs, pairing_uri.rs, ct.rs, encoding.rs
   tests/
-    vectors.rs               lê ../docs/especificacao/vetores-de-teste/**
+    vectors.rs               reproduz todos os vetores, inclusive sessoes-ts/
+    full_session.rs          host e cliente em memória: pareamento, conexão, prazos, recusas
+  tools/vectors/             ferramenta não publicada: generate, check, schema
 
 ts/
-  package.json               @porecatu/protocol
+  package.json               @porecatu/protocol; exports "." e "./testing"
+  pnpm-workspace.yaml        configuração do pnpm (allowBuilds etc.)
   src/
-    envelope.ts
-    session/                 handshake.ts, record.ts (Noise sobre @noble)
-    message/
-    pairingUri.ts
-    fingerprint.ts
+    cbor/                    CBOR determinístico e estrito, escrito à mão
+    envelope.ts              camada 2, os dois lados
+    session/                 camada 3: Noise próprio sobre @noble (handshakeState, symmetricState,
+                             cipherState), record, rekey, pairingToken, client, host
+    message/                 camada 4
+    hostId.ts, fingerprint.ts, pairingUri.ts, ct.ts, encoding.ts
+    testing/                 @porecatu/protocol/testing: relay em memória, desktop falso, chaves e relógio de teste
   test/
-    vectors.test.ts          lê os mesmos JSON
+    vectors*.test.ts         reproduzem os mesmos JSON
+    transcripts.test.ts      grava e confere sessoes-ts/
 
 schema/
-  porecatu-remote.cddl       schema consolidado; o CI confere os vetores contra ele
+  porecatu-remote.cddl       schema consolidado, gerado por scripts/extract-cddl.py; `vectors check` confere os vetores contra ele
 ```
 
 ## 4. Quem consome o quê
@@ -98,7 +112,8 @@ Do lado do Porecatu, o desenho do crate `porecatu-remote` e do espelhamento da g
 
 ## 5. Estratégia de teste
 
-1. **Vetores do Noise** (`cacophony`) para as duas implementações da camada 3, antes de qualquer vetor nosso.
-2. **Vetores do Porecatu** ([formato](especificacao/vetores-de-teste/README.md)): ida e volta byte a byte, casos inválidos com o `error-code` esperado.
-3. **Cruzado**: o CI gera sessões com o Rust e as reproduz no TS, e o contrário.
-4. **Fuzz** dos decodificadores (envelope e mensagem) no lado Rust, com teto de tamanho e profundidade.
+1. **Vetores do Noise** (`cacophony`, como o `snow` os distribui) para as duas implementações da camada 3, antes de qualquer vetor nosso.
+2. **Vetores do Porecatu** ([formato](especificacao/vetores-de-teste/README.md)): ida e volta byte a byte, casos inválidos com o código esperado; os de valor também contra o CDDL consolidado (`vectors check`).
+3. **Cruzado**: as sessões geradas pelo Rust (`sessoes/`) são reproduzidas pelo TS, e as gravadas pelo TS (`sessoes-ts/`) são reproduzidas pelo Rust, nas camadas de handshake e registros e com as máquinas de estado. Os arquivos ficam commitados; o CI roda as duas suítes sobre eles.
+4. **Integração em memória**: host e cliente das duas implementações conversam sem rede (`rust/tests/full_session.rs`, `ts/test/fullSession.test.ts`), com prazos, recusas e mensagens grandes.
+5. **Fuzz** dos decodificadores (envelope e mensagem) no lado Rust, com teto de tamanho e profundidade: **ainda não feito**.
