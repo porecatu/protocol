@@ -104,6 +104,8 @@ function actionBodyToValue(action: ActionBody): CborValue {
       return [code, body([["group", action.group]])];
     case "start-pane":
       return [code, body([["pane", action.pane]])];
+    case "activate-tab":
+      return [code, body([["tab", action.tab]])];
   }
 }
 
@@ -200,6 +202,8 @@ function actionBodyFromValue(value: CborValue | undefined): ActionBody {
       return { type, group: asUint(r.required("group")) };
     case "start-pane":
       return { type, pane: asUint(r.required("pane")) };
+    case "activate-tab":
+      return { type, tab: asUint(r.required("tab")) };
   }
 }
 

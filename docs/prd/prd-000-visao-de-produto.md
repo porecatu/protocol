@@ -60,7 +60,7 @@ Cada um é decisão, não esquecimento.
 - **Pareamento por código digitado.** Um código curto exige PAKE (ex.: SPAKE2) para não ser quebrado por força bruta; o QR resolve o caso comum.
 - **Permissões por aparelho** (somente leitura, só algumas abas). O pedido é acesso total, com indicador e revogação.
 - **Modo em segundo plano do host.** Sem Porecatu aberto, o host está offline; manter o processo vivo sem janela é decisão do ciclo de vida do Porecatu.
-- **Abrir janela, mudar o foco do desktop, fixar, sessões nomeadas, configurações, gerenciador de tarefas** pelo celular.
+- **Abrir janela, mudar o painel focado ou dar foco a uma janela do sistema do desktop, fixar, sessões nomeadas, configurações, gerenciador de tarefas** pelo celular.
 - **Responder perguntas do backend SSH** (senha, chave do servidor) pelo celular.
 - **Mouse** no terminal a partir do celular.
 

@@ -1,6 +1,6 @@
 # 03 — Mensagens
 
-**Versão da especificação:** 0.3 (rascunho)
+**Versão da especificação:** 0.4 (rascunho)
 
 Este documento cobre a camada 4: as mensagens de aplicação que host e cliente trocam dentro da sessão Noise. A escolha de CBOR e CDDL está no [ADR-0003](../adr/0003-cbor-com-schema-em-cddl.md); as regras estritas de codificação e decodificação desta versão, no [ADR-0008](../adr/0008-especificacao-0-2.md).
 
@@ -171,7 +171,7 @@ pane-state = &(
 )
 ```
 
-O estado da aba é derivado dos painéis pelo cliente, pela mesma regra do desktop (a aba mostra o estado do painel focado). Mudar a aba ativa ou o foco **no desktop** muda `active`/`focused` e gera um `workspace`; **o cliente nunca muda o foco do desktop** (§7).
+O estado da aba é derivado dos painéis pelo cliente, pela mesma regra do desktop (a aba mostra o estado do painel focado). Mudar a aba ativa ou o foco **no desktop** muda `active`/`focused` e gera um `workspace`. O cliente pode mudar a **aba ativa** de uma janela (`activate-tab`, ou o efeito de ativação de outra ação, §7), e então `active` muda e o host manda um `workspace`; o cliente **nunca** muda o painel focado dentro de uma aba (`focused`) nem a janela do sistema que tem o foco (§7, "Aba ativa e janela do sistema").
 
 ### 4.2 `profiles`
 
@@ -366,7 +366,7 @@ Atalho do Porecatu **não** é disparado por input remoto: `key` vai sempre ao t
 
 ## 7. Ações
 
-O cliente pede, o host executa **pelo mesmo caminho do gesto local** e responde. O host **não muda o foco nem a aba ativa** do desktop por causa de uma ação remota: aba criada pelo celular nasce sem roubar o foco de quem está no desktop.
+O cliente pede, o host executa **pelo mesmo caminho do gesto local** e responde. O caminho é o do gesto **por inteiro**, inclusive a ativação de aba que o gesto faz no desktop (veja "Aba ativa e janela do sistema", abaixo).
 
 ```cddl
 action = [40, { "id": request-id, "do": action-body }]
@@ -385,6 +385,7 @@ action-body =
   / [10, { "group": group-id, "window": window-id }]           ; move-group-to-window
   / [11, { "group": group-id }]                                ; ungroup
   / [12, { "pane": pane-id }]                                  ; start-pane
+  / [13, { "tab": tab-id }]                                    ; activate-tab
 
 action-result = [41, {
   "id": request-id,
@@ -393,11 +394,15 @@ action-result = [41, {
 }]
 ```
 
-- **`new-tab`** sem `group` cria a aba onde o `tab.new` do desktop criaria, relativo à aba ativa daquela janela; com `group`, no fim do grupo. Sem `profile`, usa o padrão. Herda o `cwd` pela regra do desktop.
-- **`close-pane`** do último painel de uma aba fecha a aba, como no desktop (salvo aba fixada, que fica com o painel reiniciado pela regra do desktop); fechar assim a última aba da última janela é recusado com `last-tab`, como `close-tab`.
-- **`new-group`** exige que todas as abas estejam na **mesma janela** e nenhuma seja fixada; senão, `invalid-argument`. O grupo nasce na posição da primeira aba da lista.
-- **`move-*-to-window`** move com o processo vivo, como o arraste e o "Mover para janela…" do desktop. Não há "destacar numa janela nova" no v0.
-- **`start-pane`** inicia painel `not-started` ou conecta SSH dormente, como o clique no desktop. Perguntas do backend (senha, passphrase, chave do servidor desconhecida) aparecem **só no desktop** no v0; enquanto a pergunta espera resposta, o cliente vê o painel em `awaiting-desktop` (§4.1).
+- **`new-tab`** sem `group` cria a aba onde o `tab.new` do desktop criaria, relativo à aba ativa daquela janela; com `group`, no fim do grupo. Sem `profile`, usa o padrão. Herda o `cwd` pela regra do desktop. A aba criada fica **ativa na janela dela**, como no `tab.new`. Se o processo da aba não sobe, `invalid-argument`.
+- **`activate-tab`** torna a aba a ativa **na janela dela**. Aba desconhecida: `unknown-tab`. Aba que já é a ativa: sucesso, sem efeito. O resto segue a regra do desktop para ativar uma aba: numa aba dentro de grupo colapsado, o desktop expande o grupo; numa aba não iniciada, o desktop a inicia ao ativá-la.
+- **`close-tab` e `close-pane`.** `close-pane` do último painel de uma aba fecha a aba, como no desktop; fechar assim (ou por `close-tab`) a última aba da última janela é recusado com `last-tab`. **Aba fixada** é fechada como no desktop: o fechamento **sempre** pede confirmação (`confirm-request`) e, aceito, a aba é fechada **e desafixada**; vale também para o último painel (`close-pane`), que fecha a aba, não a reinicia. Uma fixada sem nada vivo recebe `confirm-request` com `kind = running-process` e `processes` vazio.
+- **`rename-tab`** em aba fixada é aceito.
+- **`move-tab-to-group`** com um grupo de **outra janela** responde `unknown-group` (para a janela da aba, o grupo não existe, como no `new-tab` com um grupo de outra janela). Aba fixada, com grupo ou com `null`, responde `invalid-argument`. `group: null` com a aba já fora de grupo é sucesso, sem efeito.
+- **`new-group`** exige que todas as abas estejam na **mesma janela** e nenhuma seja fixada; senão, `invalid-argument`. O grupo nasce na posição da **primeira das abas na ordem da trilha** (não na da primeira da lista), e a ordem das abas dentro do grupo segue a da trilha, não a da lista.
+- **`collapse-group`**: expandir (`collapsed: false`) ativa o que o desktop ativa ao expandir; colapsar o grupo que contém a aba ativa move a aba ativa pela regra do desktop. Os dois efeitos acontecem na janela do grupo.
+- **`move-*-to-window`** move com o processo vivo, como o arraste e o "Mover para janela…" do desktop, e deixa a aba (ou o grupo) movida **ativa na janela de destino**, como esses gestos. Para a **mesma janela** de origem, `invalid-argument`. Mover a última aba de uma janela é permitido (a janela que esvazia fecha). Aba fixada vai fixada. Não há "destacar numa janela nova" no v0.
+- **`start-pane`** inicia painel `not-started` ou conecta SSH dormente, como o clique no desktop. Painel que não está `not-started` e não é SSH dormente: `invalid-argument`. Perguntas do backend (senha, passphrase, chave do servidor desconhecida) aparecem **só no desktop** no v0; enquanto a pergunta espera resposta, o cliente vê o painel em `awaiting-desktop` (§4.1).
 - **Fechar com confirmação.** Quando o gesto local pediria confirmação (processo em primeiro plano, conexão SSH aberta), o host pergunta **ao cliente que pediu**, não ao desktop:
 
   ```cddl
@@ -410,11 +415,21 @@ action-result = [41, {
   confirm = [43, { "id": request-id, "accept": bool }]
   ```
 
-  Sem resposta em 60 s, a ação termina com `action-result { error: confirm-timeout }`. Recusa termina com `action-result { error: cancelled }`.
+  Sem resposta em 60 s, a ação termina com `action-result { error: confirm-timeout }`. Recusa termina com `action-result { error: cancelled }`. A confirmação vai **sempre ao cliente**; o host nunca abre diálogo no desktop por causa de uma ação remota.
+
+**Ordem das checagens.** Para toda ação: primeiro os ids desconhecidos (`unknown-*`, na ordem dos campos da ação), depois `busy`, depois as regras da própria ação (`invalid-argument`, `last-tab`) e por último a confirmação.
+
+### Aba ativa e janela do sistema
+
+Até a 0.3 o cliente não podia mudar a aba ativa do desktop. A partir da 0.4 pode ([ADR-0010](../adr/0010-aba-ativa-pelo-cliente.md)), com estes limites:
+
+1. **A aba ativa muda, e só dentro da janela dela.** Uma ação remota produz a ativação de aba que o gesto local equivalente produz (`new-tab`, `activate-tab`, `collapse-group`, `move-*-to-window`). O host manda o `workspace` com o `active` novo.
+2. **Janela do sistema operacional, nunca.** O host **NÃO DEVE** levantar, desminimizar nem dar foco a uma janela do sistema por causa de uma ação remota, nem em `activate-tab`, nem na janela de destino de `move-*-to-window`. Só a aba ativa *dentro* da janela muda.
+3. **O painel focado dentro da aba** (`focused`) não é mudado pelo cliente: não há ação para isso.
 
 **Resultado de ação sempre vem em `action-result`**, com o mesmo `id`, nunca numa mensagem `error` avulsa — inclusive `busy`, `last-tab`, `unknown-*` e `invalid-argument`.
 
-Fora do v0, de propósito: fixar e desafixar, sessões nomeadas, configurações, gerenciador de tarefas, abrir janela nova, mudar o foco do desktop.
+Fora do v0, de propósito: fixar e desafixar, sessões nomeadas, configurações, gerenciador de tarefas, abrir janela nova, mudar o painel focado dentro de uma aba e dar foco a uma janela do sistema.
 
 ## 8. Pareamento
 

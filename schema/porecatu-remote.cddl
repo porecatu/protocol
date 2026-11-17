@@ -308,6 +308,7 @@ action-body =
   / [10, { "group": group-id, "window": window-id, * tstr => any }]           ; move-group-to-window
   / [11, { "group": group-id, * tstr => any }]                                ; ungroup
   / [12, { "pane": pane-id, * tstr => any }]                                  ; start-pane
+  / [13, { "tab": tab-id, * tstr => any }]                                    ; activate-tab
 
 action-result = [41, {
   "id": request-id,

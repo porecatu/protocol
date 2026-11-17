@@ -215,4 +215,5 @@ export const ACTION_TYPES = [
   "move-group-to-window",
   "ungroup",
   "start-pane",
+  "activate-tab",
 ] as const;
