@@ -402,7 +402,7 @@ action-result = [41, {
 - **`new-group`** exige que todas as abas estejam na **mesma janela** e nenhuma seja fixada; senão, `invalid-argument`. O grupo nasce na posição da **primeira das abas na ordem da trilha** (não na da primeira da lista), e a ordem das abas dentro do grupo segue a da trilha, não a da lista.
 - **`collapse-group`**: expandir (`collapsed: false`) ativa o que o desktop ativa ao expandir; colapsar o grupo que contém a aba ativa move a aba ativa pela regra do desktop. Os dois efeitos acontecem na janela do grupo.
 - **`move-*-to-window`** move com o processo vivo, como o arraste e o "Mover para janela…" do desktop, e deixa a aba (ou o grupo) movida **ativa na janela de destino**, como esses gestos. Para a **mesma janela** de origem, `invalid-argument`. Mover a última aba de uma janela é permitido (a janela que esvazia fecha). Aba fixada vai fixada. Não há "destacar numa janela nova" no v0.
-- **`start-pane`** inicia painel `not-started` ou conecta SSH dormente, como o clique no desktop. Painel que não está `not-started` e não é SSH dormente: `invalid-argument`. Perguntas do backend (senha, passphrase, chave do servidor desconhecida) aparecem **só no desktop** no v0; enquanto a pergunta espera resposta, o cliente vê o painel em `awaiting-desktop` (§4.1).
+- **`start-pane`** inicia painel `not-started` ou conecta SSH dormente, como o clique no desktop, e deixa a aba do painel **ativa na janela dela** (no desktop, a aba não iniciada sobe quando é ativada). Painel que não está `not-started` e não é SSH dormente: `invalid-argument`. Perguntas do backend (senha, passphrase, chave do servidor desconhecida) aparecem **só no desktop** no v0; enquanto a pergunta espera resposta, o cliente vê o painel em `awaiting-desktop` (§4.1).
 - **Fechar com confirmação.** Quando o gesto local pediria confirmação (processo em primeiro plano, conexão SSH aberta), o host pergunta **ao cliente que pediu**, não ao desktop:
 
   ```cddl
@@ -423,7 +423,7 @@ action-result = [41, {
 
 Até a 0.3 o cliente não podia mudar a aba ativa do desktop. A partir da 0.4 pode ([ADR-0010](../adr/0010-aba-ativa-pelo-cliente.md)), com estes limites:
 
-1. **A aba ativa muda, e só dentro da janela dela.** Uma ação remota produz a ativação de aba que o gesto local equivalente produz (`new-tab`, `activate-tab`, `collapse-group`, `move-*-to-window`). O host manda o `workspace` com o `active` novo.
+1. **A aba ativa muda, e só dentro da janela dela.** Uma ação remota produz a ativação de aba que o gesto local equivalente produz (`new-tab`, `activate-tab`, `collapse-group`, `move-*-to-window`, `start-pane`). O host manda o `workspace` com o `active` novo.
 2. **Janela do sistema operacional, nunca.** O host **NÃO DEVE** levantar, desminimizar nem dar foco a uma janela do sistema por causa de uma ação remota, nem em `activate-tab`, nem na janela de destino de `move-*-to-window`. Só a aba ativa *dentro* da janela muda.
 3. **O painel focado dentro da aba** (`focused`) não é mudado pelo cliente: não há ação para isso.
 
