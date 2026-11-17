@@ -165,7 +165,8 @@ export type ActionBody =
       readonly window: WindowId;
     }
   | { readonly type: "ungroup"; readonly group: GroupId }
-  | { readonly type: "start-pane"; readonly pane: PaneId };
+  | { readonly type: "start-pane"; readonly pane: PaneId }
+  | { readonly type: "activate-tab"; readonly tab: TabId };
 
 // --- Pairing request (spec 02 §3): the payload of msg3, not a message ---
 

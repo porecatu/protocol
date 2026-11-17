@@ -124,6 +124,11 @@ pub enum ActionBody {
         /// `pane`.
         pane: PaneId,
     },
+    /// 13, `activate-tab`: makes the tab the active one in its own window.
+    ActivateTab {
+        /// `tab`.
+        tab: TabId,
+    },
 }
 
 impl ActionBody {
@@ -143,6 +148,7 @@ impl ActionBody {
             ActionBody::MoveGroupToWindow { .. } => 10,
             ActionBody::Ungroup { .. } => 11,
             ActionBody::StartPane { .. } => 12,
+            ActionBody::ActivateTab { .. } => 13,
         }
     }
 
@@ -163,7 +169,9 @@ impl ActionBody {
                 }
                 wire::map(entries)
             }
-            ActionBody::CloseTab { tab } => wire::map(vec![("tab", wire::uint(*tab))]),
+            ActionBody::CloseTab { tab } | ActionBody::ActivateTab { tab } => {
+                wire::map(vec![("tab", wire::uint(*tab))])
+            }
             ActionBody::ClosePane { pane } | ActionBody::StartPane { pane } => {
                 wire::map(vec![("pane", wire::uint(*pane))])
             }
@@ -283,6 +291,9 @@ impl ActionBody {
             },
             12 => ActionBody::StartPane {
                 pane: wire::req_u64(&r, "pane")?,
+            },
+            13 => ActionBody::ActivateTab {
+                tab: wire::req_u64(&r, "tab")?,
             },
             _ => return Err(DecodeError::InvalidValue("do")),
         })
@@ -589,6 +600,7 @@ mod tests {
             },
             ActionBody::Ungroup { group: 15 },
             ActionBody::StartPane { pane: 16 },
+            ActionBody::ActivateTab { tab: 17 },
         ];
         let mut codes = Vec::new();
         for body in bodies {
@@ -596,7 +608,7 @@ mod tests {
             round_trips(act(1, body), Direction::ClientToHost);
         }
         codes.dedup();
-        assert_eq!(codes, (0..=12).collect::<Vec<u64>>());
+        assert_eq!(codes, (0..=13).collect::<Vec<u64>>());
     }
 
     macro_rules! client {
@@ -629,10 +641,15 @@ mod tests {
             client!("821828a162646f820ba165" "67726f7570" "03"),
             Err(DecodeError::Cbor(CborError::MissingKey))
         );
-        // do = [13, {}]: unknown action
+        // do = [14, {}]: unknown action
+        assert_eq!(
+            client!("821828a262646f820ea0" "62696401"),
+            Err(DecodeError::InvalidValue("do"))
+        );
+        // do = [13, {}]: activate-tab without "tab"
         assert_eq!(
             client!("821828a262646f820da0" "62696401"),
-            Err(DecodeError::InvalidValue("do"))
+            Err(DecodeError::Cbor(CborError::MissingKey))
         );
         // do = [1, {}]: close-tab without "tab"
         assert_eq!(

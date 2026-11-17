@@ -926,6 +926,11 @@ fn messages() -> Vec<Msg> {
                 "start-pane (12)",
                 act(16, 12, map(vec![("pane", json!(3))])),
             ),
+            ok(
+                "activate-tab",
+                "activate-tab (13)",
+                act(17, 13, map(vec![("tab", json!(5))])),
+            ),
         ],
     });
     all.push(Msg {

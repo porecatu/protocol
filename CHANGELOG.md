@@ -4,6 +4,14 @@ Mudanças da especificação e das implementações de referência. Formato insp
 
 ## [Não publicado]
 
+### Especificação 0.4 (rascunho) — 2026-11-17
+
+Versão de fio continua `[0, 1]`, ainda não congelada. Decisões no [ADR-0010](docs/adr/0010-aba-ativa-pelo-cliente.md).
+
+- **Fio:** nova ação `activate-tab` (`action-body` código 13, `{ "tab": tab-id }`), que torna a aba a ativa na janela dela. Rust (`ActionBody::ActivateTab`), TypeScript (`activate-tab`), vetor `mensagens/action/activate-tab.json` e schema CDDL acompanham; um host 0.3 recusaria o código 13 como valor fora do domínio.
+- **Regra:** o cliente pode mudar a aba ativa do desktop. As ações seguem o gesto local por inteiro, inclusive a ativação de aba (`new-tab`, `collapse-group` ao expandir, `move-*-to-window`, `start-pane`); o host **NÃO DEVE** levantar, desminimizar nem dar foco a janela do sistema por causa de ação remota; o painel focado dentro da aba e o tamanho do PTY continuam fora do alcance do cliente. Substitui a regra da 0.3 de que o host não muda o foco nem a aba ativa.
+- **Correções de texto da §7 (o fio não muda):** `close-pane` e `close-tab` de aba fixada fecham a aba, sempre pedem confirmação (`running-process`, `processes` vazio se nada vive) e a desafixam, em vez de "reiniciar o painel"; `new-group` nasce na posição da primeira aba **na ordem da trilha**, e a ordem interna do grupo segue a da trilha; casos de borda escritos como regra (`move-tab-to-group` com grupo de outra janela, aba fixada ou `null` sem grupo; `move-*-to-window` para a mesma janela; `start-pane` fora de `not-started`/SSH dormente; `rename-tab` em fixada; `new-tab` cujo processo não sobe) e a ordem das checagens de toda ação (`unknown-*` → `busy` → regras da ação → confirmação).
+
 ### Correção da especificação 0.3 — 2026-11-16
 
 - **Texto:** a regra do `start-pane` (§7 de 03) dizia que o cliente vê o painel em `connecting` enquanto uma pergunta do backend espera no desktop; passa a dizer `awaiting-desktop`, o estado que a 0.2 criou para esse caso (§4.1). O fio não muda.

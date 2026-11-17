@@ -190,10 +190,11 @@ const ALL_ACTIONS: readonly ActionBody[] = [
   { type: "move-group-to-window", group: 3, window: 2 },
   { type: "ungroup", group: 3 },
   { type: "start-pane", pane: 8 },
+  { type: "activate-tab", tab: 5 },
 ];
 
 describe("action round trips", () => {
-  it("covers the 13 action types", () => {
+  it("covers the 14 action types", () => {
     expect(new Set(ALL_ACTIONS.map((a) => a.type))).toEqual(new Set(ACTION_TYPES));
   });
 
@@ -247,6 +248,7 @@ describe("missing required keys", () => {
       [wire(40, [["id", 1], ["do", [4, map([["tab", 5]])]]]), "client"], // move-tab-to-group without group
       [wire(40, [["id", 1], ["do", [6, map([["tabs", [1]]])]]]), "client"], // new-group without name
       [wire(40, [["id", 1], ["do", [9, map([["group", 3]])]]]), "client"], // collapse-group without collapsed
+      [wire(40, [["id", 1], ["do", [13, map([])]]]), "client"], // activate-tab without tab
       [wire(41, [["error", 12]]), "host"],
       [wire(42, [["id", 3], ["kind", 0]]), "host"], // no processes
       [wire(43, [["id", 3]]), "client"],
@@ -270,7 +272,7 @@ describe("values outside the domain", () => {
         wire(30, [["pane", 7], ["key", "é"], ["mods", 0]]),
         "client",
       ],
-      ["unknown action code", wire(40, [["id", 1], ["do", [13, map([])]]]), "client"],
+      ["unknown action code", wire(40, [["id", 1], ["do", [14, map([])]]]), "client"],
       [
         "new-group with no tabs",
         wire(40, [["id", 1], ["do", [6, map([["tabs", []], ["name", "g"]])]]]),
@@ -371,6 +373,11 @@ describe("unknown keys are ignored", () => {
       [
         wire(40, [["id", 2], ["do", [12, map([["pane", 4], extra])]]]),
         { type: "action", id: 2, do: { type: "start-pane", pane: 4 } },
+        "client",
+      ],
+      [
+        wire(40, [["id", 3], ["do", [13, map([["tab", 5], extra])]]]),
+        { type: "action", id: 3, do: { type: "activate-tab", tab: 5 } },
         "client",
       ],
       [

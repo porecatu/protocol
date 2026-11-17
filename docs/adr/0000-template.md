@@ -13,6 +13,7 @@
 | [0007](0007-toolchains.md) | Toolchains pinadas: Rust stable e Node LTS com `pnpm` | Aceito |
 | [0008](0008-especificacao-0-2.md) | Especificação 0.2: codificação estrita, sem ponto flutuante, vetores tipados e as lacunas achadas antes do código | Aceito · `span` e scrollback revistos por ADR-0009 (**parcial**) |
 | [0009](0009-grafema-no-fio-e-linhas-descartadas.md) | Grafema composto marcado no fio e contador de linhas descartadas do histórico | Aceito |
+| [0010](0010-aba-ativa-pelo-cliente.md) | Aba ativa pelo cliente: `activate-tab`, ativação como a do gesto local e janela do sistema intocada | Aceito |
 
 ## Convenção
 

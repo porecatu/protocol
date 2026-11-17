@@ -1,0 +1,38 @@
+{
+  "descricao": "action: activate-tab (13)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            13,
+            {
+              "map": [
+                [
+                  "tab",
+                  5
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          17
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f820da1637461620562696411",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [13, {\"tab\": 5}], \"id\": 17}]"
+}
