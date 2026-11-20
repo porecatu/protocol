@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Message vectors (`mensagens/<type>/`): the 26 messages of specification 03
+//! Message vectors (`mensagens/<type>/`): the 27 messages of specification 03
 //! plus the `pair-request` of 02 section 3.2.
 //!
 //! For each message the cases written by hand here are a **minimal** body
@@ -583,6 +583,21 @@ fn messages() -> Vec<Msg> {
         ],
     });
 
+    // ---- view-tab --------------------------------------------------------
+    all.push(Msg {
+        folder: "view-tab",
+        code: Some(13),
+        raiz: "message",
+        minimal: map(vec![("tab", Json::Null)]),
+        complete: map(vec![("tab", json!(MAX))]),
+        complete_desc: "view-tab da aba de maior id",
+        extras: vec![ok(
+            "aba",
+            "o cliente passa a exibir a aba 5",
+            map(vec![("tab", json!(5))]),
+        )],
+    });
+
     // ---- grid ------------------------------------------------------------
     let by_pane = |id: u64| map(vec![("pane", json!(id))]);
     all.push(Msg {
@@ -926,9 +941,9 @@ fn messages() -> Vec<Msg> {
                 "start-pane (12)",
                 act(16, 12, map(vec![("pane", json!(3))])),
             ),
-            ok(
-                "activate-tab",
-                "activate-tab (13)",
+            bad(
+                "activate-tab-recusada",
+                "do com o código 13, o do activate-tab removido na 0.5: fora do domínio",
                 act(17, 13, map(vec![("tab", json!(5))])),
             ),
         ],

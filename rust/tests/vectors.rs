@@ -589,7 +589,7 @@ mod messages {
 
     /// Folder of `mensagens/` and the message type number (`None`: the
     /// `pair-request`, a bare map).
-    const FOLDERS: [(&str, Option<u64>); 27] = [
+    const FOLDERS: [(&str, Option<u64>); 28] = [
         ("hello", Some(0)),
         ("welcome", Some(1)),
         ("incompatible", Some(2)),
@@ -597,6 +597,7 @@ mod messages {
         ("workspace", Some(10)),
         ("profiles", Some(11)),
         ("theme", Some(12)),
+        ("view-tab", Some(13)),
         ("subscribe", Some(20)),
         ("unsubscribe", Some(21)),
         ("grid-snapshot", Some(22)),

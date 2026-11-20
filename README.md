@@ -2,19 +2,19 @@
 
 Especificação do protocolo de **acesso remoto do Porecatu**: o contrato que o Porecatu desktop, o Porecatu Relay e o Porecatu Remote seguem para que um celular alcance uma sessão viva do terminal sem que o servidor do meio consiga ler o conteúdo.
 
-**Status:** especificação **0.4, em rascunho**, versão de fio **`[0, 1]`**, ainda não congelada (são duas versões diferentes: a do texto e a do que vai no fio — [04 — Versionamento](docs/especificacao/04-versionamento.md)). As duas implementações de referência e os vetores de teste existem e concordam entre si; nada foi publicado ainda ([roadmap](docs/roadmap.md)).
+**Status:** especificação **0.5, em rascunho**, versão de fio **`[0, 1]`**, ainda não congelada (são duas versões diferentes: a do texto e a do que vai no fio — [04 — Versionamento](docs/especificacao/04-versionamento.md)). As duas implementações de referência e os vetores de teste existem e concordam entre si; nada foi publicado ainda ([roadmap](docs/roadmap.md)).
 
 ## Implementações de referência
 
 | | Onde | O que tem |
 |---|---|---|
-| Crate Rust `porecatu-protocol` | [`rust/`](rust/Cargo.toml) | envelope do relay (sempre compilado), Noise `XX`/`IK` e registros (feature `session`), as 26 mensagens CBOR (feature `message`), `host_id`, impressão digital, URI de pareamento; sans-IO, sem `tokio` |
+| Crate Rust `porecatu-protocol` | [`rust/`](rust/Cargo.toml) | envelope do relay (sempre compilado), Noise `XX`/`IK` e registros (feature `session`), as 27 mensagens CBOR (feature `message`), `host_id`, impressão digital, URI de pareamento; sans-IO, sem `tokio` |
 | Pacote TypeScript `@porecatu/protocol` | [`ts/`](ts/package.json) | as mesmas camadas, nos dois papéis (cliente e host); entrada `@porecatu/protocol/testing` com relay e desktop falsos em memória; sem APIs do Node |
 | Ferramenta de vetores | [`rust/tools/vectors`](rust/tools/vectors/Cargo.toml) | `generate`, `check` e `schema`; não publicada |
-| Vetores de teste | [`docs/especificacao/vetores-de-teste/`](docs/especificacao/vetores-de-teste/README.md) | 334 vetores, lidos pelas duas implementações; o Rust reproduz as sessões gravadas pelo TS e vice-versa |
+| Vetores de teste | [`docs/especificacao/vetores-de-teste/`](docs/especificacao/vetores-de-teste/README.md) | 340 vetores, lidos pelas duas implementações; o Rust reproduz as sessões gravadas pelo TS e vice-versa |
 | Schema CDDL | [`schema/porecatu-remote.cddl`](schema/porecatu-remote.cddl) | gerado dos blocos `cddl` da especificação por `scripts/extract-cddl.py` |
 
-Verificado nesta máquina (Windows) em 2026-11-17: `cargo test --workspace` com 269 testes passando (e um doctest ignorado), `pnpm test` com 744 testes passando (e o que regrava `sessoes-ts/`, pulado de propósito), `vectors check` com 334 vetores e nenhuma falha. **Dívida de verificação:** Linux e macOS, `cargo deny` e a execução do pacote no Hermes do Expo só rodam no CI ou no app do Remote, não foram vistos aqui.
+Verificado nesta máquina (Windows) em 2026-11-20: `cargo test --workspace` com 273 testes passando (e um doctest ignorado), `pnpm test` com 755 testes passando (e o que regrava `sessoes-ts/`, pulado de propósito), `vectors check` com 334 vetores e nenhuma falha. **Dívida de verificação:** Linux e macOS, `cargo deny` e a execução do pacote no Hermes do Expo só rodam no CI ou no app do Remote, não foram vistos aqui.
 
 ## As três partes
 

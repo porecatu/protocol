@@ -273,6 +273,29 @@ describe("fake host", () => {
     expect(host.received.at(-1)?.message).toEqual({ type: "grid-ack", pane: 1, seq: 0 });
   });
 
+  it("accepts view-tab, with a tab and with null, records it and keeps the channel open", () => {
+    const device = testKeypair(100);
+    const relay = createMemoryRelay();
+    const clock = createTestClock();
+    const host = createFakeHost({ relay, now: clock.now, pairedDevices: [device.publicKey] });
+    const client = new Client(relay, clock, device);
+    client.connect(host.hostId, host.hostKey);
+    client.send(HELLO);
+    const before = client.messages().length;
+
+    client.send({ type: "view-tab", tab: 1 });
+    client.send({ type: "view-tab", tab: null });
+    expect(host.received.slice(-2).map((entry) => entry.message)).toEqual([
+      { type: "view-tab", tab: 1 },
+      { type: "view-tab", tab: null },
+    ]);
+    // No reply, no error, and the channel still works.
+    expect(client.messages()).toHaveLength(before);
+    expect(client.session.isOpen).toBe(true);
+    client.send({ type: "subscribe", pane: 1 });
+    expect(client.messages().at(-1)).toMatchObject({ type: "grid-snapshot", pane: 1 });
+  });
+
   it("numbers the grid messages of a subscription from 0, and subscribing again takes the next seq", () => {
     const device = testKeypair(100);
     const relay = createMemoryRelay();

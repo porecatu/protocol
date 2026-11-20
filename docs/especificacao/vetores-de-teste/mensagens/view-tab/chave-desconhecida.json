@@ -1,0 +1,28 @@
+{
+  "descricao": "view-tab: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    13,
+    {
+      "map": [
+        [
+          "zz",
+          true
+        ],
+        [
+          "tab",
+          null
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820da2627a7af563746162f6",
+  "reencode_hex": "820da163746162f6",
+  "valido": true,
+  "erro": null,
+  "diag": "[13, {\"zz\": true, \"tab\": null}]"
+}

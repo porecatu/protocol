@@ -165,8 +165,7 @@ export type ActionBody =
       readonly window: WindowId;
     }
   | { readonly type: "ungroup"; readonly group: GroupId }
-  | { readonly type: "start-pane"; readonly pane: PaneId }
-  | { readonly type: "activate-tab"; readonly tab: TabId };
+  | { readonly type: "start-pane"; readonly pane: PaneId };
 
 // --- Pairing request (spec 02 §3): the payload of msg3, not a message ---
 
@@ -230,6 +229,12 @@ export interface Theme {
   readonly palette: readonly Rgb[];
   /** At least one color. */
   readonly groupColors: readonly Rgb[];
+}
+
+/** Spec 03 §4.4: the tab the client is showing, `null` when it shows none. */
+export interface ViewTab {
+  readonly type: "view-tab";
+  readonly tab: TabId | null;
 }
 
 export interface Subscribe {
@@ -396,6 +401,7 @@ export type HostMessage =
 export type ClientMessage =
   | Hello
   | Goodbye
+  | ViewTab
   | Subscribe
   | Unsubscribe
   | GridAck

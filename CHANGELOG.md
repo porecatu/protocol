@@ -4,6 +4,15 @@ Mudanças da especificação e das implementações de referência. Formato insp
 
 ## [Não publicado]
 
+### Especificação 0.5 (rascunho) — 2026-11-20
+
+Versão de fio continua `[0, 1]`, ainda não congelada. Decisões no [ADR-0011](docs/adr/0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md), que substitui os itens 1 a 4 do ADR-0010. Crate Rust, pacote TypeScript, vetores e schema acompanham no mesmo commit.
+
+- **Fio, removido:** a ação `activate-tab` (`action-body` código 13). O código fica reservado e nunca é reaproveitado; um host 0.5 recusa `[13, …]` em `action-body` como valor fora do domínio.
+- **Fio, adicionado:** a mensagem `view-tab` (tipo 13, cliente → host, `{ "tab": tab-id / null }`, §4.4 de 03). O cliente informa a aba que exibe, sem efeito no workspace; o estado é um por sessão e o host não o repassa.
+- **Implementações:** Rust `Message::ViewTab` (sem `ActionBody::ActivateTab`); TypeScript `view-tab` (sem `activate-tab` em `ACTION_TYPES`), e o desktop falso de `@porecatu/protocol/testing` aceita `view-tab`; vetores `mensagens/view-tab/` (seis casos) e `mensagens/action/activate-tab-recusada.json` no lugar de `activate-tab.json`; teste de sessão com `view-tab` em `rust/tests/full_session.rs`. 340 vetores.
+- **Regra:** volta a da 0.3. O cliente nunca muda a aba ativa do desktop: `new-tab` cria sem ativar, `collapse-group` ao expandir não ativa nada, `move-*-to-window` chega ao destino sem ativar e `start-pane` não ativa a aba do painel. Só a remoção da aba ativa (fechar, mover, colapsar o grupo dela) a move, pela regra do desktop. A janela do sistema continua intocada. As correções de texto da 0.4 (aba fixada, `new-group`, casos de borda, ordem das checagens) continuam.
+
 ### Especificação 0.4 (rascunho) — 2026-11-17
 
 Versão de fio continua `[0, 1]`, ainda não congelada. Decisões no [ADR-0010](docs/adr/0010-aba-ativa-pelo-cliente.md).

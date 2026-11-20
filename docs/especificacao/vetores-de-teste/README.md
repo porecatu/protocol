@@ -1,7 +1,7 @@
 # Vetores de teste
 
-**Versão da especificação:** 0.3 (rascunho)
-**Status:** formato definido ([ADR-0008](../../adr/0008-especificacao-0-2.md)); 333 vetores commitados, gerados pela ferramenta Rust `rust/tools/vectors` (todas as pastas menos `sessoes-ts/`) e pelos testes do pacote TypeScript (`sessoes-ts/`), e reproduzidos pelas duas implementações de referência ([ADR-0005](../../adr/0005-implementacoes-de-referencia.md)).
+**Versão da especificação:** 0.5 (rascunho)
+**Status:** formato definido ([ADR-0008](../../adr/0008-especificacao-0-2.md)); 340 vetores commitados, gerados pela ferramenta Rust `rust/tools/vectors` (todas as pastas menos `sessoes-ts/`) e pelos testes do pacote TypeScript (`sessoes-ts/`), e reproduzidos pelas duas implementações de referência ([ADR-0005](../../adr/0005-implementacoes-de-referencia.md)).
 
 O protocolo tem duas implementações de referência em linguagens diferentes (Rust e TypeScript). Especificação em prosa não basta para as duas concordarem byte a byte: os vetores são o árbitro. Toda mudança no fio entra com vetor novo, e o CI deste repositório roda os vetores contra as duas implementações.
 
@@ -27,7 +27,7 @@ Um arquivo JSON por vetor, nome em `kebab-case` descrevendo o caso (`minimo.json
 |---|---|---|---|---|
 | `identidade/` | 14 | 14 | Rust (`rust/tools/vectors`) | Rust e TS |
 | `envelope/` | 38 | 38 | Rust | Rust e TS |
-| `mensagens/` | 252 (27 pastas: as 26 mensagens de [03](../03-mensagens.md) §10 e o `pair-request`) | 252 | Rust | Rust e TS |
+| `mensagens/` | 259 (28 pastas: as 27 mensagens de [03](../03-mensagens.md) §10 e o `pair-request`) | 259 | Rust | Rust e TS |
 | `noise/` | 6 | 9 (5 do Porecatu + 4 do cacophony) | Rust; o arquivo do cacophony é copiado como vem | Rust e TS |
 | `registros/` | 11 | 11 | Rust | Rust e TS |
 | `sessoes/` | 6 | 6 | Rust | Rust e TS |

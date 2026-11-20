@@ -14,7 +14,7 @@ use porecatu_protocol::host_id::{self, HostId};
 use porecatu_protocol::message::{
     self, Color, Cursor, CursorShape, Direction, ErrorCode, ErrorMessage, Goodbye, GoodbyeReason,
     GridAck, GridSnapshot, Hello, Line, Message, PairAccepted, PairPlatform, Paste, Span, SpanText,
-    Style, Subscribe, Version, Welcome,
+    Style, Subscribe, Version, ViewTab, Welcome,
 };
 use porecatu_protocol::pairing_uri::{PROTOCOL_MAJOR, PairingUri};
 use porecatu_protocol::session::{
@@ -290,6 +290,28 @@ fn pairing_then_a_full_conversation() {
     let mut rig = pair_device(&host, &device);
     // The session continues as a normal connection, with no reconnect.
     converse(&mut rig);
+    assert!(rig.client.is_open());
+    assert!(rig.host.is_open());
+}
+
+#[test]
+fn client_reports_the_tab_it_shows_with_view_tab() {
+    let host = Host::new();
+    let device = StaticKeypair::generate();
+    let mut rig = pair_device(&host, &device);
+    converse(&mut rig);
+
+    let shown = Message::ViewTab(ViewTab { tab: Some(5) });
+    rig.client_sends(&shown);
+    let none = Message::ViewTab(ViewTab { tab: None });
+    rig.client_sends(&none);
+
+    let received: Vec<&Message> = rig
+        .host_messages()
+        .into_iter()
+        .filter(|m| matches!(m, Message::ViewTab(_)))
+        .collect();
+    assert_eq!(received, [&shown, &none]);
     assert!(rig.client.is_open());
     assert!(rig.host.is_open());
 }

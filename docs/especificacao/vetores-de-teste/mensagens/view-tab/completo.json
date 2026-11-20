@@ -1,0 +1,24 @@
+{
+  "descricao": "view-tab completo: view-tab da aba de maior id",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    13,
+    {
+      "map": [
+        [
+          "tab",
+          9007199254740991
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820da1637461621b001fffffffffffff",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[13, {\"tab\": 9007199254740991}]"
+}

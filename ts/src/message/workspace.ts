@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-/** Workspace state (spec 03 §4): `workspace`, `profiles` and `theme`. */
+/** Workspace state (spec 03 §4): `workspace`, `profiles`, `theme` and `view-tab`. */
 
 import {
   asArray,
@@ -27,6 +27,7 @@ import type {
   Split,
   Tab,
   Theme,
+  ViewTab,
   WorkspaceMessage,
   WorkspaceWindow,
 } from "./types.js";
@@ -291,5 +292,15 @@ export const themeCodec: BodyCodec<Theme> = {
       return outOfDomain();
     }
     return { type: "theme", fg, bg, cursor, selectionBg, palette, groupColors };
+  },
+};
+
+// --- view-tab ---
+
+export const viewTabCodec: BodyCodec<ViewTab> = {
+  toBody: (m) => body([["tab", m.tab]]),
+  fromBody: (r) => {
+    const tab = r.required("tab");
+    return { type: "view-tab", tab: isNull(tab) ? null : asUint(tab) };
   },
 };

@@ -4,12 +4,12 @@ Fases do protocolo. Cada fase tem **critério de saída explícito**; enquanto e
 
 | Fase | Status |
 |---|---|
-| P0 — Especificação 0.1 (rascunho) | entregas feitas, hoje na **0.4**; critério 3 sem registro |
+| P0 — Especificação 0.1 (rascunho) | entregas feitas, hoje na **0.5**; critério 3 sem registro |
 | P1 — Crate Rust e vetores | **entregue**, com dívida de verificação |
 | P2 — Pacote TypeScript | **entregue**, com dívida de verificação (Hermes) |
 | P3 — Congelar `[0, 1]` | planejada |
 
-Medido em 2026-11-17, no Windows: `cargo test --workspace` (em `rust/`) com 269 testes passando e um doctest ignorado; `pnpm test` (em `ts/`) com 744 testes passando em 22 arquivos e um pulado (o que regrava `sessoes-ts/`, que só roda com `WRITE_TRANSCRIPTS`); `cargo run -p vectors -- check` com 334 vetores e nenhuma falha; `python scripts/verify-docs.py` passando.
+Medido em 2026-11-20, no Windows: `cargo test --workspace` (em `rust/`) com 273 testes passando e um doctest ignorado; `pnpm test` (em `ts/`) com 755 testes passando em 22 arquivos e um pulado (o que regrava `sessoes-ts/`, que só roda com `WRITE_TRANSCRIPTS`); `cargo run -p vectors -- check` com 340 vetores e nenhuma falha; `python scripts/verify-docs.py` passando.
 
 ---
 
@@ -25,7 +25,9 @@ Escrever o contrato antes do código, para os três projetos citarem a mesma coi
 2. O PRD-025 do Porecatu, a documentação inicial do Relay e a do Remote citam a especificação sem contradizê-la.
 3. O dono do produto revisou o modelo de ameaça e as decisões em aberto da especificação.
 
-**Situação:** a especificação passou por 0.2 ([ADR-0008](adr/0008-especificacao-0-2.md)), 0.3 ([ADR-0009](adr/0009-grafema-no-fio-e-linhas-descartadas.md)) e 0.4 ([ADR-0010](adr/0010-aba-ativa-pelo-cliente.md)) e foi implementada nas duas linguagens. Critério 1 atendido. Critério 2 não foi conferido nesta leva (é leitura dos outros repositórios). Critério 3 não tem registro neste repositório.
+**Situação:** a especificação passou por 0.2 ([ADR-0008](adr/0008-especificacao-0-2.md)), 0.3 ([ADR-0009](adr/0009-grafema-no-fio-e-linhas-descartadas.md)), 0.4 ([ADR-0010](adr/0010-aba-ativa-pelo-cliente.md)) e 0.5 ([ADR-0011](adr/0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md)) e foi implementada nas duas linguagens. Critério 1 atendido.
+
+**Especificação 0.5 — implementada em 2026-11-20:** `view-tab` e a saída de `activate-tab` no crate, no pacote, nos vetores (`mensagens/view-tab/`, `mensagens/action/activate-tab-recusada.json`) e num teste de sessão (`rust/tests/full_session.rs`). Os consumidores (o Porecatu pelos ADR-0111 e ADR-0112, o Relay pelo `rev` e o Remote pelo ADR-0012) sobem juntos para o commit da 0.5.
 
 ## P1 — Crate Rust e vetores
 
@@ -39,10 +41,10 @@ Escrever o contrato antes do código, para os três projetos citarem a mesma coi
 4. O crate compila com a toolchain pinada do Porecatu e sem `tokio` na árvore (`cargo tree -i tokio` vazio).
 5. Uma sessão completa (pareamento `XX` → `hello` → `workspace` → assinatura → diffs → ação → `goodbye`) roda em teste de integração, host e cliente em memória.
 
-**Situação: entregue.** `rust/` (crate e ferramenta `rust/tools/vectors`), `schema/porecatu-remote.cddl`, 334 vetores e o CI (`.github/workflows/ci.yml`) existem.
+**Situação: entregue.** `rust/` (crate e ferramenta `rust/tools/vectors`), `schema/porecatu-remote.cddl`, 340 vetores e o CI (`.github/workflows/ci.yml`) existem.
 
 1. Atendido: `rust/tests/vectors.rs` reproduz os quatro vetores do cacophony (como o `snow` 0.10.0 os distribui) e os cinco de `noise/` com o prólogo do Porecatu.
-2. Atendido: as 26 mensagens e o `pair-request` têm mínimo, completo, chave desconhecida, uma recusa por chave obrigatória ausente e não canônico; as de grade, os casos extras.
+2. Atendido: as 27 mensagens e o `pair-request` têm mínimo, completo, chave desconhecida, uma recusa por chave obrigatória ausente e não canônico; as de grade, os casos extras.
 3. Atendido: `vectors check` valida os vetores de valor contra o CDDL consolidado.
 4. Atendido: toolchain 1.98.0, a mesma do Porecatu; `cargo tree -p porecatu-protocol -e normal -i tokio` não acha nada (o CI confere).
 5. Atendido **em partes**, não numa conversa só: `rust/tests/full_session.rs` faz pareamento `XX` → `pair-accepted` → `hello`/`welcome` → `subscribe` → `grid-snapshot` → `grid-ack` com host e cliente em memória, e `goodbye` nos dois sentidos noutro teste; `workspace` vem das sessões de `sessoes/`, e `grid-diff` e ação com `action-result` vêm das transcrições de `sessoes-ts/`, que o crate reproduz com `ClientSession` e `HostChannel`.

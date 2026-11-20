@@ -1,0 +1,24 @@
+{
+  "descricao": "view-tab: o cliente passa a exibir a aba 5",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    13,
+    {
+      "map": [
+        [
+          "tab",
+          5
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820da16374616205",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[13, {\"tab\": 5}]"
+}

@@ -1,6 +1,6 @@
 # 01 — Transporte e relay
 
-**Versão da especificação:** 0.4 (rascunho)
+**Versão da especificação:** 0.5 (rascunho)
 
 Este documento cobre as camadas 1 e 2: como host e cliente chegam ao relay e o que o relay vê. Tudo acima da camada 2 é opaco para o relay.
 

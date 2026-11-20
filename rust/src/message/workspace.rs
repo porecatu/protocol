@@ -531,6 +531,26 @@ impl Body for Theme {
     }
 }
 
+/// `view-tab` (client to host): the tab the client is showing now, `None` when
+/// it shows none. Information for the desktop; it never changes the workspace.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ViewTab {
+    /// `tab`.
+    pub tab: Option<TabId>,
+}
+
+impl Body for ViewTab {
+    fn to_value(&self) -> Value {
+        wire::map(vec![("tab", wire::nullable_uint(self.tab))])
+    }
+
+    fn from_map(r: &MapReader<'_>) -> Result<Self, DecodeError> {
+        Ok(ViewTab {
+            tab: wire::req_nullable_u64(r, "tab")?,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::{Direction, Message, decode, encode};
@@ -1007,6 +1027,51 @@ mod tests {
             palette: std::array::from_fn(|i| i as u32),
             group_colors: vec![0xff0000],
         }
+    }
+
+    // 82 0d = [13, ...], a1 = map of 1, 63 746162 = "tab".
+    #[test]
+    fn view_tab_round_trip() {
+        for (tab, tail) in [
+            (Some(5), "05"),
+            (None, "f6"),
+            (Some((1u64 << 53) - 1), "1b001fffffffffffff"),
+        ] {
+            let message = Message::ViewTab(ViewTab { tab });
+            let bytes = encode(&message);
+            assert_eq!(hex(&bytes), format!("820da163746162{tail}"));
+            assert_eq!(decode(&bytes, Direction::ClientToHost).unwrap(), message);
+        }
+    }
+
+    #[test]
+    fn view_tab_is_only_for_the_client_to_send() {
+        let bytes = unhex("820da16374616205");
+        assert_eq!(
+            decode(&bytes, Direction::HostToClient),
+            Err(DecodeError::WrongDirection(13))
+        );
+        assert!(Message::ViewTab(ViewTab { tab: None }).can_be_sent_by(Direction::ClientToHost));
+        assert!(!Message::ViewTab(ViewTab { tab: None }).can_be_sent_by(Direction::HostToClient));
+    }
+
+    #[test]
+    fn view_tab_errors_and_unknown_keys() {
+        // No "tab": the key is required even though its value may be null.
+        assert_eq!(
+            decode(&unhex("820da0"), Direction::ClientToHost),
+            Err(DecodeError::Cbor(CborError::MissingKey))
+        );
+        // "tab" of the wrong type.
+        assert!(decode(&unhex("820da1637461626161"), Direction::ClientToHost).is_err());
+        // An unknown key is ignored ("zz" sorts before "tab": shorter first).
+        assert_eq!(
+            decode(
+                &unhex(concat!("820da262", "7a7a", "f5", "63746162", "05")),
+                Direction::ClientToHost
+            ),
+            Ok(Message::ViewTab(ViewTab { tab: Some(5) }))
+        );
     }
 
     // Hand-computed. Keys: bg, fg, cursor, palette, group_colors,

@@ -16,6 +16,7 @@ export const MessageType = {
   workspace: 10,
   profiles: 11,
   theme: 12,
+  "view-tab": 13,
   subscribe: 20,
   unsubscribe: 21,
   "grid-snapshot": 22,
@@ -215,5 +216,4 @@ export const ACTION_TYPES = [
   "move-group-to-window",
   "ungroup",
   "start-pane",
-  "activate-tab",
 ] as const;

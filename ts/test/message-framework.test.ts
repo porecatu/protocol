@@ -312,16 +312,16 @@ describe("envelope and dispatch", () => {
     }
   });
 
-  it("has a consistent table of 26 messages", () => {
+  it("has a consistent table of 27 messages", () => {
     const names = Object.keys(MessageType) as Array<Message["type"]>;
-    expect(names).toHaveLength(26);
-    expect(new Set(MESSAGE_TYPE_CODES).size).toBe(26);
+    expect(names).toHaveLength(27);
+    expect(new Set(MESSAGE_TYPE_CODES).size).toBe(27);
     const bySender = { host: 0, client: 0, both: 0 };
     for (const name of names) {
       expect(messageTypeCode(name)).toBe(MessageType[name]);
       bySender[messageSender(name)]++;
     }
-    expect(bySender).toEqual({ host: 14, client: 10, both: 2 });
+    expect(bySender).toEqual({ host: 14, client: 11, both: 2 });
     expect(messageSender("goodbye")).toBe("both");
     expect(messageSender("error")).toBe("both");
     expect(messageSender("hello")).toBe("client");
@@ -330,7 +330,7 @@ describe("envelope and dispatch", () => {
 
   it("keeps the spec's numbers", () => {
     expect(MESSAGE_TYPE_CODES).toEqual([
-      0, 1, 2, 3, 10, 11, 12, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 40, 41, 42, 43,
+      0, 1, 2, 3, 10, 11, 12, 13, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 40, 41, 42, 43,
       50, 60, 61, 70,
     ]);
     expect(GOODBYE_REASONS).toEqual([0, 1, 2, 3]);

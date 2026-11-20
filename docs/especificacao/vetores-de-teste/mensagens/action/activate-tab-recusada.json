@@ -1,5 +1,5 @@
 {
-  "descricao": "action: activate-tab (13)",
+  "descricao": "action: do com o código 13, o do activate-tab removido na 0.5: fora do domínio",
   "versao": [
     0,
     1
@@ -32,7 +32,10 @@
   ],
   "cbor_hex": "821828a262646f820da1637461620562696411",
   "reencode_hex": null,
-  "valido": true,
-  "erro": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
   "diag": "[40, {\"do\": [13, {\"tab\": 5}], \"id\": 17}]"
 }

@@ -1,6 +1,6 @@
 # ADR-0010 — Aba ativa pelo cliente: `activate-tab`, ativação como a do gesto local e janela do sistema intocada
 
-**Status:** Aceito
+**Status:** Superseded by ADR-0011 (itens 1 a 4; os itens 5 a 7 continuam valendo)
 **Data:** 2026-11-17
 **Relacionados:** [ADR-0001](0001-tres-partes-e-relay-cego.md), [ADR-0008](0008-especificacao-0-2.md), [ADR-0009](0009-grafema-no-fio-e-linhas-descartadas.md), [03 — Mensagens](../especificacao/03-mensagens.md) §4 e §7
 
@@ -15,6 +15,8 @@ Nenhum ADR anterior fixava essa regra: ela estava só no texto da especificaçã
 Durante a implementação do host, outras lacunas da §7 apareceram: duas frases da 0.3 descreviam um comportamento que o desktop não tem, e vários casos de borda não estavam escritos. Estão listados abaixo como correções de texto; elas **não mudam o fio**.
 
 ## Decisão
+
+> **Revisto pelo [ADR-0011](0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md) (2026-11-20).** Os itens 1 a 4 deixam de valer: o cliente não muda mais a aba ativa, `activate-tab` sai do protocolo (o código 13 de `action-body` fica reservado) e as ações voltam a não ativar aba, como na 0.3. A janela do sistema continua intocada. As correções de texto dos itens 5 a 7 continuam valendo. Especificação 0.5.
 
 **O cliente pode mudar a aba ativa de uma janela; as ações seguem o gesto local por inteiro, inclusive a ativação de aba que ele faz; a janela do sistema operacional nunca muda por causa de uma ação remota.**
 

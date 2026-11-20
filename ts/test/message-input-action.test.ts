@@ -190,11 +190,10 @@ const ALL_ACTIONS: readonly ActionBody[] = [
   { type: "move-group-to-window", group: 3, window: 2 },
   { type: "ungroup", group: 3 },
   { type: "start-pane", pane: 8 },
-  { type: "activate-tab", tab: 5 },
 ];
 
 describe("action round trips", () => {
-  it("covers the 14 action types", () => {
+  it("covers the 13 action types", () => {
     expect(new Set(ALL_ACTIONS.map((a) => a.type))).toEqual(new Set(ACTION_TYPES));
   });
 
@@ -233,6 +232,48 @@ describe("action round trips", () => {
   });
 });
 
+// view-tab (spec 03 §4.4), type 13, client to host. Hex by hand: [13, {"tab": 5}]
+// is 82 0d a1 63 "tab" 05; with null the value is f6; a uint of 2^53-1 is 1b + 8 bytes.
+describe("view-tab", () => {
+  const VIEW_TAB_5_HEX = "820da16374616205";
+  const VIEW_TAB_NULL_HEX = "820da163746162f6";
+  const VIEW_TAB_MAX_HEX = "820da1637461621b001fffffffffffff";
+
+  it("encodes and decodes a tab, null and the largest id", () => {
+    const cases: ReadonlyArray<readonly [Message, string]> = [
+      [{ type: "view-tab", tab: 5 }, VIEW_TAB_5_HEX],
+      [{ type: "view-tab", tab: null }, VIEW_TAB_NULL_HEX],
+      [{ type: "view-tab", tab: Number.MAX_SAFE_INTEGER }, VIEW_TAB_MAX_HEX],
+    ];
+    for (const [message, bytesHex] of cases) {
+      expect(hex(encodeMessage(message))).toBe(bytesHex);
+      expect(success(decodeMessage(fromHex(bytesHex), "client"))).toEqual(message);
+    }
+  });
+
+  it("refuses a missing tab with missing-key", () => {
+    expect(failure(decodeMessage(wire(13, []), "client"))).toBe("missing-key");
+  });
+
+  it("refuses a tab that is neither a uint nor null", () => {
+    expect(failure(decodeMessage(wire(13, [["tab", "5"]]), "client"))).toBe("wrong-type");
+    expect(failure(decodeMessage(wire(13, [["tab", -1]]), "client"))).toBe("wrong-type");
+    expect(failure(decodeMessage(wire(13, [["tab", true]]), "client"))).toBe("wrong-type");
+  });
+
+  it("ignores an unknown key and drops it on re-encode", () => {
+    const bytes = wire(13, [["zz", true], ["tab", null]]);
+    expect(hex(bytes)).toBe("820da2627a7af563746162f6");
+    const decoded = success(decodeMessage(bytes, "client"));
+    expect(decoded).toEqual({ type: "view-tab", tab: null });
+    expect(hex(encodeMessage(decoded))).toBe(VIEW_TAB_NULL_HEX);
+  });
+
+  it("refuses an out-of-order body as unordered-keys", () => {
+    expect(failure(decodeMessage(fromHex("820da263746162f6627a7af5"), "client"))).toBe("unordered-keys");
+  });
+});
+
 describe("missing required keys", () => {
   it("refuses each", () => {
     const cases: ReadonlyArray<readonly [Uint8Array, Direction]> = [
@@ -248,7 +289,6 @@ describe("missing required keys", () => {
       [wire(40, [["id", 1], ["do", [4, map([["tab", 5]])]]]), "client"], // move-tab-to-group without group
       [wire(40, [["id", 1], ["do", [6, map([["tabs", [1]]])]]]), "client"], // new-group without name
       [wire(40, [["id", 1], ["do", [9, map([["group", 3]])]]]), "client"], // collapse-group without collapsed
-      [wire(40, [["id", 1], ["do", [13, map([])]]]), "client"], // activate-tab without tab
       [wire(41, [["error", 12]]), "host"],
       [wire(42, [["id", 3], ["kind", 0]]), "host"], // no processes
       [wire(43, [["id", 3]]), "client"],
@@ -273,6 +313,9 @@ describe("values outside the domain", () => {
         "client",
       ],
       ["unknown action code", wire(40, [["id", 1], ["do", [14, map([])]]]), "client"],
+      // 13 was activate-tab in 0.4; removed in 0.5 (ADR-0011) and never reused.
+      ["removed activate-tab code 13", wire(40, [["id", 17], ["do", [13, map([["tab", 5]])]]]), "client"],
+      ["removed activate-tab code 13, empty body", wire(40, [["id", 1], ["do", [13, map([])]]]), "client"],
       [
         "new-group with no tabs",
         wire(40, [["id", 1], ["do", [6, map([["tabs", []], ["name", "g"]])]]]),
@@ -334,6 +377,7 @@ describe("wrong types and shapes", () => {
   });
 
   it("refuses the messages from the wrong side", () => {
+    expect(failure(decodeMessage(encodeMessage({ type: "view-tab", tab: 5 }), "host"))).toBe("wrong-direction");
     expect(failure(decodeMessage(encodeMessage({ type: "confirm", id: 3, accept: true }), "host"))).toBe(
       "wrong-direction",
     );
@@ -373,11 +417,6 @@ describe("unknown keys are ignored", () => {
       [
         wire(40, [["id", 2], ["do", [12, map([["pane", 4], extra])]]]),
         { type: "action", id: 2, do: { type: "start-pane", pane: 4 } },
-        "client",
-      ],
-      [
-        wire(40, [["id", 3], ["do", [13, map([["tab", 5], extra])]]]),
-        { type: "action", id: 3, do: { type: "activate-tab", tab: 5 } },
         "client",
       ],
       [

@@ -543,6 +543,10 @@ export function createFakeHost(options: FakeHostOptions): FakeHost {
       case "unsubscribe":
         state.subscriptions.delete(message.pane);
         return;
+      case "view-tab":
+        // Spec 03 §4.4: the host keeps no tab state for the client; it is
+        // recorded in `received` like every other message and needs no reply.
+        return;
       case "goodbye":
         closeChannel(number, CloseReason.normal);
         return;

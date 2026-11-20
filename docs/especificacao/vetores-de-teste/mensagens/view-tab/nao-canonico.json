@@ -1,0 +1,31 @@
+{
+  "descricao": "view-tab: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    13,
+    {
+      "map": [
+        [
+          "tab",
+          null
+        ],
+        [
+          "zz",
+          true
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820da263746162f6627a7af5",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[13, {\"tab\": null, \"zz\": true}]"
+}

@@ -61,6 +61,8 @@ Cada um é decisão, não esquecimento.
 - **Permissões por aparelho** (somente leitura, só algumas abas). O pedido é acesso total, com indicador e revogação.
 - **Modo em segundo plano do host.** Sem Porecatu aberto, o host está offline; manter o processo vivo sem janela é decisão do ciclo de vida do Porecatu.
 - **Abrir janela, mudar o painel focado ou dar foco a uma janela do sistema do desktop, fixar, sessões nomeadas, configurações, gerenciador de tarefas** pelo celular.
+
+  > **Emenda (2026-11-20).** **Mudar a aba ativa do desktop** também fica fora do v0 ([ADR-0011](../adr/0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md)), como era antes da especificação 0.4. O celular informa a aba que exibe (`view-tab`), e o desktop só mostra essa informação.
 - **Responder perguntas do backend SSH** (senha, chave do servidor) pelo celular.
 - **Mouse** no terminal a partir do celular.
 

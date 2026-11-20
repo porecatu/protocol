@@ -191,6 +191,9 @@ theme = [12, {
 }]
 
 ; ==== 03-mensagens.md ====
+view-tab = [13, { "tab": tab-id / null, * tstr => any }]   ; null: o cliente não exibe nenhuma aba
+
+; ==== 03-mensagens.md ====
 subscribe   = [20, { "pane": pane-id, * tstr => any }]
 unsubscribe = [21, { "pane": pane-id, * tstr => any }]
 
@@ -308,7 +311,7 @@ action-body =
   / [10, { "group": group-id, "window": window-id, * tstr => any }]           ; move-group-to-window
   / [11, { "group": group-id, * tstr => any }]                                ; ungroup
   / [12, { "pane": pane-id, * tstr => any }]                                  ; start-pane
-  / [13, { "tab": tab-id, * tstr => any }]                                    ; activate-tab
+  ; 13 reservado: era activate-tab (0.4), removida na 0.5 (ADR-0011); nunca reaproveitado
 
 action-result = [41, {
   "id": request-id,
@@ -363,7 +366,7 @@ error-code = &(
 
 ; ==== 03-mensagens.md ====
 message = hello / welcome / incompatible / goodbye
-        / workspace / profiles / theme
+        / workspace / profiles / theme / view-tab
         / subscribe / unsubscribe / grid-snapshot / grid-diff / grid-ack
         / scrollback-request / scrollback-page / subscription-ended
         / key / text-input / paste

@@ -56,7 +56,7 @@ import {
   welcomeCodec,
 } from "./session.js";
 import type { Direction, Message } from "./types.js";
-import { profilesCodec, themeCodec, workspaceCodec } from "./workspace.js";
+import { profilesCodec, themeCodec, viewTabCodec, workspaceCodec } from "./workspace.js";
 
 export * from "./codes.js";
 export { DecodeError, type DecodeErrorReason } from "./codec.js";
@@ -87,6 +87,7 @@ const CODECS: Table = {
   workspace: { code: MessageType.workspace, sender: "host", codec: workspaceCodec },
   profiles: { code: MessageType.profiles, sender: "host", codec: profilesCodec },
   theme: { code: MessageType.theme, sender: "host", codec: themeCodec },
+  "view-tab": { code: MessageType["view-tab"], sender: "client", codec: viewTabCodec },
   subscribe: { code: MessageType.subscribe, sender: "client", codec: subscribeCodec },
   unsubscribe: {
     code: MessageType.unsubscribe,
