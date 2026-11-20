@@ -92,6 +92,7 @@ group-id   = uint
 tab-id     = uint
 pane-id    = uint
 profile-id = tstr
+session-id = uint
 request-id = uint
 
 ; ==== 03-mensagens.md ====
@@ -192,6 +193,23 @@ theme = [12, {
 
 ; ==== 03-mensagens.md ====
 view-tab = [13, { "tab": tab-id / null, * tstr => any }]   ; null: o cliente não exibe nenhuma aba
+
+; ==== 03-mensagens.md ====
+list-sessions = [14, { "id": request-id, * tstr => any }]
+
+sessions = [15, {
+  "id":   request-id,                ; o do list-sessions
+  "mode": &(new-window: 0, append: 1),
+  "list": [* named-session],         ; a salva mais recentemente primeiro
+  * tstr => any,
+}]
+
+named-session = {
+  "session":  session-id,
+  "name":     tstr,                  ; o nome dado no desktop, como está
+  "readable": bool,                  ; false: o host não consegue restaurá-la
+  * tstr => any,
+}
 
 ; ==== 03-mensagens.md ====
 subscribe   = [20, { "pane": pane-id, * tstr => any }]
@@ -312,6 +330,7 @@ action-body =
   / [11, { "group": group-id, * tstr => any }]                                ; ungroup
   / [12, { "pane": pane-id, * tstr => any }]                                  ; start-pane
   ; 13 reservado: era activate-tab (0.4), removida na 0.5 (ADR-0011); nunca reaproveitado
+  / [14, { "session": session-id, ? "window": window-id, * tstr => any }]   ; restore-session
 
 action-result = [41, {
   "id": request-id,
@@ -362,11 +381,13 @@ error-code = &(
   cancelled:              14,
   unsupported:            15,
   last-tab:               16,   ; a ação fecharia a última aba da última janela, encerrando o host
+  unknown-session:        17,   ; a sessão salva não existe (mais) no host
+  session-unreadable:     18,   ; o host não consegue ler a sessão salva para restaurá-la
 )
 
 ; ==== 03-mensagens.md ====
 message = hello / welcome / incompatible / goodbye
-        / workspace / profiles / theme / view-tab
+        / workspace / profiles / theme / view-tab / list-sessions / sessions
         / subscribe / unsubscribe / grid-snapshot / grid-diff / grid-ack
         / scrollback-request / scrollback-page / subscription-ended
         / key / text-input / paste

@@ -15,6 +15,7 @@
 | [0009](0009-grafema-no-fio-e-linhas-descartadas.md) | Grafema composto marcado no fio e contador de linhas descartadas do histórico | Aceito |
 | [0010](0010-aba-ativa-pelo-cliente.md) | Aba ativa pelo cliente: `activate-tab`, ativação como a do gesto local e janela do sistema intocada | Superseded by ADR-0011 (**parcial**: itens 1 a 4; as correções de texto 5 a 7 continuam) |
 | [0011](0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md) | O cliente não muda a aba ativa; `view-tab` informa a aba que o cliente vê | Aceito |
+| [0012](0012-sessoes-nomeadas-pelo-cliente.md) | Sessões nomeadas pelo cliente: `list-sessions`, `sessions` e a ação `restore-session` | Aceito |
 
 ## Convenção
 

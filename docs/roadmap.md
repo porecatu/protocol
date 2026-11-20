@@ -4,7 +4,7 @@ Fases do protocolo. Cada fase tem **critério de saída explícito**; enquanto e
 
 | Fase | Status |
 |---|---|
-| P0 — Especificação 0.1 (rascunho) | entregas feitas, hoje na **0.5**; critério 3 sem registro |
+| P0 — Especificação 0.1 (rascunho) | entregas feitas, hoje na **0.6** (texto; implementação pendente); critério 3 sem registro |
 | P1 — Crate Rust e vetores | **entregue**, com dívida de verificação |
 | P2 — Pacote TypeScript | **entregue**, com dívida de verificação (Hermes) |
 | P3 — Congelar `[0, 1]` | planejada |
@@ -25,9 +25,11 @@ Escrever o contrato antes do código, para os três projetos citarem a mesma coi
 2. O PRD-025 do Porecatu, a documentação inicial do Relay e a do Remote citam a especificação sem contradizê-la.
 3. O dono do produto revisou o modelo de ameaça e as decisões em aberto da especificação.
 
-**Situação:** a especificação passou por 0.2 ([ADR-0008](adr/0008-especificacao-0-2.md)), 0.3 ([ADR-0009](adr/0009-grafema-no-fio-e-linhas-descartadas.md)), 0.4 ([ADR-0010](adr/0010-aba-ativa-pelo-cliente.md)) e 0.5 ([ADR-0011](adr/0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md)) e foi implementada nas duas linguagens. Critério 1 atendido.
+**Situação:** a especificação passou por 0.2 ([ADR-0008](adr/0008-especificacao-0-2.md)), 0.3 ([ADR-0009](adr/0009-grafema-no-fio-e-linhas-descartadas.md)), 0.4 ([ADR-0010](adr/0010-aba-ativa-pelo-cliente.md)) 0.5 ([ADR-0011](adr/0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md)) e 0.6 ([ADR-0012](adr/0012-sessoes-nomeadas-pelo-cliente.md)); até a 0.5, foi implementada nas duas linguagens. Critério 1 atendido.
 
 **Especificação 0.5 — implementada em 2026-11-20:** `view-tab` e a saída de `activate-tab` no crate, no pacote, nos vetores (`mensagens/view-tab/`, `mensagens/action/activate-tab-recusada.json`) e num teste de sessão (`rust/tests/full_session.rs`). Os consumidores (o Porecatu pelos ADR-0111 e ADR-0112, o Relay pelo `rev` e o Remote pelo ADR-0012) sobem juntos para o commit da 0.5.
+
+**Especificação 0.6 — texto escrito em 2026-11-20, implementação pendente:** sessões salvas pelo cliente ([ADR-0012](adr/0012-sessoes-nomeadas-pelo-cliente.md)): `list-sessions`, `sessions`, a ação `restore-session` e os códigos `unknown-session` e `session-unreadable`. Texto (§3, §4.5, §7, §9, §10 e anexo A de [03](especificacao/03-mensagens.md)) e schema CDDL regerado. **Falta:** o crate (mensagens, `ActionBody::RestoreSession`, `ErrorCode`), o pacote (que troca `ACTION_TYPES` indexado por um mapa explícito, porque o código 13 é um buraco), os vetores (`mensagens/list-sessions/`, `mensagens/sessions/`, extras de `action` e `error`) e um teste de sessão em `rust/tests/full_session.rs`. Os consumidores (Porecatu, Relay pelo `rev`, Remote) sobem juntos para o commit que a implementar.
 
 ## P1 — Crate Rust e vetores
 

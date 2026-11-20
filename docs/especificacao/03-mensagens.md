@@ -1,6 +1,6 @@
 # 03 — Mensagens
 
-**Versão da especificação:** 0.5 (rascunho)
+**Versão da especificação:** 0.6 (rascunho)
 
 Este documento cobre a camada 4: as mensagens de aplicação que host e cliente trocam dentro da sessão Noise. A escolha de CBOR e CDDL está no [ADR-0003](../adr/0003-cbor-com-schema-em-cddl.md); as regras estritas de codificação e decodificação desta versão, no [ADR-0008](../adr/0008-especificacao-0-2.md).
 
@@ -84,9 +84,10 @@ goodbye-reason = &(
 | `tab-id` | processo do host | Idem. **Estável quando a aba muda de janela ou de grupo** |
 | `pane-id` | processo do host | Idem. Estável enquanto o painel existir |
 | `profile-id` | configuração do host | O identificador de perfil do Porecatu (texto), como ele aparece na sessão gravada |
+| `session-id` | processo do host | Uma sessão nomeada salva no host (§4.5). Único durante a vida do processo, nunca reaproveitado; **o mesmo arquivo de sessão recebe o mesmo id** enquanto o processo vive |
 | `request-id` | sessão | Escolhido pelo cliente, único entre os pedidos pendentes da sessão |
 
-Os ids do protocolo **não são** os ids internos do Porecatu (que são por janela e mudam quando uma aba muda de janela). O host mantém o mapeamento; o cliente nunca vê id interno. Reiniciar o Porecatu reinicia todos os ids.
+Os ids do protocolo **não são** os ids internos do Porecatu (que são por janela e mudam quando uma aba muda de janela). O host mantém o mapeamento; o cliente nunca vê id interno, nem caminho ou nome de arquivo. Reiniciar o Porecatu reinicia todos os ids.
 
 **`host_instance`** (no `welcome`) é um valor aleatório de 16 bytes que o host gera ao iniciar o processo. Os ids só são comparáveis entre duas sessões **com o mesmo `host_instance`**: um cliente que reconecta e recebe outro valor **NÃO DEVE** reaproveitar nenhum id guardado (aba aberta, zoom por aba, rascunho), porque o mesmo número pode ser outra aba — e digitar na aba errada é o pior erro deste protocolo.
 
@@ -96,6 +97,7 @@ group-id   = uint
 tab-id     = uint
 pane-id    = uint
 profile-id = tstr
+session-id = uint
 request-id = uint
 ```
 
@@ -222,6 +224,33 @@ view-tab = [13, { "tab": tab-id / null }]   ; null: o cliente não exibe nenhuma
 - **A aba muda de janela ou de grupo:** o estado continua, porque o `tab-id` é estável (§3).
 - **O cliente DEVE** mandar `view-tab { tab }` ao começar a exibir uma aba, e de novo em toda sessão nova (reconexão), porque o estado é da sessão. **DEVE** mandar `view-tab { tab: null }` ao parar de exibi-la, e **PODE** mandá-lo ao ir para segundo plano. Trocar de painel dentro da mesma aba não pede `view-tab`; mandar a mesma aba de novo não tem efeito.
 - O host **não** repassa o estado a outros clientes no v0.
+
+### 4.5 Sessões salvas
+
+O Porecatu grava **sessões nomeadas**: a disposição de uma janela, salva com um nome pelo usuário no desktop ([ADR-0012](../adr/0012-sessoes-nomeadas-pelo-cliente.md)). O cliente pede a lista delas e restaura uma pela ação `restore-session` (§7). Salvar e excluir sessões são gestos só do desktop.
+
+```cddl
+list-sessions = [14, { "id": request-id }]
+
+sessions = [15, {
+  "id":   request-id,                ; o do list-sessions
+  "mode": &(new-window: 0, append: 1),
+  "list": [* named-session],         ; a salva mais recentemente primeiro
+}]
+
+named-session = {
+  "session":  session-id,
+  "name":     tstr,                  ; o nome dado no desktop, como está
+  "readable": bool,                  ; false: o host não consegue restaurá-la
+}
+```
+
+- **Só sob pedido.** O host lê as sessões salvas quando recebe `list-sessions` e responde com `sessions`, de mesmo `id`. Ele **não** manda `sessions` por conta própria, nem quando uma sessão é salva ou excluída no desktop: o cliente pede de novo quando precisa.
+- **`mode`** é o valor atual da preferência do desktop sobre o destino da restauração: `new-window`, abrir uma janela nova; `append`, acrescentar a uma janela que já existe. O cliente o usa para saber se precisa perguntar a janela antes de mandar `restore-session`. Quem decide o destino é a preferência no momento da ação, não este valor (§7).
+- **Ordem.** A da lista do desktop: a sessão salva mais recentemente primeiro.
+- **Sessão ilegível.** Uma sessão que o host não consegue restaurar (arquivo corrompido, formato mais novo que o do host) vem com `readable: false` e, em `name`, o rótulo que o desktop mostra para ela. O cliente a lista sem oferecer a restauração.
+- **Lista vazia** é `list: []`, nunca erro.
+- **`session-id`** segue o §3: o mesmo arquivo recebe o mesmo id durante a vida do processo do host, e um id nunca é reaproveitado. Como os outros ids, só vale entre sessões com o mesmo `host_instance`.
 
 ## 5. Grade
 
@@ -402,6 +431,7 @@ action-body =
   / [11, { "group": group-id }]                                ; ungroup
   / [12, { "pane": pane-id }]                                  ; start-pane
   ; 13 reservado: era activate-tab (0.4), removida na 0.5 (ADR-0011); nunca reaproveitado
+  / [14, { "session": session-id, ? "window": window-id }]   ; restore-session
 
 action-result = [41, {
   "id": request-id,
@@ -418,6 +448,13 @@ action-result = [41, {
 - **`collapse-group`**: expandir (`collapsed: false`) **não** ativa nada; a aba ativa da janela continua a mesma. Colapsar o grupo que contém a aba ativa move a aba ativa pela regra do desktop, porque ela deixa de estar à vista.
 - **`move-*-to-window`** move com o processo vivo, como o arraste e o "Mover para janela…" do desktop, e a aba (ou o grupo) chega à janela de destino **sem ser ativada**; se a aba ativa da origem saiu, a origem ativa a vizinha pela regra do desktop. Para a **mesma janela** de origem, `invalid-argument`. Mover a última aba de uma janela é permitido (a janela que esvazia fecha). Aba fixada vai fixada. Não há "destacar numa janela nova" no v0.
 - **`start-pane`** inicia painel `not-started` ou conecta SSH dormente, como o clique no desktop, **sem ativar** a aba do painel. Painel que não está `not-started` e não é SSH dormente: `invalid-argument`. Perguntas do backend (senha, passphrase, chave do servidor desconhecida) aparecem **só no desktop** no v0; enquanto a pergunta espera resposta, o cliente vê o painel em `awaiting-desktop` (§4.1).
+- **`restore-session`** restaura uma sessão salva (§4.5) pelo mesmo caminho da restauração do desktop ([ADR-0012](../adr/0012-sessoes-nomeadas-pelo-cliente.md)). O destino é a preferência do desktop **no momento da ação**, a mesma que `sessions.mode` informa:
+  - **`new-window`**: o host abre uma janela nova com a disposição da sessão e ignora `window`. A janela tem o tamanho salvo e a posição em cascata a partir da janela de foco mais recente. A janela nova **nasce sem foco**: o host **NÃO DEVE** levantá-la, ativá-la nem pô-la à frente das outras na ordem de foco (`workspace.windows`). Dentro dela, a aba ativa é a que era ativa na sessão.
+  - **`append`**: o host acrescenta os grupos e as abas da sessão **ao fim da trilha** da janela `window`, depois de tudo o que ela já tinha; grupo com o nome de um grupo existente não se funde com ele. Sem `window`, `invalid-argument`.
+  - **Sem ativar e sem fechar.** Nos dois destinos, a aba ativa de toda janela que já existia continua a mesma. O host **NÃO DEVE** ativar a aba que era ativa na sessão nem fechar aba alguma, inclusive a aba que o gesto local fecharia ao restaurar.
+  - Tema, zoom e abas fixadas gravados na sessão **não** são aplicados. Cada aba se comporta como uma aba restaurada no desktop (diretório com fallback, árvore de painéis, início adiado conforme a configuração do host).
+  - O sucesso **não** traz `created`; a janela ou as abas chegam pelo `workspace` seguinte.
+  - Erros: a sessão que não existe mais (inclusive a que foi excluída no desktop depois da lista) é `unknown-session`; o arquivo que o host não consegue ler é `session-unreadable`, verificado por último, depois de todas as outras checagens. `busy` vale para a janela `window` no `append` e para o desktop inteiro no `new-window` (ex.: arraste entre janelas em curso).
 - **Fechar com confirmação.** Quando o gesto local pediria confirmação (processo em primeiro plano, conexão SSH aberta), o host pergunta **ao cliente que pediu**, não ao desktop:
 
   ```cddl
@@ -432,19 +469,19 @@ action-result = [41, {
 
   Sem resposta em 60 s, a ação termina com `action-result { error: confirm-timeout }`. Recusa termina com `action-result { error: cancelled }`. A confirmação vai **sempre ao cliente**; o host nunca abre diálogo no desktop por causa de uma ação remota.
 
-**Ordem das checagens.** Para toda ação: primeiro os ids desconhecidos (`unknown-*`, na ordem dos campos da ação), depois `busy`, depois as regras da própria ação (`invalid-argument`, `last-tab`) e por último a confirmação.
+**Ordem das checagens.** Para toda ação: primeiro os ids desconhecidos (`unknown-*`, na ordem dos campos da ação), depois `busy`, depois as regras da própria ação (`invalid-argument`, `last-tab`, e por fim `session-unreadable`, que exige ler o arquivo) e por último a confirmação.
 
 ### Aba ativa e janela do sistema
 
 A 0.3 não deixava o cliente mudar a aba ativa; a 0.4 deixou ([ADR-0010](../adr/0010-aba-ativa-pelo-cliente.md)); a 0.5 volta a não deixar ([ADR-0011](../adr/0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md)):
 
-1. **A aba ativa não muda por pedido do cliente.** O host **NÃO DEVE** ativar aba por causa de uma ação remota (`new-tab`, `collapse-group`, `move-*-to-window`, `start-pane`) nem de `view-tab`. A aba ativa só muda quando a ação **remove** a aba ativa de onde ela estava (fechar a aba ou o último painel dela, movê-la para outra janela, colapsar o grupo que a contém): o desktop ativa a vizinha pela regra dele, e o host manda o `workspace` com o `active` novo.
-2. **Janela do sistema operacional, nunca.** O host **NÃO DEVE** levantar, desminimizar nem dar foco a uma janela do sistema por causa do cliente, nem na janela de destino de `move-*-to-window`.
+1. **A aba ativa não muda por pedido do cliente.** O host **NÃO DEVE** ativar aba por causa de uma ação remota (`new-tab`, `collapse-group`, `move-*-to-window`, `start-pane`, `restore-session`) nem de `view-tab`. A aba ativa só muda quando a ação **remove** a aba ativa de onde ela estava (fechar a aba ou o último painel dela, movê-la para outra janela, colapsar o grupo que a contém): o desktop ativa a vizinha pela regra dele, e o host manda o `workspace` com o `active` novo.
+2. **Janela do sistema operacional, nunca.** O host **NÃO DEVE** levantar, desminimizar nem dar foco a uma janela do sistema por causa do cliente, nem na janela de destino de `move-*-to-window`, nem na janela que `restore-session` abre.
 3. **O painel focado dentro da aba** (`focused`) não é mudado pelo cliente: não há ação para isso.
 
 **Resultado de ação sempre vem em `action-result`**, com o mesmo `id`, nunca numa mensagem `error` avulsa — inclusive `busy`, `last-tab`, `unknown-*` e `invalid-argument`.
 
-Fora do v0, de propósito: fixar e desafixar, sessões nomeadas, configurações, gerenciador de tarefas, abrir janela nova, mudar a aba ativa, mudar o painel focado dentro de uma aba e dar foco a uma janela do sistema.
+Fora do v0, de propósito: fixar e desafixar, salvar e excluir sessões nomeadas, configurações, gerenciador de tarefas, abrir janela vazia, mudar a aba ativa, mudar o painel focado dentro de uma aba e dar foco a uma janela do sistema.
 
 ## 8. Pareamento
 
@@ -484,6 +521,8 @@ error-code = &(
   cancelled:              14,
   unsupported:            15,
   last-tab:               16,   ; a ação fecharia a última aba da última janela, encerrando o host
+  unknown-session:        17,   ; a sessão salva não existe (mais) no host
+  session-unreadable:     18,   ; o host não consegue ler a sessão salva para restaurá-la
 )
 ```
 
@@ -499,6 +538,8 @@ error-code = &(
 | 11 | `profiles` | H → C | §4.2 |
 | 12 | `theme` | H → C | §4.3 |
 | 13 | `view-tab` | C → H | §4.4 |
+| 14 | `list-sessions` | C → H | §4.5 |
+| 15 | `sessions` | H → C | §4.5 |
 | 20 | `subscribe` | C → H | §5.1 |
 | 21 | `unsubscribe` | C → H | §5.1 |
 | 22 | `grid-snapshot` | H → C | §5.3 |
@@ -527,7 +568,7 @@ A **fonte** do schema são os blocos `cddl` de [01](01-transporte-e-relay.md), [
 
 ```cddl
 message = hello / welcome / incompatible / goodbye
-        / workspace / profiles / theme / view-tab
+        / workspace / profiles / theme / view-tab / list-sessions / sessions
         / subscribe / unsubscribe / grid-snapshot / grid-diff / grid-ack
         / scrollback-request / scrollback-page / subscription-ended
         / key / text-input / paste

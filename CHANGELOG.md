@@ -4,6 +4,14 @@ Mudanças da especificação e das implementações de referência. Formato insp
 
 ## [Não publicado]
 
+### Especificação 0.6 (rascunho) — 2026-11-20
+
+Versão de fio continua `[0, 1]`, ainda não congelada. Decisões no [ADR-0012](docs/adr/0012-sessoes-nomeadas-pelo-cliente.md). **Só o texto e o schema CDDL**: crate Rust, pacote TypeScript e vetores acompanham numa etapa seguinte.
+
+- **Fio, adicionado:** as mensagens `list-sessions` (tipo 14, cliente → host, `{ "id": request-id }`) e `sessions` (tipo 15, host → cliente, `{ "id", "mode", "list" }`), §4.5 de 03; o id `session-id` (§3); a ação `restore-session` (`action-body` código 14, `{ "session": session-id, ? "window": window-id }`); os códigos de erro `unknown-session` (17) e `session-unreadable` (18).
+- **Regra:** a lista é lida só sob pedido, na ordem do desktop, com as sessões ilegíveis marcadas (`readable: false`). O destino da restauração é a preferência do desktop no momento da ação: `new-window` abre uma janela nova **sem foco**; `append` acrescenta ao fim da trilha da janela `window`. Nos dois casos, nenhuma aba é ativada e nada é fechado; tema, zoom e fixadas da sessão não são aplicados.
+- **Fora do v0, revisto:** "sessões nomeadas" vira "salvar e excluir sessões nomeadas"; "abrir janela nova" vira "abrir janela vazia".
+
 ### Especificação 0.5 (rascunho) — 2026-11-20
 
 Versão de fio continua `[0, 1]`, ainda não congelada. Decisões no [ADR-0011](docs/adr/0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md), que substitui os itens 1 a 4 do ADR-0010. Crate Rust, pacote TypeScript, vetores e schema acompanham no mesmo commit.

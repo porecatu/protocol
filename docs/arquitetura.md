@@ -2,7 +2,7 @@
 
 Como o protocolo se organiza em camadas e como as implementações de referência ([ADR-0005](adr/0005-implementacoes-de-referencia.md)) se encaixam nos três projetos que o falam. A especificação diz **o quê**; este documento diz **onde cada coisa mora**.
 
-**Estado:** especificação 0.5 (rascunho, versão de fio `[0, 1]`); o crate Rust e o pacote TypeScript a implementam nas camadas 2, 3 e 4 (P1 e P2 do [roadmap](roadmap.md)) e ainda não foram publicados. Este documento descreve o código como ele está.
+**Estado:** especificação 0.6 (rascunho, versão de fio `[0, 1]`); o crate Rust e o pacote TypeScript implementam a 0.5 nas camadas 2, 3 e 4 (o que a 0.6 acrescenta, [ADR-0012](adr/0012-sessoes-nomeadas-pelo-cliente.md), ainda não) (P1 e P2 do [roadmap](roadmap.md)) e ainda não foram publicados. Este documento descreve o código como ele está.
 
 ## 1. Camadas e quem as implementa
 

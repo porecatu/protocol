@@ -63,6 +63,8 @@ Cada um é decisão, não esquecimento.
 - **Abrir janela, mudar o painel focado ou dar foco a uma janela do sistema do desktop, fixar, sessões nomeadas, configurações, gerenciador de tarefas** pelo celular.
 
   > **Emenda (2026-11-20).** **Mudar a aba ativa do desktop** também fica fora do v0 ([ADR-0011](../adr/0011-cliente-nao-muda-a-aba-ativa-e-view-tab.md)), como era antes da especificação 0.4. O celular informa a aba que exibe (`view-tab`), e o desktop só mostra essa informação.
+
+  > **Emenda (2026-11-20, especificação 0.6).** **Restaurar uma sessão nomeada** sai desta lista ([ADR-0012](../adr/0012-sessoes-nomeadas-pelo-cliente.md)): o celular pede a lista das sessões salvas e restaura uma, numa janela nova que nasce sem foco ou acrescentada a uma janela existente, conforme a preferência do desktop, sem ativar aba nem fechar nada. **Salvar e excluir** sessões nomeadas continuam fora do v0, e "abrir janela" passa a ser **abrir janela vazia**.
 - **Responder perguntas do backend SSH** (senha, chave do servidor) pelo celular.
 - **Mouse** no terminal a partir do celular.
 

@@ -1,8 +1,8 @@
 # 00 — Visão geral do protocolo
 
-**Versão da especificação:** 0.5 (rascunho)
+**Versão da especificação:** 0.6 (rascunho)
 **Data:** 2026-11-15
-**Status:** Rascunho. As duas implementações de referência deste repositório (crate Rust `porecatu-protocol` e pacote TypeScript `@porecatu/protocol`) implementam este texto, com a versão de fio `[0, 1]`; nenhuma foi publicada ainda, e a primeira implementação que for publicada congela `[0, 1]` ([04 — Versionamento](04-versionamento.md)). A versão de fio não é a versão deste texto (0.5).
+**Status:** Rascunho. As duas implementações de referência deste repositório (crate Rust `porecatu-protocol` e pacote TypeScript `@porecatu/protocol`) implementam este texto até a 0.5, com a versão de fio `[0, 1]`; o que a 0.6 acrescenta (sessões salvas, §4.5 e §7 de [03](03-mensagens.md), [ADR-0012](../adr/0012-sessoes-nomeadas-pelo-cliente.md)) ainda não está implementado; nenhuma foi publicada ainda, e a primeira implementação que for publicada congela `[0, 1]` ([04 — Versionamento](04-versionamento.md)). A versão de fio não é a versão deste texto (0.6).
 
 Este documento é a **especificação normativa** do protocolo de acesso remoto do Porecatu. As três implementações que o falam — o Porecatu desktop, o Porecatu Relay e o Porecatu Remote — seguem o que está escrito aqui, e divergência entre o texto e uma implementação é bug da implementação ou, se o texto estava errado, correção do texto **neste repositório primeiro**.
 
