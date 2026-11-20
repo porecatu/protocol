@@ -1,0 +1,35 @@
+{
+  "descricao": "sessions: duas chaves do corpo fora da ordem canônica",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    15,
+    {
+      "map": [
+        [
+          "list",
+          []
+        ],
+        [
+          "id",
+          0
+        ],
+        [
+          "mode",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820fa3646c6973748062696400646d6f646500",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[15, {\"list\": [], \"id\": 0, \"mode\": 0}]"
+}

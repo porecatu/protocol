@@ -41,6 +41,10 @@ code_enum! {
         Unsupported = 15,
         /// The action would close the last tab of the last window.
         LastTab = 16,
+        /// The saved session does not exist (any more) on the host.
+        UnknownSession = 17,
+        /// The host cannot read the saved session to restore it.
+        SessionUnreadable = 18,
     }
 }
 

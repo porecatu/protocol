@@ -3,10 +3,13 @@
 import { describe, expect, it } from "vitest";
 import { CborMap, encodeCbor } from "../src/cbor/index.js";
 import {
+  ACTION_TYPES,
+  ActionCode,
   CONFIRM_KINDS,
   CURSOR_SHAPES,
   decodeMessage,
   ERROR_CODES,
+  ErrorCode,
   encodeMessage,
   GOODBYE_REASONS,
   messageSender,
@@ -19,6 +22,7 @@ import {
   PAIR_REJECT_REASONS,
   PANE_STATES,
   PROFILE_KINDS,
+  SESSIONS_MODES,
   SPLIT_DIRS,
   STYLE,
   SUBSCRIPTION_END_REASONS,
@@ -181,8 +185,8 @@ describe("implemented bodies", () => {
       [encodeCbor([3, new CborMap([["reason", 4]])]), "host"],
       // error code 2 is reserved
       [encodeCbor([70, new CborMap([["code", 2]])]), "host"],
-      // error code 17 does not exist yet
-      [encodeCbor([70, new CborMap([["code", 17]])]), "host"],
+      // error code 19 does not exist yet
+      [encodeCbor([70, new CborMap([["code", 19]])]), "host"],
       // max_subscriptions 0
       [
         encodeCbor([
@@ -312,16 +316,16 @@ describe("envelope and dispatch", () => {
     }
   });
 
-  it("has a consistent table of 27 messages", () => {
+  it("has a consistent table of 29 messages", () => {
     const names = Object.keys(MessageType) as Array<Message["type"]>;
-    expect(names).toHaveLength(27);
-    expect(new Set(MESSAGE_TYPE_CODES).size).toBe(27);
+    expect(names).toHaveLength(29);
+    expect(new Set(MESSAGE_TYPE_CODES).size).toBe(29);
     const bySender = { host: 0, client: 0, both: 0 };
     for (const name of names) {
       expect(messageTypeCode(name)).toBe(MessageType[name]);
       bySender[messageSender(name)]++;
     }
-    expect(bySender).toEqual({ host: 14, client: 11, both: 2 });
+    expect(bySender).toEqual({ host: 15, client: 12, both: 2 });
     expect(messageSender("goodbye")).toBe("both");
     expect(messageSender("error")).toBe("both");
     expect(messageSender("hello")).toBe("client");
@@ -330,8 +334,8 @@ describe("envelope and dispatch", () => {
 
   it("keeps the spec's numbers", () => {
     expect(MESSAGE_TYPE_CODES).toEqual([
-      0, 1, 2, 3, 10, 11, 12, 13, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 40, 41, 42, 43,
-      50, 60, 61, 70,
+      0, 1, 2, 3, 10, 11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 40, 41,
+      42, 43, 50, 60, 61, 70,
     ]);
     expect(GOODBYE_REASONS).toEqual([0, 1, 2, 3]);
     expect(PANE_STATES).toEqual([0, 1, 2, 3, 4, 5, 6]);
@@ -341,7 +345,12 @@ describe("envelope and dispatch", () => {
     expect(SUBSCRIPTION_END_REASONS).toEqual([0, 1]);
     expect(CONFIRM_KINDS).toEqual([0, 1]);
     expect(PAIR_REJECT_REASONS).toEqual([0, 1, 2]);
-    expect(ERROR_CODES).toEqual([0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    expect(ERROR_CODES).toEqual([0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]);
+    expect(ErrorCode.unknownSession).toBe(17);
+    expect(ErrorCode.sessionUnreadable).toBe(18);
+    expect(SESSIONS_MODES).toEqual([0, 1]);
+    expect(ActionCode["restore-session"]).toBe(14);
+    expect(ACTION_TYPES).toHaveLength(14);
     expect(NAMED_KEYS).toHaveLength(26);
     expect(NamedKey.pageUp).toBe(10);
     expect(NamedKey.delete).toBe(13);

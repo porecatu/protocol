@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 /**
- * Types of the 26 messages of spec 03 and of their components. Messages are
+ * Types of the 29 messages of spec 03 and of their components. Messages are
  * unions discriminated by `type` (the spec name, kebab-case); fields are
  * camelCase and the codec maps them to the snake_case keys of the wire. Spans,
  * styles, lines and colors are positional `readonly` tuples, exactly as on the
@@ -18,6 +18,7 @@ import type {
   PaneState,
   Platform,
   ProfileKind,
+  SessionsMode,
   SplitDir,
   SubscriptionEndReason,
 } from "./codes.js";
@@ -30,6 +31,7 @@ export type TabId = number;
 export type PaneId = number;
 export type ProfileId = string;
 export type RequestId = number;
+export type SessionId = number;
 
 /** `[major, minor]`. */
 export type Version = readonly [major: number, minor: number];
@@ -165,7 +167,12 @@ export type ActionBody =
       readonly window: WindowId;
     }
   | { readonly type: "ungroup"; readonly group: GroupId }
-  | { readonly type: "start-pane"; readonly pane: PaneId };
+  | { readonly type: "start-pane"; readonly pane: PaneId }
+  | {
+      readonly type: "restore-session";
+      readonly session: SessionId;
+      readonly window?: WindowId;
+    };
 
 // --- Pairing request (spec 02 §3): the payload of msg3, not a message ---
 
@@ -235,6 +242,29 @@ export interface Theme {
 export interface ViewTab {
   readonly type: "view-tab";
   readonly tab: TabId | null;
+}
+
+/** Spec 03 §4.5: asks for the saved named sessions; the host answers `sessions`. */
+export interface ListSessions {
+  readonly type: "list-sessions";
+  readonly id: RequestId;
+}
+
+/** A saved named session in `sessions.list` (spec 03 §4.5). */
+export interface NamedSession {
+  readonly session: SessionId;
+  readonly name: string;
+  /** `false` when the host cannot restore it. */
+  readonly readable: boolean;
+}
+
+/** Spec 03 §4.5: the saved sessions, the most recently saved first; only sent in answer to `list-sessions`. */
+export interface Sessions {
+  readonly type: "sessions";
+  /** The `id` of the `list-sessions`. */
+  readonly id: RequestId;
+  readonly mode: SessionsMode;
+  readonly list: readonly NamedSession[];
 }
 
 export interface Subscribe {
@@ -386,6 +416,7 @@ export type HostMessage =
   | WorkspaceMessage
   | Profiles
   | Theme
+  | Sessions
   | GridSnapshot
   | GridDiff
   | ScrollbackPage
@@ -402,6 +433,7 @@ export type ClientMessage =
   | Hello
   | Goodbye
   | ViewTab
+  | ListSessions
   | Subscribe
   | Unsubscribe
   | GridAck

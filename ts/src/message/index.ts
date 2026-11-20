@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 /**
- * The message layer (spec 03): `encodeMessage` and `decodeMessage` over the 26
+ * The message layer (spec 03): `encodeMessage` and `decodeMessage` over the 29
  * messages, with dispatch by type code and by direction.
  *
  * Pattern for the message modules (`session`, `workspace`, `grid`, `input`,
@@ -56,7 +56,14 @@ import {
   welcomeCodec,
 } from "./session.js";
 import type { Direction, Message } from "./types.js";
-import { profilesCodec, themeCodec, viewTabCodec, workspaceCodec } from "./workspace.js";
+import {
+  listSessionsCodec,
+  profilesCodec,
+  sessionsCodec,
+  themeCodec,
+  viewTabCodec,
+  workspaceCodec,
+} from "./workspace.js";
 
 export * from "./codes.js";
 export { DecodeError, type DecodeErrorReason } from "./codec.js";
@@ -88,6 +95,12 @@ const CODECS: Table = {
   profiles: { code: MessageType.profiles, sender: "host", codec: profilesCodec },
   theme: { code: MessageType.theme, sender: "host", codec: themeCodec },
   "view-tab": { code: MessageType["view-tab"], sender: "client", codec: viewTabCodec },
+  "list-sessions": {
+    code: MessageType["list-sessions"],
+    sender: "client",
+    codec: listSessionsCodec,
+  },
+  sessions: { code: MessageType.sessions, sender: "host", codec: sessionsCodec },
   subscribe: { code: MessageType.subscribe, sender: "client", codec: subscribeCodec },
   unsubscribe: {
     code: MessageType.unsubscribe,

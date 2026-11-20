@@ -1,0 +1,32 @@
+{
+  "descricao": "sessions mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    15,
+    {
+      "map": [
+        [
+          "id",
+          0
+        ],
+        [
+          "list",
+          []
+        ],
+        [
+          "mode",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820fa362696400646c69737480646d6f646500",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[15, {\"id\": 0, \"list\": [], \"mode\": 0}]"
+}

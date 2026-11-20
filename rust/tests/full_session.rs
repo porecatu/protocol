@@ -12,9 +12,10 @@ use porecatu_protocol::envelope::{
 };
 use porecatu_protocol::host_id::{self, HostId};
 use porecatu_protocol::message::{
-    self, Color, Cursor, CursorShape, Direction, ErrorCode, ErrorMessage, Goodbye, GoodbyeReason,
-    GridAck, GridSnapshot, Hello, Line, Message, PairAccepted, PairPlatform, Paste, Span, SpanText,
-    Style, Subscribe, Version, ViewTab, Welcome,
+    self, Action, ActionBody, ActionResult, Color, Cursor, CursorShape, Direction, ErrorCode,
+    ErrorMessage, Goodbye, GoodbyeReason, GridAck, GridSnapshot, Hello, Line, ListSessions,
+    Message, NamedSession, PairAccepted, PairPlatform, Paste, Sessions, SessionsMode, Span,
+    SpanText, Style, Subscribe, Version, ViewTab, Welcome,
 };
 use porecatu_protocol::pairing_uri::{PROTOCOL_MAJOR, PairingUri};
 use porecatu_protocol::session::{
@@ -312,6 +313,80 @@ fn client_reports_the_tab_it_shows_with_view_tab() {
         .filter(|m| matches!(m, Message::ViewTab(_)))
         .collect();
     assert_eq!(received, [&shown, &none]);
+    assert!(rig.client.is_open());
+    assert!(rig.host.is_open());
+}
+
+#[test]
+fn client_lists_and_restores_saved_sessions() {
+    let host = Host::new();
+    let device = StaticKeypair::generate();
+    let mut rig = pair_device(&host, &device);
+    converse(&mut rig);
+
+    let list = Message::ListSessions(ListSessions { id: 10 });
+    rig.client_sends(&list);
+    let sessions = Message::Sessions(Sessions {
+        id: 10,
+        mode: SessionsMode::Append,
+        list: vec![
+            NamedSession {
+                session: 1,
+                name: "work".to_owned(),
+                readable: true,
+            },
+            NamedSession {
+                session: 2,
+                name: "old".to_owned(),
+                readable: false,
+            },
+        ],
+    });
+    rig.host_sends(&sessions);
+
+    // Restore without and with a window, then the answers: success and
+    // `unknown-session`.
+    let without_window = Message::Action(Action {
+        id: 11,
+        action: ActionBody::RestoreSession {
+            session: 1,
+            window: None,
+        },
+    });
+    let with_window = Message::Action(Action {
+        id: 12,
+        action: ActionBody::RestoreSession {
+            session: 1,
+            window: Some(3),
+        },
+    });
+    rig.client_sends(&without_window);
+    rig.client_sends(&with_window);
+    let ok = Message::ActionResult(ActionResult {
+        id: 11,
+        error: None,
+        created: None,
+    });
+    let unknown = Message::ActionResult(ActionResult {
+        id: 12,
+        error: Some(ErrorCode::UnknownSession),
+        created: None,
+    });
+    rig.host_sends(&ok);
+    rig.host_sends(&unknown);
+
+    let host_got: Vec<&Message> = rig
+        .host_messages()
+        .into_iter()
+        .filter(|m| matches!(m, Message::ListSessions(_) | Message::Action(_)))
+        .collect();
+    assert_eq!(host_got, [&list, &without_window, &with_window]);
+    let client_got: Vec<&Message> = rig
+        .client_messages()
+        .into_iter()
+        .filter(|m| matches!(m, Message::Sessions(_) | Message::ActionResult(_)))
+        .collect();
+    assert_eq!(client_got, [&sessions, &ok, &unknown]);
     assert!(rig.client.is_open());
     assert!(rig.host.is_open());
 }

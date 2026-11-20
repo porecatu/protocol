@@ -1,0 +1,65 @@
+{
+  "descricao": "sessions completo: sessions no modo append com uma sessão legível e uma ilegível, ids grandes",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    15,
+    {
+      "map": [
+        [
+          "id",
+          9007199254740991
+        ],
+        [
+          "list",
+          [
+            {
+              "map": [
+                [
+                  "name",
+                  "trabalho"
+                ],
+                [
+                  "session",
+                  9007199254740991
+                ],
+                [
+                  "readable",
+                  true
+                ]
+              ]
+            },
+            {
+              "map": [
+                [
+                  "name",
+                  "sessão antiga"
+                ],
+                [
+                  "session",
+                  4000000000
+                ],
+                [
+                  "readable",
+                  false
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "mode",
+          1
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820fa36269641b001fffffffffffff646c69737482a3646e616d656874726162616c686f6773657373696f6e1b001fffffffffffff687265616461626c65f5a3646e616d656e73657373c3a36f20616e746967616773657373696f6e1aee6b2800687265616461626c65f4646d6f646501",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[15, {\"id\": 9007199254740991, \"list\": [{\"name\": \"trabalho\", \"session\": 9007199254740991, \"readable\": true}, {\"name\": \"sessão antiga\", \"session\": 4000000000, \"readable\": false}], \"mode\": 1}]"
+}

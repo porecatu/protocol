@@ -1,0 +1,48 @@
+{
+  "descricao": "sessions: named-session sem a chave obrigatória readable",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    15,
+    {
+      "map": [
+        [
+          "id",
+          3
+        ],
+        [
+          "list",
+          [
+            {
+              "map": [
+                [
+                  "name",
+                  "dev"
+                ],
+                [
+                  "session",
+                  1
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "mode",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820fa362696403646c69737481a2646e616d65636465766773657373696f6e01646d6f646500",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[15, {\"id\": 3, \"list\": [{\"name\": \"dev\", \"session\": 1}], \"mode\": 0}]"
+}

@@ -7,8 +7,10 @@ import {
   decodeMessage,
   encodeMessage,
   ErrorCode,
+  messageSender,
   MOD,
   NamedKey,
+  SessionsMode,
   type ActionBody,
   type DecodeErrorReason,
   type DecodeResult,
@@ -190,10 +192,12 @@ const ALL_ACTIONS: readonly ActionBody[] = [
   { type: "move-group-to-window", group: 3, window: 2 },
   { type: "ungroup", group: 3 },
   { type: "start-pane", pane: 8 },
+  { type: "restore-session", session: 7 },
+  { type: "restore-session", session: 7, window: 3 },
 ];
 
 describe("action round trips", () => {
-  it("covers the 13 action types", () => {
+  it("covers the 14 action types", () => {
     expect(new Set(ALL_ACTIONS.map((a) => a.type))).toEqual(new Set(ACTION_TYPES));
   });
 
@@ -211,6 +215,8 @@ describe("action round trips", () => {
       [{ type: "paste", pane: 1, text: "line 1\nline 2\n\u{1f600}" }, "client"],
       [{ type: "action-result", id: 1 }, "host"],
       [{ type: "action-result", id: 1, error: ErrorCode.lastTab, created: 4 }, "host"],
+      [{ type: "action-result", id: 1, error: ErrorCode.unknownSession }, "host"],
+      [{ type: "action-result", id: 1, error: ErrorCode.sessionUnreadable }, "host"],
       [{ type: "confirm-request", id: 3, kind: 1, processes: [] }, "host"],
       [{ type: "confirm-request", id: 3, kind: 0, processes: ["vim", "node"] }, "host"],
       [{ type: "confirm", id: 3, accept: false }, "client"],
@@ -229,6 +235,51 @@ describe("action round trips", () => {
     }
     expect("group" in decoded.do).toBe(false);
     expect("profile" in decoded.do).toBe(false);
+  });
+});
+
+// restore-session (spec 03 §7), action code 14. Hex by hand, as in the Rust crate: the optional
+// "window" is left out, never null; with it, "window" (66 ..) sorts before "session" (67 ..).
+describe("restore-session", () => {
+  const WITHOUT_WINDOW_HEX = "821828a2" + "62646f" + "820ea1" + "6773657373696f6e" + "07" + "626964" + "01";
+  const WITH_WINDOW_HEX =
+    "821828a2" + "62646f" + "820ea2" + "6677696e646f77" + "03" + "6773657373696f6e" + "07" + "626964" + "01";
+
+  it("encodes and decodes with and without window", () => {
+    const cases: ReadonlyArray<readonly [Message, string]> = [
+      [{ type: "action", id: 1, do: { type: "restore-session", session: 7 } }, WITHOUT_WINDOW_HEX],
+      [{ type: "action", id: 1, do: { type: "restore-session", session: 7, window: 3 } }, WITH_WINDOW_HEX],
+    ];
+    for (const [message, bytesHex] of cases) {
+      expect(hex(encodeMessage(message))).toBe(bytesHex);
+      expect(success(decodeMessage(fromHex(bytesHex), "client"))).toEqual(message);
+    }
+  });
+
+  it("leaves window out of the decoded action when absent", () => {
+    const decoded = success(decodeMessage(fromHex(WITHOUT_WINDOW_HEX), "client"));
+    if (decoded.type !== "action" || decoded.do.type !== "restore-session") {
+      throw new Error("wrong message");
+    }
+    expect("window" in decoded.do).toBe(false);
+  });
+
+  it("refuses a missing session, and a window that is null or not a uint", () => {
+    expect(failure(decodeMessage(wire(40, [["id", 1], ["do", [14, map([])]]]), "client"))).toBe("missing-key");
+    expect(
+      failure(decodeMessage(wire(40, [["id", 1], ["do", [14, map([["session", 7], ["window", null]])]]]), "client")),
+    ).toBe("wrong-type");
+    expect(
+      failure(decodeMessage(wire(40, [["id", 1], ["do", [14, map([["session", 7], ["window", "3"]])]]]), "client")),
+    ).toBe("wrong-type");
+  });
+
+  it("keeps 13 and 15 refused as action codes", () => {
+    for (const code of [13, 15]) {
+      expect(
+        failure(decodeMessage(wire(40, [["id", 1], ["do", [code, map([["session", 7]])]]]), "client")),
+      ).toBe("out-of-domain");
+    }
   });
 });
 
@@ -274,6 +325,91 @@ describe("view-tab", () => {
   });
 });
 
+// list-sessions and sessions (spec 03 §4.5), types 14 (client to host) and 15 (host to client).
+// Hex by hand, as in the Rust crate. Keys sort by length, then bytes: id, list, mode; in an
+// entry: name, session, readable.
+describe("list-sessions and sessions", () => {
+  const LIST_SESSIONS_5_HEX = "820ea162696405";
+  const SESSIONS_ONE_HEX =
+    "820fa3" +
+    "626964" + "01" +
+    "646c697374" + "81a3" +
+    "646e616d65" + "6161" +
+    "6773657373696f6e" + "02" +
+    "687265616461626c65" + "f5" +
+    "646d6f6465" + "01";
+  const SESSIONS_EMPTY_HEX = "820fa3" + "626964" + "00" + "646c697374" + "80" + "646d6f6465" + "00";
+
+  it("encodes and decodes list-sessions, including the largest id", () => {
+    const cases: ReadonlyArray<readonly [Message, string]> = [
+      [{ type: "list-sessions", id: 5 }, LIST_SESSIONS_5_HEX],
+      [{ type: "list-sessions", id: 0 }, "820ea162696400"],
+      [{ type: "list-sessions", id: Number.MAX_SAFE_INTEGER }, "820ea1626964" + "1b001fffffffffffff"],
+    ];
+    for (const [message, bytesHex] of cases) {
+      expect(hex(encodeMessage(message))).toBe(bytesHex);
+      expect(success(decodeMessage(fromHex(bytesHex), "client"))).toEqual(message);
+    }
+  });
+
+  it("encodes and decodes sessions: one entry, an empty list and an unreadable entry", () => {
+    const cases: ReadonlyArray<readonly [Message, string]> = [
+      [
+        {
+          type: "sessions",
+          id: 1,
+          mode: SessionsMode.append,
+          list: [{ session: 2, name: "a", readable: true }],
+        },
+        SESSIONS_ONE_HEX,
+      ],
+      [{ type: "sessions", id: 0, mode: SessionsMode.newWindow, list: [] }, SESSIONS_EMPTY_HEX],
+    ];
+    for (const [message, bytesHex] of cases) {
+      expect(hex(encodeMessage(message))).toBe(bytesHex);
+      expect(success(decodeMessage(fromHex(bytesHex), "host"))).toEqual(message);
+    }
+    const complete: Message = {
+      type: "sessions",
+      id: Number.MAX_SAFE_INTEGER,
+      mode: SessionsMode.append,
+      list: [
+        { session: Number.MAX_SAFE_INTEGER, name: "dev", readable: true },
+        { session: 900, name: "", readable: false },
+      ],
+    };
+    expect(success(decodeMessage(encodeMessage(complete), "host"))).toEqual(complete);
+  });
+
+  it("refuses the wrong direction", () => {
+    expect(failure(decodeMessage(fromHex(LIST_SESSIONS_5_HEX), "host"))).toBe("wrong-direction");
+    expect(failure(decodeMessage(fromHex(SESSIONS_EMPTY_HEX), "client"))).toBe("wrong-direction");
+    expect(messageSender("list-sessions")).toBe("client");
+    expect(messageSender("sessions")).toBe("host");
+  });
+
+  it("refuses missing keys and wrong types", () => {
+    expect(failure(decodeMessage(wire(14, []), "client"))).toBe("missing-key");
+    expect(failure(decodeMessage(wire(14, [["id", "5"]]), "client"))).toBe("wrong-type");
+    const entry = map([["session", 2], ["name", "a"], ["readable", true]]);
+    expect(failure(decodeMessage(wire(15, [["list", []], ["mode", 0]]), "host"))).toBe("missing-key");
+    expect(failure(decodeMessage(wire(15, [["id", 1], ["mode", 0]]), "host"))).toBe("missing-key");
+    expect(failure(decodeMessage(wire(15, [["id", 1], ["list", []]]), "host"))).toBe("missing-key");
+    expect(failure(decodeMessage(wire(15, [["id", 1], ["list", [map([["session", 2], ["name", "a"]])]], ["mode", 0]]), "host"))).toBe("missing-key");
+    expect(failure(decodeMessage(wire(15, [["id", 1], ["list", [map([["session", 2], ["name", "a"], ["readable", 1]])]], ["mode", 0]]), "host"))).toBe("wrong-type");
+    expect(failure(decodeMessage(wire(15, [["id", 1], ["list", entry], ["mode", 0]]), "host"))).toBe("wrong-type");
+  });
+
+  it("refuses a mode outside the domain", () => {
+    expect(failure(decodeMessage(wire(15, [["id", 1], ["list", []], ["mode", 2]]), "host"))).toBe("out-of-domain");
+  });
+
+  it("ignores an unknown key", () => {
+    const bytes = wire(14, [["zz", true], ["id", 5]]);
+    expect(success(decodeMessage(bytes, "client"))).toEqual({ type: "list-sessions", id: 5 });
+  });
+});
+
 describe("missing required keys", () => {
   it("refuses each", () => {
     const cases: ReadonlyArray<readonly [Uint8Array, Direction]> = [
@@ -312,7 +448,7 @@ describe("values outside the domain", () => {
         wire(30, [["pane", 7], ["key", "é"], ["mods", 0]]),
         "client",
       ],
-      ["unknown action code", wire(40, [["id", 1], ["do", [14, map([])]]]), "client"],
+      ["unknown action code", wire(40, [["id", 1], ["do", [15, map([])]]]), "client"],
       // 13 was activate-tab in 0.4; removed in 0.5 (ADR-0011) and never reused.
       ["removed activate-tab code 13", wire(40, [["id", 17], ["do", [13, map([["tab", 5]])]]]), "client"],
       ["removed activate-tab code 13, empty body", wire(40, [["id", 1], ["do", [13, map([])]]]), "client"],
@@ -322,7 +458,7 @@ describe("values outside the domain", () => {
         "client",
       ],
       ["action-result with the reserved error 2", wire(41, [["id", 1], ["error", 2]]), "host"],
-      ["action-result with error 17", wire(41, [["id", 1], ["error", 17]]), "host"],
+      ["action-result with error 19", wire(41, [["id", 1], ["error", 19]]), "host"],
       ["confirm-request kind 2", wire(42, [["id", 3], ["kind", 2], ["processes", []]]), "host"],
     ];
     for (const [name, bytes, from] of cases) {

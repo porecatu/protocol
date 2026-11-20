@@ -15,6 +15,7 @@ import {
   PairRejectReason,
   PROTOCOL_VERSION,
   Platform,
+  SessionsMode,
   decodeClientEnvelope,
   encodeClientEnvelope,
   encodeHostEnvelope,
@@ -294,6 +295,50 @@ describe("fake host", () => {
     expect(client.session.isOpen).toBe(true);
     client.send({ type: "subscribe", pane: 1 });
     expect(client.messages().at(-1)).toMatchObject({ type: "grid-snapshot", pane: 1 });
+  });
+
+  it("answers list-sessions with an empty sessions by default, and with the configured list", () => {
+    const device = testKeypair(100);
+    const relay = createMemoryRelay();
+    const clock = createTestClock();
+    const host = createFakeHost({ relay, now: clock.now, pairedDevices: [device.publicKey] });
+    const client = new Client(relay, clock, device);
+    client.connect(host.hostId, host.hostKey);
+    client.send(HELLO);
+    client.send({ type: "list-sessions", id: 9 });
+    expect(client.messages().at(-1)).toEqual({ type: "sessions", id: 9, mode: SessionsMode.newWindow, list: [] });
+
+    const list = [
+      { session: 1, name: "dev", readable: true },
+      { session: 2, name: "old", readable: false },
+    ];
+    const relay2 = createMemoryRelay();
+    const host2 = createFakeHost({ relay: relay2, now: clock.now, pairedDevices: [device.publicKey], sessions: list });
+    const client2 = new Client(relay2, clock, device);
+    client2.connect(host2.hostId, host2.hostKey);
+    client2.send(HELLO);
+    client2.send({ type: "list-sessions", id: 10 });
+    expect(client2.messages().at(-1)).toEqual({ type: "sessions", id: 10, mode: SessionsMode.newWindow, list });
+    expect(client2.session.isOpen).toBe(true);
+  });
+
+  it("records restore-session without a reply, like the other actions", () => {
+    const device = testKeypair(100);
+    const relay = createMemoryRelay();
+    const clock = createTestClock();
+    const host = createFakeHost({ relay, now: clock.now, pairedDevices: [device.publicKey] });
+    const client = new Client(relay, clock, device);
+    client.connect(host.hostId, host.hostKey);
+    client.send(HELLO);
+    const before = client.messages().length;
+    client.send({ type: "action", id: 3, do: { type: "restore-session", session: 1, window: 1 } });
+    expect(host.received.at(-1)?.message).toEqual({
+      type: "action",
+      id: 3,
+      do: { type: "restore-session", session: 1, window: 1 },
+    });
+    expect(client.messages()).toHaveLength(before);
+    expect(client.session.isOpen).toBe(true);
   });
 
   it("numbers the grid messages of a subscription from 0, and subscribing again takes the next seq", () => {

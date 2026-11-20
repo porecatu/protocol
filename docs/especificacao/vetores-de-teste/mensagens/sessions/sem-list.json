@@ -1,0 +1,31 @@
+{
+  "descricao": "sessions: sem a chave obrigatória \"list\"",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    15,
+    {
+      "map": [
+        [
+          "id",
+          0
+        ],
+        [
+          "mode",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820fa262696400646d6f646500",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[15, {\"id\": 0, \"mode\": 0}]"
+}

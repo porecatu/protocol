@@ -15,12 +15,12 @@ import {
   type MapReader,
 } from "../cbor/index.js";
 import { body, DecodeError, enumFrom, type BodyCodec } from "./codec.js";
-import { ACTION_TYPES, CONFIRM_KINDS, ERROR_CODES } from "./codes.js";
+import { ACTION_TYPES, ActionCode, CONFIRM_KINDS, ERROR_CODES } from "./codes.js";
 import type { Action, ActionBody, ActionResult, Confirm, ConfirmRequest } from "./types.js";
 
 /** `[code, { ... }]`, the positional form of an `action-body` (spec 03 §7). */
 function actionBodyToValue(action: ActionBody): CborValue {
-  const code = ACTION_TYPES.indexOf(action.type);
+  const code = ActionCode[action.type];
   switch (action.type) {
     case "new-tab":
       return [
@@ -104,6 +104,14 @@ function actionBodyToValue(action: ActionBody): CborValue {
       return [code, body([["group", action.group]])];
     case "start-pane":
       return [code, body([["pane", action.pane]])];
+    case "restore-session":
+      return [
+        code,
+        body([
+          ["session", action.session],
+          ["window", action.window],
+        ]),
+      ];
   }
 }
 
@@ -118,10 +126,15 @@ function optionalText(r: MapReader, key: string): string | undefined {
   return value === undefined ? undefined : asText(value);
 }
 
+/** The action with wire `code`; `undefined` for a reserved or unassigned code (13, 15, ...). */
+function actionTypeOf(code: number): ActionBody["type"] | undefined {
+  return ACTION_TYPES.find((type) => ActionCode[type] === code);
+}
+
 function actionBodyFromValue(value: CborValue | undefined): ActionBody {
   const items = expectArray(value, 2);
   const code = asUint(items[0]);
-  const type = ACTION_TYPES[code];
+  const type = actionTypeOf(code);
   if (type === undefined) {
     throw new DecodeError("out-of-domain");
   }
@@ -200,6 +213,14 @@ function actionBodyFromValue(value: CborValue | undefined): ActionBody {
       return { type, group: asUint(r.required("group")) };
     case "start-pane":
       return { type, pane: asUint(r.required("pane")) };
+    case "restore-session": {
+      const window = optionalUint(r, "window");
+      return {
+        type,
+        session: asUint(r.required("session")),
+        ...(window === undefined ? {} : { window }),
+      };
+    }
   }
 }
 

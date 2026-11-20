@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Workspace state: `workspace`, `profiles`, `theme` (spec 03 §4).
+//! Workspace state: `workspace`, `profiles`, `theme`, `view-tab`,
+//! `list-sessions` and `sessions` (spec 03 §4).
 
 use super::wire::{self, Body};
-use super::{DecodeError, GroupId, PaneId, ProfileId, TabId, WindowId};
+use super::{DecodeError, GroupId, PaneId, ProfileId, RequestId, TabId, WindowId};
 use crate::cbor::{MapReader, Value};
 
 /// Largest value of an `rgb` (`0xRRGGBB`).
@@ -551,6 +552,104 @@ impl Body for ViewTab {
     }
 }
 
+/// Identifier of a saved named session (spec 03 §3, §4.5).
+pub type SessionId = u64;
+
+/// `list-sessions` (client to host): asks for the saved named sessions. The
+/// host answers with `sessions` of the same `id`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ListSessions {
+    /// `id`: chosen by the client.
+    pub id: RequestId,
+}
+
+impl Body for ListSessions {
+    fn to_value(&self) -> Value {
+        wire::map(vec![("id", wire::uint(self.id))])
+    }
+
+    fn from_map(r: &MapReader<'_>) -> Result<Self, DecodeError> {
+        Ok(ListSessions {
+            id: wire::req_u64(r, "id")?,
+        })
+    }
+}
+
+code_enum! {
+    /// Where the desktop restores a session to (`sessions.mode`).
+    SessionsMode {
+        /// Open a new window.
+        NewWindow = 0,
+        /// Append to a window that already exists.
+        Append = 1,
+    }
+}
+
+/// `sessions` (host to client): the saved named sessions, most recently saved
+/// first. Sent only in answer to `list-sessions`.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Sessions {
+    /// `id`: the one of the `list-sessions`.
+    pub id: RequestId,
+    /// `mode`: the desktop preference on the destination of a restoration.
+    pub mode: SessionsMode,
+    /// `list`: empty when nothing is saved.
+    pub list: Vec<NamedSession>,
+}
+
+impl Body for Sessions {
+    fn to_value(&self) -> Value {
+        wire::map(vec![
+            ("id", wire::uint(self.id)),
+            ("mode", wire::code(self.mode)),
+            (
+                "list",
+                Value::Array(self.list.iter().map(NamedSession::to_value).collect()),
+            ),
+        ])
+    }
+
+    fn from_map(r: &MapReader<'_>) -> Result<Self, DecodeError> {
+        Ok(Sessions {
+            id: wire::req_u64(r, "id")?,
+            mode: wire::req_enum(r, "mode")?,
+            list: req_array(r, "list", NamedSession::from_value)?,
+        })
+    }
+}
+
+/// A saved named session in `sessions.list`.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct NamedSession {
+    /// `session`.
+    pub session: SessionId,
+    /// `name`: as given on the desktop (the desktop label when unreadable).
+    pub name: String,
+    /// `readable`: `false` when the host cannot restore it.
+    pub readable: bool,
+}
+
+impl NamedSession {
+    /// The session as a CBOR map.
+    pub fn to_value(&self) -> Value {
+        wire::map(vec![
+            ("session", wire::uint(self.session)),
+            ("name", wire::text(&self.name)),
+            ("readable", Value::Bool(self.readable)),
+        ])
+    }
+
+    /// Reads a session from a CBOR map.
+    pub fn from_value(value: &Value) -> Result<NamedSession, DecodeError> {
+        let r = MapReader::from_value(value)?;
+        Ok(NamedSession {
+            session: wire::req_u64(&r, "session")?,
+            name: wire::req_text(&r, "name")?,
+            readable: wire::req_bool(&r, "readable")?,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::{Direction, Message, decode, encode};
@@ -1071,6 +1170,242 @@ mod tests {
                 Direction::ClientToHost
             ),
             Ok(Message::ViewTab(ViewTab { tab: Some(5) }))
+        );
+    }
+
+    // 82 0e = [14, ...], a1 = map of 1, 62 6964 = "id".
+    #[test]
+    fn list_sessions_round_trip() {
+        for (id, tail) in [
+            (5, "05"),
+            (0, "00"),
+            ((1u64 << 53) - 1, "1b001fffffffffffff"),
+        ] {
+            let message = Message::ListSessions(ListSessions { id });
+            let bytes = encode(&message);
+            assert_eq!(hex(&bytes), format!("820ea1626964{tail}"));
+            assert_eq!(decode(&bytes, Direction::ClientToHost).unwrap(), message);
+        }
+    }
+
+    #[test]
+    fn list_sessions_direction_and_errors() {
+        let bytes = unhex("820ea162696405");
+        assert_eq!(
+            decode(&bytes, Direction::HostToClient),
+            Err(DecodeError::WrongDirection(14))
+        );
+        let message = Message::ListSessions(ListSessions { id: 1 });
+        assert!(message.can_be_sent_by(Direction::ClientToHost));
+        assert!(!message.can_be_sent_by(Direction::HostToClient));
+        // No "id".
+        assert_eq!(
+            decode(&unhex("820ea0"), Direction::ClientToHost),
+            Err(DecodeError::Cbor(CborError::MissingKey))
+        );
+        // "id" of the wrong type.
+        assert!(decode(&unhex("820ea16269646161"), Direction::ClientToHost).is_err());
+        // An unknown key is ignored ("zz" sorts after "id": same length,
+        // bytewise).
+        assert_eq!(
+            decode(
+                &unhex(concat!("820ea2", "626964", "05", "627a7a", "f5")),
+                Direction::ClientToHost
+            ),
+            Ok(Message::ListSessions(ListSessions { id: 5 }))
+        );
+    }
+
+    fn named(session: u64, name: &str, readable: bool) -> NamedSession {
+        NamedSession {
+            session,
+            name: name.to_owned(),
+            readable,
+        }
+    }
+
+    // Keys sort by length, then bytes: id, list, mode; and in an entry:
+    // name, session, readable.
+    #[test]
+    fn sessions_round_trip() {
+        roundtrip(
+            Message::Sessions(Sessions {
+                id: 1,
+                mode: SessionsMode::Append,
+                list: vec![named(2, "a", true)],
+            }),
+            concat!(
+                "820fa3",
+                "626964",
+                "01",
+                "646c697374", // "list"
+                "81a3",
+                "646e616d65",       // "name"
+                "6161",             // "a"
+                "6773657373696f6e", // "session"
+                "02",
+                "687265616461626c65", // "readable"
+                "f5",
+                "646d6f6465", // "mode"
+                "01",
+            ),
+        );
+        // Minimal: an empty list is not an error.
+        roundtrip(
+            Message::Sessions(Sessions {
+                id: 0,
+                mode: SessionsMode::NewWindow,
+                list: Vec::new(),
+            }),
+            concat!(
+                "820fa3",
+                "626964",
+                "00",
+                "646c697374",
+                "80",
+                "646d6f6465",
+                "00"
+            ),
+        );
+        // Complete, with an unreadable entry.
+        let message = Message::Sessions(Sessions {
+            id: (1 << 53) - 1,
+            mode: SessionsMode::Append,
+            list: vec![named((1 << 53) - 1, "dev", true), named(900, "", false)],
+        });
+        let bytes = encode(&message);
+        assert_eq!(decode(&bytes, Direction::HostToClient).unwrap(), message);
+        assert!(hex(&bytes).contains("f4"));
+    }
+
+    #[test]
+    fn sessions_direction_and_errors() {
+        let message = Message::Sessions(Sessions {
+            id: 1,
+            mode: SessionsMode::NewWindow,
+            list: Vec::new(),
+        });
+        let bytes = encode(&message);
+        assert_eq!(
+            decode(&bytes, Direction::ClientToHost),
+            Err(DecodeError::WrongDirection(15))
+        );
+        assert!(message.can_be_sent_by(Direction::HostToClient));
+        assert!(!message.can_be_sent_by(Direction::ClientToHost));
+        // Missing "mode", "list" and "id".
+        for text in [
+            concat!("820fa2", "626964", "01", "646c697374", "80"),
+            concat!("820fa2", "626964", "01", "646d6f6465", "00"),
+            concat!("820fa2", "646c697374", "80", "646d6f6465", "00"),
+        ] {
+            assert_eq!(
+                decode(&unhex(text), Direction::HostToClient),
+                Err(DecodeError::Cbor(CborError::MissingKey))
+            );
+        }
+        // "mode" outside the domain.
+        assert_eq!(
+            decode(
+                &unhex(concat!(
+                    "820fa3",
+                    "626964",
+                    "01",
+                    "646c697374",
+                    "80",
+                    "646d6f6465",
+                    "02"
+                )),
+                Direction::HostToClient
+            ),
+            Err(DecodeError::InvalidValue("mode"))
+        );
+        // An entry without "readable": the key is required in the nested map.
+        assert_eq!(
+            decode(
+                &unhex(concat!(
+                    "820fa3",
+                    "626964",
+                    "01",
+                    "646c697374",
+                    "81a2",
+                    "646e616d65",
+                    "6161",
+                    "6773657373696f6e",
+                    "02",
+                    "646d6f6465",
+                    "00"
+                )),
+                Direction::HostToClient
+            ),
+            Err(DecodeError::Cbor(CborError::MissingKey))
+        );
+        // "readable" of the wrong type.
+        assert_eq!(
+            decode(
+                &unhex(concat!(
+                    "820fa3",
+                    "626964",
+                    "01",
+                    "646c697374",
+                    "81a3",
+                    "646e616d65",
+                    "6161",
+                    "6773657373696f6e",
+                    "02",
+                    "687265616461626c65",
+                    "01",
+                    "646d6f6465",
+                    "00"
+                )),
+                Direction::HostToClient
+            ),
+            Err(DecodeError::Cbor(CborError::WrongType))
+        );
+        // "list" that is not an array.
+        assert!(
+            decode(
+                &unhex(concat!(
+                    "820fa3",
+                    "626964",
+                    "01",
+                    "646c697374",
+                    "01",
+                    "646d6f6465",
+                    "00"
+                )),
+                Direction::HostToClient
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn sessions_ignore_unknown_keys_in_an_entry() {
+        // "zz" (62 7a7a) sorts before "name" (64 ...): shorter first.
+        let bytes = unhex(concat!(
+            "820fa3",
+            "626964",
+            "01",
+            "646c697374",
+            "81a4",
+            "627a7a",
+            "f5",
+            "646e616d65",
+            "6161",
+            "6773657373696f6e",
+            "02",
+            "687265616461626c65",
+            "f5",
+            "646d6f6465",
+            "00"
+        ));
+        assert_eq!(
+            decode(&bytes, Direction::HostToClient),
+            Ok(Message::Sessions(Sessions {
+                id: 1,
+                mode: SessionsMode::NewWindow,
+                list: vec![named(2, "a", true)],
+            }))
         );
     }
 

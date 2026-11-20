@@ -3,7 +3,9 @@
 //! `confirm-request`, `confirm` (spec 03 §7).
 
 use super::wire::{self, Body};
-use super::{DecodeError, ErrorCode, GroupId, PaneId, ProfileId, RequestId, TabId, WindowId};
+use super::{
+    DecodeError, ErrorCode, GroupId, PaneId, ProfileId, RequestId, SessionId, TabId, WindowId,
+};
 use crate::cbor::{MapReader, Value, expect_array};
 
 /// `action` (client to host): the host runs it through the same path as the
@@ -124,6 +126,14 @@ pub enum ActionBody {
         /// `pane`.
         pane: PaneId,
     },
+    /// 14, `restore-session`. (13 is reserved and refused.)
+    RestoreSession {
+        /// `session`.
+        session: SessionId,
+        /// `? "window"`: the destination window, needed when the desktop
+        /// appends to an existing window.
+        window: Option<WindowId>,
+    },
 }
 
 impl ActionBody {
@@ -143,6 +153,7 @@ impl ActionBody {
             ActionBody::MoveGroupToWindow { .. } => 10,
             ActionBody::Ungroup { .. } => 11,
             ActionBody::StartPane { .. } => 12,
+            ActionBody::RestoreSession { .. } => 14,
         }
     }
 
@@ -209,6 +220,13 @@ impl ActionBody {
                 ("window", wire::uint(*window)),
             ]),
             ActionBody::Ungroup { group } => wire::map(vec![("group", wire::uint(*group))]),
+            ActionBody::RestoreSession { session, window } => {
+                let mut entries = vec![("session", wire::uint(*session))];
+                if let Some(window) = window {
+                    entries.push(("window", wire::uint(*window)));
+                }
+                wire::map(entries)
+            }
         };
         Value::Array(vec![wire::uint(self.code()), body])
     }
@@ -283,6 +301,10 @@ impl ActionBody {
             },
             12 => ActionBody::StartPane {
                 pane: wire::req_u64(&r, "pane")?,
+            },
+            14 => ActionBody::RestoreSession {
+                session: wire::req_u64(&r, "session")?,
+                window: wire::opt_u64(&r, "window")?,
             },
             _ => return Err(DecodeError::InvalidValue("do")),
         })
@@ -589,6 +611,14 @@ mod tests {
             },
             ActionBody::Ungroup { group: 15 },
             ActionBody::StartPane { pane: 16 },
+            ActionBody::RestoreSession {
+                session: 17,
+                window: None,
+            },
+            ActionBody::RestoreSession {
+                session: 18,
+                window: Some(19),
+            },
         ];
         let mut codes = Vec::new();
         for body in bodies {
@@ -596,7 +626,10 @@ mod tests {
             round_trips(act(1, body), Direction::ClientToHost);
         }
         codes.dedup();
-        assert_eq!(codes, (0..=12).collect::<Vec<u64>>());
+        // 13 is reserved (activate-tab, removed in 0.5).
+        let mut expected: Vec<u64> = (0..=12).collect();
+        expected.push(14);
+        assert_eq!(codes, expected);
     }
 
     macro_rules! client {
@@ -629,9 +662,9 @@ mod tests {
             client!("821828a162646f820ba165" "67726f7570" "03"),
             Err(DecodeError::Cbor(CborError::MissingKey))
         );
-        // do = [14, {}]: unknown action
+        // do = [15, {}]: unknown action
         assert_eq!(
-            client!("821828a262646f820ea0" "62696401"),
+            client!("821828a262646f820fa0" "62696401"),
             Err(DecodeError::InvalidValue("do"))
         );
         // do = [13, {tab: 5}]: activate-tab, removed in 0.5, is out of the domain
@@ -699,6 +732,80 @@ mod tests {
         );
     }
 
+    // [14, {session: 7}]: the optional "window" is omitted, never null.
+    // With it, "window" (66 ..) sorts before "session" (67 ..).
+    #[test]
+    fn action_restore_session_round_trip() {
+        roundtrip(
+            act(
+                1,
+                ActionBody::RestoreSession {
+                    session: 7,
+                    window: None,
+                },
+            ),
+            Direction::ClientToHost,
+            concat!(
+                "821828a2",
+                "62646f",
+                "820ea1",
+                "6773657373696f6e", // "session"
+                "07",
+                "626964",
+                "01",
+            ),
+        );
+        roundtrip(
+            act(
+                1,
+                ActionBody::RestoreSession {
+                    session: 7,
+                    window: Some(3),
+                },
+            ),
+            Direction::ClientToHost,
+            concat!(
+                "821828a2",
+                "62646f",
+                "820ea2",
+                "6677696e646f77", // "window"
+                "03",
+                "6773657373696f6e", // "session"
+                "07",
+                "626964",
+                "01",
+            ),
+        );
+    }
+
+    #[test]
+    fn action_restore_session_errors() {
+        // do = [14, {}]: missing "session"
+        assert_eq!(
+            client!("821828a262646f820ea0" "62696401"),
+            Err(DecodeError::Cbor(CborError::MissingKey))
+        );
+        // "window" null: an error, not an absence
+        assert_eq!(
+            client!(concat!(
+                "821828a262646f820ea2",
+                "6677696e646f77f6",
+                "6773657373696f6e07",
+                "62696401"
+            )),
+            Err(DecodeError::Cbor(CborError::WrongType))
+        );
+        // "session" as text
+        assert_eq!(
+            client!(concat!(
+                "821828a262646f820ea1",
+                "6773657373696f6e6161",
+                "62696401"
+            )),
+            Err(DecodeError::Cbor(CborError::WrongType))
+        );
+    }
+
     #[test]
     fn action_ignores_unknown_keys() {
         // "zzz" (63 7a7a7a) sorts after "tab" (63 746162) in the body and
@@ -761,13 +868,13 @@ mod tests {
             host!("821829a165" "6572726f72" "0c"),
             Err(DecodeError::Cbor(CborError::MissingKey))
         );
-        // error 2 is reserved, 17 is unassigned
+        // error 2 is reserved, 19 is unassigned
         assert_eq!(
             host!("821829a2" "62696401" "656572726f72" "02"),
             Err(DecodeError::InvalidValue("error"))
         );
         assert_eq!(
-            host!("821829a2" "62696401" "656572726f72" "11"),
+            host!("821829a2" "62696401" "656572726f72" "13"),
             Err(DecodeError::InvalidValue("error"))
         );
         // created as text

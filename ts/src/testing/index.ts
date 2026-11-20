@@ -19,8 +19,10 @@
  * - {@link createFakeHost}: a minimal desktop on top of the relay. It pairs
  *   (`XX`, one live token), accepts paired devices (`IK`), answers `hello`
  *   with `welcome`, `theme`, `profiles` and a synthetic `workspace`, and
- *   answers `subscribe` with a `grid-snapshot`. Everything else a client
- *   sends is recorded in `received` and otherwise ignored.
+ *   answers `subscribe` with a `grid-snapshot` and `list-sessions` with a
+ *   `sessions` (mode `new-window`, the list of `FakeHostOptions.sessions`).
+ *   Everything else a client sends is recorded in `received` and otherwise
+ *   ignored.
  *
  * Delivery is synchronous: a call returns after every frame it caused, in
  * both directions, was delivered (frames produced while delivering are
@@ -49,8 +51,15 @@ import {
   PairRejectReason,
   PaneState,
   ProfileKind,
+  SessionsMode,
 } from "../message/codes.js";
-import type { Message, Profile, Theme, WorkspaceMessage } from "../message/types.js";
+import type {
+  Message,
+  NamedSession,
+  Profile,
+  Theme,
+  WorkspaceMessage,
+} from "../message/types.js";
 import { PROTOCOL_MAJOR, type PairingInvite } from "../pairingUri.js";
 import { HostChannel, HostError, type HostEvent } from "../session/host.js";
 import { publicKeyFromPrivate, type RandomSource, type StaticKeypair } from "../session/keys.js";
@@ -339,6 +348,8 @@ export interface FakeHostOptions {
   readonly pairedDevices?: readonly Uint8Array[];
   /** `max_subscriptions` of the `welcome`; default 4. */
   readonly maxSubscriptions?: number;
+  /** Saved named sessions the `sessions` answer lists; default none. */
+  readonly sessions?: readonly NamedSession[];
   /** Randomness for ephemeral keys and tokens; default `globalThis.crypto`. */
   readonly random?: RandomSource;
 }
@@ -460,6 +471,7 @@ export function createFakeHost(options: FakeHostOptions): FakeHost {
   const id = options.hostId ?? deriveHostId(DEFAULT_ROUTING_KEY);
   const hostName = options.hostName ?? "Test Desktop";
   const maxSubscriptions = options.maxSubscriptions ?? 4;
+  const sessions: readonly NamedSession[] = (options.sessions ?? []).map((s) => ({ ...s }));
   const paired: Uint8Array[] = (options.pairedDevices ?? []).map((device) => device.slice());
   const channels = new Map<number, ChannelState>();
   const received: ReceivedMessage[] = [];
@@ -542,6 +554,14 @@ export function createFakeHost(options: FakeHostOptions): FakeHost {
       }
       case "unsubscribe":
         state.subscriptions.delete(message.pane);
+        return;
+      case "list-sessions":
+        reply(number, state, {
+          type: "sessions",
+          id: message.id,
+          mode: SessionsMode.newWindow,
+          list: sessions.map((s) => ({ ...s })),
+        });
         return;
       case "view-tab":
         // Spec 03 §4.4: the host keeps no tab state for the client; it is

@@ -6,11 +6,12 @@ Mudanças da especificação e das implementações de referência. Formato insp
 
 ### Especificação 0.6 (rascunho) — 2026-11-20
 
-Versão de fio continua `[0, 1]`, ainda não congelada. Decisões no [ADR-0012](docs/adr/0012-sessoes-nomeadas-pelo-cliente.md). **Só o texto e o schema CDDL**: crate Rust, pacote TypeScript e vetores acompanham numa etapa seguinte.
+Versão de fio continua `[0, 1]`, ainda não congelada. Decisões no [ADR-0012](docs/adr/0012-sessoes-nomeadas-pelo-cliente.md). Texto e schema CDDL escritos primeiro; crate Rust, pacote TypeScript e vetores implementados no mesmo dia.
 
 - **Fio, adicionado:** as mensagens `list-sessions` (tipo 14, cliente → host, `{ "id": request-id }`) e `sessions` (tipo 15, host → cliente, `{ "id", "mode", "list" }`), §4.5 de 03; o id `session-id` (§3); a ação `restore-session` (`action-body` código 14, `{ "session": session-id, ? "window": window-id }`); os códigos de erro `unknown-session` (17) e `session-unreadable` (18).
 - **Regra:** a lista é lida só sob pedido, na ordem do desktop, com as sessões ilegíveis marcadas (`readable: false`). O destino da restauração é a preferência do desktop no momento da ação: `new-window` abre uma janela nova **sem foco**; `append` acrescenta ao fim da trilha da janela `window`. Nos dois casos, nenhuma aba é ativada e nada é fechado; tema, zoom e fixadas da sessão não são aplicados.
 - **Fora do v0, revisto:** "sessões nomeadas" vira "salvar e excluir sessões nomeadas"; "abrir janela nova" vira "abrir janela vazia".
+- **Implementações:** Rust `Message::ListSessions`/`Message::Sessions` (`NamedSession`, `SessionsMode`, `SessionId`), `ActionBody::RestoreSession` e `ErrorCode::UnknownSession`/`SessionUnreadable`; TypeScript os mesmos tipos, com o mapa explícito `ActionCode` no lugar do `ACTION_TYPES` indexado pelo código (o 13 é um buraco; `ACTION_TYPES` continua exportado, como lista de nomes), `SessionsMode`/`SESSIONS_MODES`, e o desktop falso de `@porecatu/protocol/testing` responde `list-sessions` (lista em `FakeHostOptions.sessions`). Vetores `mensagens/list-sessions/`, `mensagens/sessions/`, extras de `action` (`restore-session`, com e sem `window`) e de `error` (17, 18 e o 19 não atribuído); teste de sessão em `rust/tests/full_session.rs`. 361 vetores.
 
 ### Especificação 0.5 (rascunho) — 2026-11-20
 

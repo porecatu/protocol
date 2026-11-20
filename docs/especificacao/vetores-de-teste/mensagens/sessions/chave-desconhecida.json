@@ -1,0 +1,36 @@
+{
+  "descricao": "sessions: chave desconhecida \"zz\" no corpo, aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    15,
+    {
+      "map": [
+        [
+          "id",
+          0
+        ],
+        [
+          "zz",
+          true
+        ],
+        [
+          "list",
+          []
+        ],
+        [
+          "mode",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820fa462696400627a7af5646c69737480646d6f646500",
+  "reencode_hex": "820fa362696400646c69737480646d6f646500",
+  "valido": true,
+  "erro": null,
+  "diag": "[15, {\"id\": 0, \"zz\": true, \"list\": [], \"mode\": 0}]"
+}

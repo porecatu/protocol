@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-/** Workspace state (spec 03 §4): `workspace`, `profiles`, `theme` and `view-tab`. */
+/**
+ * Workspace state (spec 03 §4): `workspace`, `profiles`, `theme`, `view-tab`,
+ * `list-sessions` and `sessions`.
+ */
 
 import {
   asArray,
@@ -15,15 +18,18 @@ import {
   type MapReader,
 } from "../cbor/index.js";
 import { body, DecodeError, enumFrom, type BodyCodec } from "./codec.js";
-import { PANE_STATES, PROFILE_KINDS, SPLIT_DIRS } from "./codes.js";
+import { PANE_STATES, PROFILE_KINDS, SESSIONS_MODES, SPLIT_DIRS } from "./codes.js";
 import type {
   Group,
   Item,
+  ListSessions,
+  NamedSession,
   Pane,
   PaneNode,
   Profile,
   Profiles,
   Rgb,
+  Sessions,
   Split,
   Tab,
   Theme,
@@ -303,4 +309,43 @@ export const viewTabCodec: BodyCodec<ViewTab> = {
     const tab = r.required("tab");
     return { type: "view-tab", tab: isNull(tab) ? null : asUint(tab) };
   },
+};
+
+// --- list-sessions and sessions ---
+
+export const listSessionsCodec: BodyCodec<ListSessions> = {
+  toBody: (m) => body([["id", m.id]]),
+  fromBody: (r) => ({ type: "list-sessions", id: asUint(r.required("id")) }),
+};
+
+function namedSessionToValue(session: NamedSession): CborValue {
+  return body([
+    ["session", session.session],
+    ["name", session.name],
+    ["readable", session.readable],
+  ]);
+}
+
+function namedSessionFromValue(value: CborValue | undefined): NamedSession {
+  const r = mapReader(asMap(value));
+  return {
+    session: asUint(r.required("session")),
+    name: asText(r.required("name")),
+    readable: asBool(r.required("readable")),
+  };
+}
+
+export const sessionsCodec: BodyCodec<Sessions> = {
+  toBody: (m) =>
+    body([
+      ["id", m.id],
+      ["mode", m.mode],
+      ["list", m.list.map(namedSessionToValue)],
+    ]),
+  fromBody: (r) => ({
+    type: "sessions",
+    id: asUint(r.required("id")),
+    mode: enumFrom(SESSIONS_MODES, asUint(r.required("mode"))),
+    list: asArray(r.required("list")).map(namedSessionFromValue),
+  }),
 };

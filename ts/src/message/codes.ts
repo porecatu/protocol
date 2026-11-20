@@ -17,6 +17,8 @@ export const MessageType = {
   profiles: 11,
   theme: 12,
   "view-tab": 13,
+  "list-sessions": 14,
+  sessions: 15,
   subscribe: 20,
   unsubscribe: 21,
   "grid-snapshot": 22,
@@ -101,6 +103,14 @@ export type SubscriptionEndReason =
 export const SUBSCRIPTION_END_REASONS: readonly SubscriptionEndReason[] =
   Object.values(SubscriptionEndReason);
 
+/** `sessions.mode` (spec 03 §4.5): where the desktop restores a session to. */
+export const SessionsMode = {
+  newWindow: 0,
+  append: 1,
+} as const;
+export type SessionsMode = (typeof SessionsMode)[keyof typeof SessionsMode];
+export const SESSIONS_MODES: readonly SessionsMode[] = Object.values(SessionsMode);
+
 /** `named-key` (spec 03 §6). The numbers 14 to 20 are unassigned. */
 export const NamedKey = {
   enter: 0,
@@ -178,6 +188,8 @@ export const ErrorCode = {
   cancelled: 14,
   unsupported: 15,
   lastTab: 16,
+  unknownSession: 17,
+  sessionUnreadable: 18,
 } as const;
 export type ErrorCode = (typeof ErrorCode)[keyof typeof ErrorCode];
 export const ERROR_CODES: readonly ErrorCode[] = Object.values(ErrorCode);
@@ -201,19 +213,27 @@ export const MOD = {
   meta: 0x08,
 } as const;
 
-/** Action discriminants (spec 03 §7), in wire order: `ACTION_TYPES[code]`. */
-export const ACTION_TYPES = [
-  "new-tab",
-  "close-tab",
-  "close-pane",
-  "rename-tab",
-  "move-tab-to-group",
-  "move-tab-to-window",
-  "new-group",
-  "rename-group",
-  "set-group-color",
-  "collapse-group",
-  "move-group-to-window",
-  "ungroup",
-  "start-pane",
-] as const;
+/**
+ * Wire code of every action (spec 03 §7), keyed by the `type` literal. The
+ * number 13 is reserved (it was `activate-tab`, removed in 0.5): like any code
+ * that is not here, it is refused on decode.
+ */
+export const ActionCode = {
+  "new-tab": 0,
+  "close-tab": 1,
+  "close-pane": 2,
+  "rename-tab": 3,
+  "move-tab-to-group": 4,
+  "move-tab-to-window": 5,
+  "new-group": 6,
+  "rename-group": 7,
+  "set-group-color": 8,
+  "collapse-group": 9,
+  "move-group-to-window": 10,
+  ungroup: 11,
+  "start-pane": 12,
+  "restore-session": 14,
+} as const;
+
+/** Action discriminants (spec 03 §7), in the order of their wire codes (13 is a hole). */
+export const ACTION_TYPES = Object.keys(ActionCode) as ReadonlyArray<keyof typeof ActionCode>;

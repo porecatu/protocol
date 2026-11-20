@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
-//! Message vectors (`mensagens/<type>/`): the 27 messages of specification 03
+//! Message vectors (`mensagens/<type>/`): the 29 messages of specification 03
 //! plus the `pair-request` of 02 section 3.2.
 //!
 //! For each message the cases written by hand here are a **minimal** body
@@ -50,6 +50,9 @@ struct Extra {
     desc: String,
     body: Json,
     valid: bool,
+    /// For a valid case that carries a key the typed model drops: the body
+    /// the re-encoding must produce.
+    reencode: Option<Json>,
 }
 
 fn ok(file: &str, desc: &str, body: Json) -> Extra {
@@ -58,6 +61,16 @@ fn ok(file: &str, desc: &str, body: Json) -> Extra {
         desc: desc.to_owned(),
         body,
         valid: true,
+        reencode: None,
+    }
+}
+
+/// A valid case whose unknown keys are dropped on re-encoding: `reencoded` is
+/// the body without them.
+fn ok_dropping(file: &str, desc: &str, body: Json, reencoded: Json) -> Extra {
+    Extra {
+        reencode: Some(reencoded),
+        ..ok(file, desc, body)
     }
 }
 
@@ -67,6 +80,7 @@ fn bad(file: &str, desc: &str, body: Json) -> Extra {
         desc: desc.to_owned(),
         body,
         valid: false,
+        reencode: None,
     }
 }
 
@@ -598,6 +612,82 @@ fn messages() -> Vec<Msg> {
         )],
     });
 
+    // ---- list-sessions and sessions (0.6) --------------------------------
+    all.push(Msg {
+        folder: "list-sessions",
+        code: Some(14),
+        raiz: "message",
+        minimal: map(vec![("id", json!(0))]),
+        complete: map(vec![("id", json!(MAX))]),
+        complete_desc: "list-sessions com o maior id de pedido",
+        extras: vec![],
+    });
+    let named = |session: u64, name: &str, readable: bool| {
+        map(vec![
+            ("session", json!(session)),
+            ("name", json!(name)),
+            ("readable", json!(readable)),
+        ])
+    };
+    let sessions = |id: u64, mode: u64, list: Json| {
+        map(vec![
+            ("id", json!(id)),
+            ("mode", json!(mode)),
+            ("list", list),
+        ])
+    };
+    all.push(Msg {
+        folder: "sessions",
+        code: Some(15),
+        raiz: "message",
+        minimal: sessions(0, 0, json!([])),
+        complete: sessions(
+            MAX,
+            1,
+            json!([
+                named(MAX, "trabalho", true),
+                named(4_000_000_000, "sessão antiga", false),
+            ]),
+        ),
+        complete_desc: "sessions no modo append com uma sessão legível e uma ilegível, ids grandes",
+        extras: vec![
+            ok(
+                "nova-janela",
+                "sessions no modo new-window com uma sessão",
+                sessions(3, 0, json!([named(1, "dev", true)])),
+            ),
+            ok_dropping(
+                "chave-desconhecida-na-sessao",
+                "named-session com a chave desconhecida zz: aceita e descartada ao recodificar",
+                sessions(
+                    3,
+                    0,
+                    json!([map(vec![
+                        ("session", json!(1)),
+                        ("name", json!("dev")),
+                        ("readable", json!(true)),
+                        ("zz", json!(true)),
+                    ])]),
+                ),
+                sessions(3, 0, json!([named(1, "dev", true)])),
+            ),
+            bad(
+                "modo-fora-do-dominio",
+                "mode 2, fora do domínio (new-window 0, append 1)",
+                sessions(3, 2, json!([])),
+            ),
+            bad(
+                "sessao-sem-readable",
+                "named-session sem a chave obrigatória readable",
+                sessions(
+                    3,
+                    0,
+                    json!([map(vec![("session", json!(1)), ("name", json!("dev"))])]),
+                ),
+            ),
+        ],
+    });
+
     // ---- grid ------------------------------------------------------------
     let by_pane = |id: u64| map(vec![("pane", json!(id))]);
     all.push(Msg {
@@ -941,6 +1031,20 @@ fn messages() -> Vec<Msg> {
                 "start-pane (12)",
                 act(16, 12, map(vec![("pane", json!(3))])),
             ),
+            ok(
+                "restore-session",
+                "restore-session (14) sem window (o destino é uma janela nova)",
+                act(18, 14, map(vec![("session", json!(7))])),
+            ),
+            ok(
+                "restore-session-com-window",
+                "restore-session (14) com window (acrescenta a uma janela existente)",
+                act(
+                    19,
+                    14,
+                    map(vec![("session", json!(MAX)), ("window", json!(2))]),
+                ),
+            ),
             bad(
                 "activate-tab-recusada",
                 "do com o código 13, o do activate-tab removido na 0.5: fora do domínio",
@@ -1055,8 +1159,23 @@ fn messages() -> Vec<Msg> {
             ),
             ok(
                 "last-tab",
-                "error last-tab (16), o último código",
+                "error last-tab (16)",
                 map(vec![("code", json!(16))]),
+            ),
+            ok(
+                "unknown-session",
+                "error unknown-session (17)",
+                map(vec![("code", json!(17))]),
+            ),
+            ok(
+                "session-unreadable",
+                "error session-unreadable (18), o último código",
+                map(vec![("code", json!(18))]),
+            ),
+            bad(
+                "codigo-nao-atribuido",
+                "error com code 19, o primeiro depois do último código",
+                map(vec![("code", json!(19))]),
             ),
             bad(
                 "codigo-reservado",
@@ -1233,7 +1352,12 @@ fn cases_of(msg: &Msg) -> Vec<Generated> {
         let item = wrap(msg.code, &extra.body);
         let description = format!("{name}: {}", extra.desc);
         let vector = if extra.valid {
-            valid(&description, msg.raiz, &item)
+            let mut vector = valid(&description, msg.raiz, &item);
+            if let Some(reencoded) = &extra.reencode {
+                let again = valid(&description, msg.raiz, &wrap(msg.code, reencoded));
+                vector.reencode_hex = Some(again.cbor_hex);
+            }
+            vector
         } else {
             let bytes = cbor::encode(&to_value(&item));
             let tree = cbor::decode(&bytes).expect("canonical bytes decode");

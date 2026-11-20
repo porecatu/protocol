@@ -1,0 +1,27 @@
+{
+  "descricao": "error: error com code 19, o primeiro depois do último código",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    70,
+    {
+      "map": [
+        [
+          "code",
+          19
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821846a164636f646513",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[70, {\"code\": 19}]"
+}

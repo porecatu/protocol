@@ -1,0 +1,38 @@
+{
+  "descricao": "action: restore-session (14) sem window (o destino é uma janela nova)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            14,
+            {
+              "map": [
+                [
+                  "session",
+                  7
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          18
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f820ea16773657373696f6e0762696412",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [14, {\"session\": 7}], \"id\": 18}]"
+}

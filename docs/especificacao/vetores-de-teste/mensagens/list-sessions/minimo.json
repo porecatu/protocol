@@ -1,0 +1,24 @@
+{
+  "descricao": "list-sessions mínimo: só as chaves obrigatórias",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    14,
+    {
+      "map": [
+        [
+          "id",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820ea162696400",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[14, {\"id\": 0}]"
+}

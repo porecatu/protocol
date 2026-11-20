@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 //! Application messages encoded as CBOR (`message` feature).
 //!
-//! Specification 03 in full: the 27 messages, their components and the enums
+//! Specification 03 in full: the 29 messages, their components and the enums
 //! of the domain, plus [`encode`] and [`decode`].
 //!
 //! # Wire shape
@@ -53,7 +53,7 @@
 //! - Test each body with a hand-computed hex, a round trip, a missing
 //!   required key and an unknown extra key.
 //!
-//! Every body of the 27 messages (and `PairRequest`) is implemented; [`decode`]
+//! Every body of the 29 messages (and `PairRequest`) is implemented; [`decode`]
 //! never panics on untrusted bytes.
 //!
 //! # Errors
@@ -134,8 +134,9 @@ pub use pairing::{
 };
 pub use session::{Goodbye, GoodbyeReason, Hello, Incompatible, Version, Welcome};
 pub use workspace::{
-    Group, Item, Pane, PaneNode, PaneState, Profile, ProfileKind, Profiles, Split, SplitDir, Tab,
-    Theme, ViewTab, Window, Workspace,
+    Group, Item, ListSessions, NamedSession, Pane, PaneNode, PaneState, Profile, ProfileKind,
+    Profiles, SessionId, Sessions, SessionsMode, Split, SplitDir, Tab, Theme, ViewTab, Window,
+    Workspace,
 };
 
 /// Identifier of a window (spec 03 §3).
@@ -447,6 +448,8 @@ message_table! {
     11 Profiles(Profiles) Host,
     12 Theme(Theme) Host,
     13 ViewTab(ViewTab) Client,
+    14 ListSessions(ListSessions) Client,
+    15 Sessions(Sessions) Host,
     20 Subscribe(Subscribe) Client,
     21 Unsubscribe(Unsubscribe) Client,
     22 GridSnapshot(GridSnapshot) Host,
@@ -738,11 +741,11 @@ mod tests {
         assert_eq!(
             TYPE_CODES,
             [
-                0, 1, 2, 3, 10, 11, 12, 13, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 40, 41, 42,
-                43, 50, 60, 61, 70
+                0, 1, 2, 3, 10, 11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 40,
+                41, 42, 43, 50, 60, 61, 70
             ]
         );
-        assert_eq!(TYPE_CODES.len(), 27);
+        assert_eq!(TYPE_CODES.len(), 29);
         assert_eq!(Message::Hello(hello()).type_code(), 0);
         assert_eq!(
             Message::Hello(hello()).sender(),
@@ -779,7 +782,9 @@ mod tests {
     fn enum_codes_match_the_spec() {
         check_enum(
             ErrorCode::ALL,
-            &[0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+            &[
+                0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+            ],
         );
         check_enum(GoodbyeReason::ALL, &[0, 1, 2, 3]);
         check_enum(PaneState::ALL, &[0, 1, 2, 3, 4, 5, 6]);

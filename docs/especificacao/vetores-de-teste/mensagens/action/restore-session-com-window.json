@@ -1,0 +1,42 @@
+{
+  "descricao": "action: restore-session (14) com window (acrescenta a uma janela existente)",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            14,
+            {
+              "map": [
+                [
+                  "window",
+                  2
+                ],
+                [
+                  "session",
+                  9007199254740991
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          19
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f820ea26677696e646f77026773657373696f6e1b001fffffffffffff62696413",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [14, {\"window\": 2, \"session\": 9007199254740991}], \"id\": 19}]"
+}

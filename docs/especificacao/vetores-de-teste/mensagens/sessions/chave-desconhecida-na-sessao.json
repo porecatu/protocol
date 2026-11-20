@@ -1,0 +1,53 @@
+{
+  "descricao": "sessions: named-session com a chave desconhecida zz: aceita e descartada ao recodificar",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    15,
+    {
+      "map": [
+        [
+          "id",
+          3
+        ],
+        [
+          "list",
+          [
+            {
+              "map": [
+                [
+                  "zz",
+                  true
+                ],
+                [
+                  "name",
+                  "dev"
+                ],
+                [
+                  "session",
+                  1
+                ],
+                [
+                  "readable",
+                  true
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "mode",
+          0
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "820fa362696403646c69737481a4627a7af5646e616d65636465766773657373696f6e01687265616461626c65f5646d6f646500",
+  "reencode_hex": "820fa362696403646c69737481a3646e616d65636465766773657373696f6e01687265616461626c65f5646d6f646500",
+  "valido": true,
+  "erro": null,
+  "diag": "[15, {\"id\": 3, \"list\": [{\"zz\": true, \"name\": \"dev\", \"session\": 1, \"readable\": true}], \"mode\": 0}]"
+}
