@@ -4,7 +4,7 @@ Fases do protocolo. Cada fase tem **critério de saída explícito**; enquanto e
 
 | Fase | Status |
 |---|---|
-| P0 — Especificação 0.1 (rascunho) | entregas feitas, hoje na **0.6**; critério 3 sem registro |
+| P0 — Especificação 0.1 (rascunho) | entregas feitas, hoje na **0.7**; critério 3 sem registro |
 | P1 — Crate Rust e vetores | **entregue**, com dívida de verificação |
 | P2 — Pacote TypeScript | **entregue**, com dívida de verificação (Hermes) |
 | P3 — Congelar `[0, 1]` | planejada |

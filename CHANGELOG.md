@@ -4,6 +4,14 @@ Mudanças da especificação e das implementações de referência. Formato insp
 
 ## [Não publicado]
 
+### Especificação 0.7 (rascunho) — 2026-11-23
+
+Versão de fio continua `[0, 1]`, ainda não congelada. Decisão no [ADR-0013](docs/adr/0013-nova-aba-solta.md). Texto, crate Rust, pacote TypeScript e vetores no mesmo commit.
+
+- **Fio, alterado:** `new-tab` aceita `"group": null` (§7 de 03; `? "group": group-id / null`). Ausente continua sendo "onde o `tab.new` criaria" e um id, "no fim do grupo".
+- **Regra:** `group: null` cria uma aba **solta**, sem grupo, no fim da trilha da janela e sem olhar a aba ativa (a regra do "+" que fecha a trilha do desktop). Não valida grupo, então não gera `unknown-group`. A aba continua sem ativar. Um host 0.6 recusa `group: null` como valor fora do domínio.
+- **Implementações:** Rust `NewTabGroup { Auto, Ungrouped, Group }` no lugar de `Option<GroupId>` em `ActionBody::NewTab`; TypeScript `group?: GroupId | null`. Vetores `mensagens/action/new-tab-solta.json` (`group: null`) e `new-tab-group-texto.json` (texto, recusado); testes de bytes nas duas linguagens.
+
 ### Especificação 0.6 (rascunho) — 2026-11-20
 
 Versão de fio continua `[0, 1]`, ainda não congelada. Decisões no [ADR-0012](docs/adr/0012-sessoes-nomeadas-pelo-cliente.md). Texto e schema CDDL escritos primeiro; crate Rust, pacote TypeScript e vetores implementados no mesmo dia.

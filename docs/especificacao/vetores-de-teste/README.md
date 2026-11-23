@@ -1,6 +1,6 @@
 # Vetores de teste
 
-**Versão da especificação:** 0.6 (rascunho)
+**Versão da especificação:** 0.7 (rascunho)
 **Status:** formato definido ([ADR-0008](../../adr/0008-especificacao-0-2.md)); 361 vetores commitados, gerados pela ferramenta Rust `rust/tools/vectors` (todas as pastas menos `sessoes-ts/`) e pelos testes do pacote TypeScript (`sessoes-ts/`), e reproduzidos pelas duas implementações de referência ([ADR-0005](../../adr/0005-implementacoes-de-referencia.md)).
 
 O protocolo tem duas implementações de referência em linguagens diferentes (Rust e TypeScript). Especificação em prosa não basta para as duas concordarem byte a byte: os vetores são o árbitro. Toda mudança no fio entra com vetor novo, e o CI deste repositório roda os vetores contra as duas implementações.

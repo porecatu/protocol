@@ -1,0 +1,45 @@
+{
+  "descricao": "action: new-tab (0) com group de texto: nem id nem null",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            0,
+            {
+              "map": [
+                [
+                  "group",
+                  "g"
+                ],
+                [
+                  "window",
+                  1
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          21
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8200a26567726f757061676677696e646f770162696415",
+  "reencode_hex": null,
+  "valido": false,
+  "erro": {
+    "camada": "mensagem",
+    "codigo": "protocol"
+  },
+  "diag": "[40, {\"do\": [0, {\"group\": \"g\", \"window\": 1}], \"id\": 21}]"
+}

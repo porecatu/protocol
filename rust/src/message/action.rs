@@ -35,6 +35,18 @@ impl Body for Action {
     }
 }
 
+/// Where a `new-tab` goes (`group` of `new-tab`, three states on the wire).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum NewTabGroup {
+    /// `group` absent: where the host's own `tab.new` would create the tab.
+    #[default]
+    Auto,
+    /// `group` is `null`: a tab outside any group, at the end of the track.
+    Ungrouped,
+    /// `group` is a group id: at the end of that group.
+    Group(GroupId),
+}
+
 /// The body of an action, `[code, map]`. The comment on each variant gives
 /// its code on the wire.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -43,8 +55,8 @@ pub enum ActionBody {
     NewTab {
         /// `window`.
         window: WindowId,
-        /// `? "group"`: where to append the tab.
-        group: Option<GroupId>,
+        /// `? "group"`: absent, `null` (loose tab) or a group id.
+        group: NewTabGroup,
         /// `? "profile"`: defaults to the host's default profile.
         profile: Option<ProfileId>,
     },
@@ -166,8 +178,10 @@ impl ActionBody {
                 profile,
             } => {
                 let mut entries = vec![("window", wire::uint(*window))];
-                if let Some(group) = group {
-                    entries.push(("group", wire::uint(*group)));
+                match group {
+                    NewTabGroup::Auto => {}
+                    NewTabGroup::Ungrouped => entries.push(("group", Value::Null)),
+                    NewTabGroup::Group(group) => entries.push(("group", wire::uint(*group))),
                 }
                 if let Some(profile) = profile {
                     entries.push(("profile", wire::text(profile)));
@@ -240,7 +254,11 @@ impl ActionBody {
         Ok(match code {
             0 => ActionBody::NewTab {
                 window: wire::req_u64(&r, "window")?,
-                group: wire::opt_u64(&r, "group")?,
+                group: match r.optional("group") {
+                    None => NewTabGroup::Auto,
+                    Some(value) if value.is_null() => NewTabGroup::Ungrouped,
+                    Some(value) => NewTabGroup::Group(value.as_u64()?),
+                },
                 profile: r
                     .optional("profile")
                     .map(|v| v.as_text().map(str::to_owned))
@@ -462,7 +480,7 @@ mod tests {
                 1,
                 ActionBody::NewTab {
                     window: 1,
-                    group: None,
+                    group: NewTabGroup::Auto,
                     profile: None,
                 },
             ),
@@ -472,6 +490,36 @@ mod tests {
                 "62646f", // "do"
                 "8200a1", // [0, {1 entry}]
                 "66",     // "window"
+                "77696e646f77",
+                "01",
+                "626964", // "id"
+                "01",
+            ),
+        );
+    }
+
+    // The same, with `"group": null` (a loose tab): the key goes on the wire
+    // and sorts before "window" (shorter first). f6 = null.
+    #[test]
+    fn action_new_tab_loose_round_trip() {
+        roundtrip(
+            act(
+                1,
+                ActionBody::NewTab {
+                    window: 1,
+                    group: NewTabGroup::Ungrouped,
+                    profile: None,
+                },
+            ),
+            Direction::ClientToHost,
+            concat!(
+                "821828a2",
+                "62646f", // "do"
+                "8200a2", // [0, {2 entries}]
+                "65",     // "group"
+                "67726f7570",
+                "f6",
+                "66", // "window"
                 "77696e646f77",
                 "01",
                 "626964", // "id"
@@ -562,7 +610,12 @@ mod tests {
         let bodies = vec![
             ActionBody::NewTab {
                 window: 1,
-                group: Some(2),
+                group: NewTabGroup::Group(2),
+                profile: Some("auto:pwsh".to_owned()),
+            },
+            ActionBody::NewTab {
+                window: 1,
+                group: NewTabGroup::Ungrouped,
                 profile: Some("auto:pwsh".to_owned()),
             },
             ActionBody::CloseTab { tab: 3 },
@@ -714,12 +767,12 @@ mod tests {
             )),
             Err(DecodeError::InvalidValue("tabs"))
         );
-        // new-tab whose optional "group" is null: an error, not an absence
-        // ("group" = 65 67726f7570 sorts before "window").
+        // new-tab whose optional "group" is text: neither an id nor null
+        // ("group" = 65 67726f7570 sorts before "window"; text "g" = 61 67).
         assert_eq!(
             client!(concat!(
                 "821828a262646f8200a2",
-                "6567726f7570f6",
+                "6567726f75706167",
                 "6677696e646f7701",
                 "62696401"
             )),

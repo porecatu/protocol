@@ -121,7 +121,9 @@ pub mod pairing;
 pub mod session;
 pub mod workspace;
 
-pub use action::{Action, ActionBody, ActionResult, Confirm, ConfirmKind, ConfirmRequest};
+pub use action::{
+    Action, ActionBody, ActionResult, Confirm, ConfirmKind, ConfirmRequest, NewTabGroup,
+};
 pub use event::{Bell, ErrorCode, ErrorMessage};
 pub use grid::{
     Color, Cursor, CursorShape, GridAck, GridDiff, GridSnapshot, Line, ScrollbackPage,

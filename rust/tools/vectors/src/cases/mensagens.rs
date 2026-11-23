@@ -1032,6 +1032,24 @@ fn messages() -> Vec<Msg> {
                 act(16, 12, map(vec![("pane", json!(3))])),
             ),
             ok(
+                "new-tab-solta",
+                "new-tab (0) com group null: aba sem grupo, no fim da trilha",
+                act(
+                    20,
+                    0,
+                    map(vec![("window", json!(1)), ("group", Json::Null)]),
+                ),
+            ),
+            bad(
+                "new-tab-group-texto",
+                "new-tab (0) com group de texto: nem id nem null",
+                act(
+                    21,
+                    0,
+                    map(vec![("window", json!(1)), ("group", json!("g"))]),
+                ),
+            ),
+            ok(
                 "restore-session",
                 "restore-session (14) sem window (o destino é uma janela nova)",
                 act(18, 14, map(vec![("session", json!(7))])),

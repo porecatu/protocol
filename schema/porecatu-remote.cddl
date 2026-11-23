@@ -316,7 +316,7 @@ paste = [32, { "pane": pane-id, "text": tstr, * tstr => any }]   ; colar: o host
 action = [40, { "id": request-id, "do": action-body, * tstr => any }]
 
 action-body =
-    [0,  { "window": window-id, ? "group": group-id, ? "profile": profile-id, * tstr => any }]  ; new-tab
+    [0,  { "window": window-id, ? "group": group-id / null, ? "profile": profile-id, * tstr => any }]  ; new-tab (sem group: onde o tab.new criaria; null: aba solta)
   / [1,  { "tab": tab-id, * tstr => any }]                                    ; close-tab
   / [2,  { "pane": pane-id, * tstr => any }]                                  ; close-pane
   / [3,  { "tab": tab-id, "title": tstr / null, * tstr => any }]              ; rename-tab (null limpa o título próprio)

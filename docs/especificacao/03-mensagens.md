@@ -1,6 +1,6 @@
 # 03 — Mensagens
 
-**Versão da especificação:** 0.6 (rascunho)
+**Versão da especificação:** 0.7 (rascunho)
 
 Este documento cobre a camada 4: as mensagens de aplicação que host e cliente trocam dentro da sessão Noise. A escolha de CBOR e CDDL está no [ADR-0003](../adr/0003-cbor-com-schema-em-cddl.md); as regras estritas de codificação e decodificação desta versão, no [ADR-0008](../adr/0008-especificacao-0-2.md).
 
@@ -417,7 +417,7 @@ O cliente pede, o host executa **pelo mesmo caminho do gesto local** e responde.
 action = [40, { "id": request-id, "do": action-body }]
 
 action-body =
-    [0,  { "window": window-id, ? "group": group-id, ? "profile": profile-id }]  ; new-tab
+    [0,  { "window": window-id, ? "group": group-id / null, ? "profile": profile-id }]  ; new-tab (sem group: onde o tab.new criaria; null: aba solta)
   / [1,  { "tab": tab-id }]                                    ; close-tab
   / [2,  { "pane": pane-id }]                                  ; close-pane
   / [3,  { "tab": tab-id, "title": tstr / null }]              ; rename-tab (null limpa o título próprio)
@@ -440,7 +440,7 @@ action-result = [41, {
 }]
 ```
 
-- **`new-tab`** sem `group` cria a aba onde o `tab.new` do desktop criaria, relativo à aba ativa daquela janela; com `group`, no fim do grupo. Sem `profile`, usa o padrão. Herda o `cwd` pela regra do desktop. A aba criada **não** fica ativa: a aba ativa da janela continua a mesma. Se o processo da aba não sobe, `invalid-argument`.
+- **`new-tab`** sem `group` cria a aba onde o `tab.new` do desktop criaria, relativo à aba ativa daquela janela; com `group` (um id), no fim do grupo; com `group: null`, uma aba **solta**: sem grupo, no fim da trilha da janela, como o "+" que fecha a trilha do desktop, e **sem olhar a aba ativa** (se a trilha já termina em abas soltas, entra entre elas; senão abre um trecho solto novo). O `null` pede o lugar; `unknown-group` só vale para um id. Sem `profile`, usa o padrão. Herda o `cwd` pela regra do desktop. A aba criada **não** fica ativa: a aba ativa da janela continua a mesma. Se o processo da aba não sobe, `invalid-argument`.
 - **`close-tab` e `close-pane`.** `close-pane` do último painel de uma aba fecha a aba, como no desktop; fechar assim (ou por `close-tab`) a última aba da última janela é recusado com `last-tab`. **Aba fixada** é fechada como no desktop: o fechamento **sempre** pede confirmação (`confirm-request`) e, aceito, a aba é fechada **e desafixada**; vale também para o último painel (`close-pane`), que fecha a aba, não a reinicia. Uma fixada sem nada vivo recebe `confirm-request` com `kind = running-process` e `processes` vazio.
 - **`rename-tab`** em aba fixada é aceito.
 - **`move-tab-to-group`** com um grupo de **outra janela** responde `unknown-group` (para a janela da aba, o grupo não existe, como no `new-tab` com um grupo de outra janela). Aba fixada, com grupo ou com `null`, responde `invalid-argument`. `group: null` com a aba já fora de grupo é sucesso, sem efeito.

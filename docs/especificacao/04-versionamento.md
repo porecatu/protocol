@@ -1,6 +1,6 @@
 # 04 — Versionamento
 
-**Versão da especificação:** 0.6 (rascunho)
+**Versão da especificação:** 0.7 (rascunho)
 
 Há três versões independentes, e misturá-las é a confusão que este documento existe para evitar.
 

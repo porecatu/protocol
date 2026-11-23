@@ -1,6 +1,6 @@
 # Modelo de ameaça
 
-**Versão da especificação:** 0.6 (rascunho)
+**Versão da especificação:** 0.7 (rascunho)
 
 O acesso remoto abre, por definição, um caminho de fora para dentro de um terminal: **quem controla uma sessão remota executa comandos no desktop com o usuário dele.** Este documento diz o que o protocolo protege, de quem, e o que fica de fora.
 

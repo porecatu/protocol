@@ -136,7 +136,8 @@ export type ActionBody =
   | {
       readonly type: "new-tab";
       readonly window: WindowId;
-      readonly group?: GroupId;
+      /** Absent: where the host's `tab.new` would create it; `null`: a loose tab; an id: the end of that group. */
+      readonly group?: GroupId | null;
       readonly profile?: ProfileId;
     }
   | { readonly type: "close-tab"; readonly tab: TabId }

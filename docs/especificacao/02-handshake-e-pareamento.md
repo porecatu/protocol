@@ -1,6 +1,6 @@
 # 02 — Handshake e pareamento
 
-**Versão da especificação:** 0.6 (rascunho)
+**Versão da especificação:** 0.7 (rascunho)
 
 Este documento cobre a camada 3: as chaves de cada parte, o pareamento por QR code, o handshake das conexões seguintes e o formato dos registros cifrados. A escolha do Noise está no [ADR-0002](../adr/0002-noise-para-a-sessao-ponta-a-ponta.md).
 

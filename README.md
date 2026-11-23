@@ -2,7 +2,7 @@
 
 Especificação do protocolo de **acesso remoto do Porecatu**: o contrato que o Porecatu desktop, o Porecatu Relay e o Porecatu Remote seguem para que um celular alcance uma sessão viva do terminal sem que o servidor do meio consiga ler o conteúdo.
 
-**Status:** especificação **0.6, em rascunho**, versão de fio **`[0, 1]`**, ainda não congelada (são duas versões diferentes: a do texto e a do que vai no fio — [04 — Versionamento](docs/especificacao/04-versionamento.md)). As duas implementações de referência e os vetores de teste existem e concordam entre si; nada foi publicado ainda ([roadmap](docs/roadmap.md)).
+**Status:** especificação **0.7, em rascunho**, versão de fio **`[0, 1]`**, ainda não congelada (são duas versões diferentes: a do texto e a do que vai no fio — [04 — Versionamento](docs/especificacao/04-versionamento.md)). As duas implementações de referência e os vetores de teste existem e concordam entre si; nada foi publicado ainda ([roadmap](docs/roadmap.md)).
 
 ## Implementações de referência
 

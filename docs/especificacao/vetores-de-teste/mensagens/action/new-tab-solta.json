@@ -1,0 +1,42 @@
+{
+  "descricao": "action: new-tab (0) com group null: aba sem grupo, no fim da trilha",
+  "versao": [
+    0,
+    1
+  ],
+  "raiz": "message",
+  "valor": [
+    40,
+    {
+      "map": [
+        [
+          "do",
+          [
+            0,
+            {
+              "map": [
+                [
+                  "group",
+                  null
+                ],
+                [
+                  "window",
+                  1
+                ]
+              ]
+            }
+          ]
+        ],
+        [
+          "id",
+          20
+        ]
+      ]
+    }
+  ],
+  "cbor_hex": "821828a262646f8200a26567726f7570f66677696e646f770162696414",
+  "reencode_hex": null,
+  "valido": true,
+  "erro": null,
+  "diag": "[40, {\"do\": [0, {\"group\": null, \"window\": 1}], \"id\": 20}]"
+}

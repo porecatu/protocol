@@ -176,6 +176,8 @@ describe("input and action: exact bytes", () => {
 const ALL_ACTIONS: readonly ActionBody[] = [
   { type: "new-tab", window: 1 },
   { type: "new-tab", window: 1, group: 2, profile: "auto:pwsh" },
+  { type: "new-tab", window: 1, group: null },
+  { type: "new-tab", window: 1, group: null, profile: "auto:pwsh" },
   { type: "close-tab", tab: 5 },
   { type: "close-pane", pane: 6 },
   { type: "rename-tab", tab: 5, title: null },
@@ -235,6 +237,17 @@ describe("action round trips", () => {
     }
     expect("group" in decoded.do).toBe(false);
     expect("profile" in decoded.do).toBe(false);
+  });
+
+  // spec 0.7: `"group": null` is a loose tab and goes on the wire (f6); it sorts before "window".
+  it("new-tab with a null group (a loose tab): hand-made hex, and null survives the round trip", () => {
+    const message: Message = { type: "action", id: 1, do: { type: "new-tab", window: 1, group: null } };
+    expect(hex(encodeMessage(message))).toBe("821828a262646f8200a26567726f7570f66677696e646f770162696401");
+    const decoded = success(decodeMessage(encodeMessage(message), "client"));
+    if (decoded.type !== "action" || decoded.do.type !== "new-tab") {
+      throw new Error("wrong message");
+    }
+    expect(decoded.do.group).toBeNull();
   });
 });
 
@@ -498,9 +511,9 @@ describe("wrong types and shapes", () => {
     expect(
       failure(decodeMessage(wire(40, [["id", 1], ["do", [9, map([["group", 3], ["collapsed", 1]])]]]), "client")),
     ).toBe("wrong-type");
-    // new-tab group present but null (optional keys are omitted, never null)
+    // new-tab with a text group (null is a loose tab, a uint is a group; nothing else)
     expect(
-      failure(decodeMessage(wire(40, [["id", 1], ["do", [0, map([["window", 1], ["group", null]])]]]), "client")),
+      failure(decodeMessage(wire(40, [["id", 1], ["do", [0, map([["window", 1], ["group", "g"]])]]]), "client")),
     ).toBe("wrong-type");
     // move-tab-to-group with a text group
     expect(

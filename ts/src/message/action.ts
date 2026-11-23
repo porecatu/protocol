@@ -141,7 +141,9 @@ function actionBodyFromValue(value: CborValue | undefined): ActionBody {
   const r = mapReader(asMap(items[1]));
   switch (type) {
     case "new-tab": {
-      const group = optionalUint(r, "group");
+      // `group`: absent (the host's `tab.new` rule), `null` (a loose tab) or a group id.
+      const rawGroup = r.optional("group");
+      const group = rawGroup === undefined ? undefined : isNull(rawGroup) ? null : asUint(rawGroup);
       const profile = optionalText(r, "profile");
       return {
         type,
