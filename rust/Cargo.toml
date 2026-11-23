@@ -40,5 +40,5 @@ snow = { version = "=0.10.0", default-features = false, features = [
 blake2 = "=0.10.6"
 subtle = "=2.6.1"
 data-encoding = "=2.11.1"
-zeroize = { version = "=1.9.1", optional = true }
+zeroize = { version = "=1.9.2", optional = true }
 bytes = "=1.12.2"
